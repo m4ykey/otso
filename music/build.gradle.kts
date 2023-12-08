@@ -1,25 +1,17 @@
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
 }
 
 android {
-    namespace = "com.m4ykey.otso"
+    namespace = "com.m4ykey.music"
     compileSdk = Version.compileSdk
 
     defaultConfig {
-        applicationId = "com.m4ykey.otso"
         minSdk = Version.minSdk
-        targetSdk = Version.targetSdk
-        versionCode = Version.versionCode
-        versionName = Version.versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -44,28 +36,13 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = Version.kotlinCompilerExtension
     }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
 }
 
 dependencies {
 
-    implementation(project(":music"))
-
     implementation(Dependencies.AndroidX.Core.core)
-
-    implementation(Dependencies.AndroidX.Compose.composeActivity)
-    implementation(platform(Dependencies.AndroidX.Compose.composeBom))
-    implementation(Dependencies.AndroidX.Compose.composeUi)
-    implementation(Dependencies.AndroidX.Compose.composeUiGraphics)
-    implementation(Dependencies.AndroidX.Compose.composeUiToolingPreview)
-    implementation(Dependencies.AndroidX.Compose.composeMaterial3)
-
-    implementation(Dependencies.Firebase.crashlytics)
-    implementation(Dependencies.Firebase.analytics)
+    implementation(Dependencies.AndroidX.Core.appcompat)
+    implementation(Dependencies.AndroidX.Core.material)
 
     testImplementation(Dependencies.Test.TestImplementation.junit)
 
@@ -76,4 +53,12 @@ dependencies {
 
     debugImplementation(Dependencies.Test.DebugImplementation.composeUiTestManifest)
     debugImplementation(Dependencies.Test.DebugImplementation.composeUiTooling)
+
+    implementation(Dependencies.AndroidX.Compose.composeActivity)
+    implementation(platform(Dependencies.AndroidX.Compose.composeBom))
+    implementation(Dependencies.AndroidX.Compose.composeUi)
+    implementation(Dependencies.AndroidX.Compose.composeUiGraphics)
+    implementation(Dependencies.AndroidX.Compose.composeUiToolingPreview)
+    implementation(Dependencies.AndroidX.Compose.composeMaterial3)
+
 }
