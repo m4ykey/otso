@@ -28,8 +28,11 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideNewsInterceptor() : OkHttpClient {
+    fun provideNewsInterceptor(
+        loggingInterceptor: HttpLoggingInterceptor
+    ) : OkHttpClient {
         return OkHttpClient.Builder()
+            .addInterceptor(loggingInterceptor)
             .addInterceptor(OkHttpInterceptor())
             .addNetworkInterceptor { chain ->
                 val builder = chain.request().newBuilder()

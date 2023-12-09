@@ -69,6 +69,7 @@ object Dependencies {
     object Hilt {
         const val hiltAndroid = "com.google.dagger:hilt-android:${Version.hilt}"
         const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Version.hilt}"
+        const val hiltNavigation = "androidx.hilt:hilt-navigation-compose:1.1.0"
     }
 
     object Coroutines {
@@ -77,7 +78,7 @@ object Dependencies {
     }
 
     object Coil {
-        const val coil = "io.coil-kt:coil:2.5.0"
+        const val coil = "io.coil-kt:coil-compose:2.5.0"
     }
 
 }

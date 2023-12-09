@@ -17,7 +17,10 @@ import androidx.navigation.compose.rememberNavController
 import com.m4ykey.otso.navigation.bottom_nav.BottomNavigationBar
 import com.m4ykey.otso.navigation.bottom_nav.getBottomNavigationItem
 import com.m4ykey.otso.ui.theme.OtsoTheme
+import com.m4ykey.ui.NewsScreen
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +31,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    TestApp()
+                    NewsScreen()
                 }
             }
         }

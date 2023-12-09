@@ -43,6 +43,7 @@ android {
 dependencies {
 
     implementation(project(":news:data"))
+    implementation(project(":core"))
 
     implementation(Dependencies.AndroidX.Core.core)
     implementation(Dependencies.AndroidX.Core.appcompat)
@@ -66,6 +67,15 @@ dependencies {
     implementation(Dependencies.AndroidX.Compose.composeMaterial3)
 
     implementation(Dependencies.Hilt.hiltAndroid)
+    implementation(Dependencies.Hilt.hiltNavigation)
     ksp(Dependencies.Hilt.hiltCompiler)
+
+    implementation(Dependencies.Coroutines.coroutinesCore)
+    implementation(Dependencies.Coroutines.coroutinesAndroid)
+
+    implementation(Dependencies.AndroidX.Lifecycle.runtime)
+    implementation(Dependencies.AndroidX.Lifecycle.viewModel)
+
+    implementation(Dependencies.Coil.coil)
 
 }

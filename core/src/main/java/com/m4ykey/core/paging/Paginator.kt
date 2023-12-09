@@ -1,12 +1,12 @@
 package com.m4ykey.core.paging
 
 class Paginator<Key, Item>(
-    private val initialKey : Key,
-    private inline val onLoadUpdated : (Boolean) -> Unit,
-    private inline val onRequest : suspend (nextKey: Key) -> Result<List<Item>>,
-    private inline val getNextKey : suspend (List<Item>) -> Key,
-    private inline val onError : suspend (Throwable?) -> Unit,
-    private inline val onSuccess : suspend (items: List<Item>, newKey : Key) -> Unit
+    private val initialKey: Key,
+    private val onLoadUpdated: (Boolean) -> Unit,
+    private val onRequest: suspend (nextKey: Key) -> Result<List<Item>>,
+    private val getNextKey: suspend (List<Item>) -> Key,
+    private val onError: suspend (Throwable?) -> Unit,
+    private val onSuccess: suspend (items: List<Item>, newKey: Key) -> Unit
 ) : Paging<Key, Item> {
 
     private var currentKey = initialKey
@@ -22,19 +22,24 @@ class Paginator<Key, Item>(
         }
         isMakingRequest = true
         onLoadUpdated(true)
-        val result = onRequest(currentKey)
-        isMakingRequest = false
-        result.onSuccess { items ->
-            if (items.isNotEmpty()) {
-                currentKey = getNextKey(items)
-                onSuccess(items, currentKey)
-            } else {
-                // No more items to load
-                onLoadUpdated(false)
+
+        try {
+            val result = onRequest(currentKey)
+
+            result.onSuccess { items ->
+                if (items.isNotEmpty()) {
+                    currentKey = getNextKey(items)
+                    onSuccess(items, currentKey)
+                } else {
+                    onLoadUpdated(false)
+                }
             }
-        }
-        result.onFailure {
-            onError(it)
+
+            result.onFailure {
+                onError(it)
+            }
+        } finally {
+            isMakingRequest = false
             onLoadUpdated(false)
         }
     }

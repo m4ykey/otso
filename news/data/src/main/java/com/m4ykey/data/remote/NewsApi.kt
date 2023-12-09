@@ -9,8 +9,8 @@ interface NewsApi {
     @GET("v2/everything")
     suspend fun getNews(
         @Query("q") query : String = "music",
-        @Query("pageSize") pageSize : Int = 10,
-        @Query("page") page : Int = 1,
+        @Query("pageSize") pageSize : Int,
+        @Query("page") page : Int,
         @Query("sortBy") sortBy : String = "publishedAt"
     ) : News
 

@@ -4,6 +4,7 @@ import com.m4ykey.core.Constants
 import com.m4ykey.data.remote.NewsApi
 import com.m4ykey.data.remote.repository.NewsRepository
 import com.m4ykey.data.remote.repository.NewsRepositoryImpl
+import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,10 +27,11 @@ object NewsModule {
     @Provides
     @Singleton
     fun provideNewsApi(
-        httpClient: OkHttpClient
+        httpClient: OkHttpClient,
+        moshi : Moshi
     ) : NewsApi = Retrofit.Builder()
         .client(httpClient)
-        .addConverterFactory(MoshiConverterFactory.create())
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
         .baseUrl(Constants.NEWS_BASE_URL)
         .build()
         .create(NewsApi::class.java)
