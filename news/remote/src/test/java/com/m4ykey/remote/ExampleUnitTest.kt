@@ -1,4 +1,4 @@
-package com.m4ykey.music
+package com.m4ykey.remote
 
 import org.junit.Test
 

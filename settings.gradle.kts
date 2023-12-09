@@ -1,5 +1,11 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":news:ui")
+
+
+include(":news:remote")
+
+
 
 pluginManagement {
     repositories {
@@ -18,5 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "otso"
 include(":app")
-include(":music")
 include(":core")

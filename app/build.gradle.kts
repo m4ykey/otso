@@ -3,6 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -53,8 +55,6 @@ android {
 
 dependencies {
 
-    implementation(project(":music"))
-
     implementation(Dependencies.AndroidX.Core.core)
 
     implementation(Dependencies.AndroidX.Compose.composeActivity)
@@ -78,4 +78,10 @@ dependencies {
 
     debugImplementation(Dependencies.Test.DebugImplementation.composeUiTestManifest)
     debugImplementation(Dependencies.Test.DebugImplementation.composeUiTooling)
+
+    implementation(Dependencies.Hilt.hiltAndroid)
+    ksp(Dependencies.Hilt.hiltCompiler)
+
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
 }
