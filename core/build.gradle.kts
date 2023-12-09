@@ -1,6 +1,8 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -42,5 +44,14 @@ dependencies {
 
     androidTestImplementation(Dependencies.Test.AndroidTestImplementation.espresso)
     androidTestImplementation(Dependencies.Test.AndroidTestImplementation.testExtJunit)
-    
+
+    implementation(Dependencies.Hilt.hiltAndroid)
+    ksp(Dependencies.Hilt.hiltCompiler)
+
+    implementation(Dependencies.Network.Moshi.moshiCodegen)
+    implementation(Dependencies.Network.Moshi.moshiKotlin)
+
+    implementation(Dependencies.Network.OkHttp.okHttp)
+    implementation(Dependencies.Network.OkHttp.loggingInterceptor)
+
 }

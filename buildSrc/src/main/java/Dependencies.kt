@@ -25,6 +25,9 @@ object Dependencies {
             const val compiler = "androidx.room:room-compiler:${Version.room}"
             const val ktx = "androidx.room:room-ktx:${Version.room}"
         }
+        object DataStore {
+            const val preferences = "androidx.datastore:datastore-preferences:1.0.0"
+        }
     }
 
     object Firebase {

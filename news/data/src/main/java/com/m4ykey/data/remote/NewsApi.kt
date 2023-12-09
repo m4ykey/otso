@@ -1,6 +1,6 @@
-package com.m4ykey.remote
+package com.m4ykey.data.remote
 
-import com.m4ykey.remote.data.News
+import com.m4ykey.data.remote.model.News
 import retrofit2.http.GET
 import retrofit2.http.Query
 

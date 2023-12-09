@@ -55,6 +55,8 @@ android {
 
 dependencies {
 
+    implementation(project(":news:ui"))
+
     implementation(Dependencies.AndroidX.Core.core)
 
     implementation(Dependencies.AndroidX.Compose.composeActivity)
@@ -81,7 +83,5 @@ dependencies {
 
     implementation(Dependencies.Hilt.hiltAndroid)
     ksp(Dependencies.Hilt.hiltCompiler)
-
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
 }

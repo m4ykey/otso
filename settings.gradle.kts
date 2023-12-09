@@ -1,12 +1,5 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":news:ui")
-
-
-include(":news:remote")
-
-
-
 pluginManagement {
     repositories {
         google()
@@ -25,3 +18,5 @@ dependencyResolutionManagement {
 rootProject.name = "otso"
 include(":app")
 include(":core")
+include(":news:ui")
+include(":news:data")

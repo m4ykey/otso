@@ -36,6 +36,8 @@ android {
 
 dependencies {
 
+    implementation(project(":core"))
+
     implementation(Dependencies.AndroidX.Core.core)
     implementation(Dependencies.AndroidX.Core.appcompat)
 
@@ -47,8 +49,6 @@ dependencies {
     implementation(Dependencies.Network.Retrofit.retrofit)
     implementation(Dependencies.Network.Retrofit.moshiConverter)
     implementation(Dependencies.Network.Moshi.moshi)
-    implementation(Dependencies.Network.Moshi.moshiCodegen)
-    implementation(Dependencies.Network.Moshi.moshiKotlin)
 
     implementation(Dependencies.Hilt.hiltAndroid)
     ksp(Dependencies.Hilt.hiltCompiler)
