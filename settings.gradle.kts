@@ -1,5 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
+
 pluginManagement {
     repositories {
         google()
@@ -18,3 +19,4 @@ dependencyResolutionManagement {
 rootProject.name = "otso"
 include(":app")
 include(":music")
+include(":core")

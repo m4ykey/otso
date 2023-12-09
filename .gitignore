@@ -10,3 +10,4 @@
 local.properties
 google-services.json
 buildSrc/build
+Keys.kt

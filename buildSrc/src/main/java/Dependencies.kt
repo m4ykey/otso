@@ -9,6 +9,8 @@ object Dependencies {
             const val composeUiToolingPreview = "androidx.compose.ui:ui-tooling-preview"
             const val composeMaterial3 = "androidx.compose.material3:material3"
             const val composeActivity = "androidx.activity:activity-compose:1.8.1"
+            const val composeNavigationRuntime = "androidx.navigation:navigation-runtime-ktx:2.7.5"
+            const val composeNavigation = "androidx.navigation:navigation-compose:2.7.5"
         }
 
         object Core {

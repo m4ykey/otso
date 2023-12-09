@@ -63,6 +63,8 @@ dependencies {
     implementation(Dependencies.AndroidX.Compose.composeUiGraphics)
     implementation(Dependencies.AndroidX.Compose.composeUiToolingPreview)
     implementation(Dependencies.AndroidX.Compose.composeMaterial3)
+    implementation(Dependencies.AndroidX.Compose.composeNavigation)
+    implementation(Dependencies.AndroidX.Compose.composeNavigationRuntime)
 
     implementation(Dependencies.Firebase.crashlytics)
     implementation(Dependencies.Firebase.analytics)
