@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -43,6 +44,9 @@ fun NewsScreen(
                 }
                 ArticleCard(article = news)
             }
+            item {
+                CircularProgressIndicator()
+            }
         }
     }
 }
@@ -72,8 +76,8 @@ fun ArticleCard(
                 contentScale = ContentScale.Crop
             )
         }
-        Text(text = article.source.name!!)
-        Text(text = article.title!!)
-        Text(text = article.publishedAt!!)
+        Text(text = article.source.name ?: "No source name")
+        Text(text = article.title ?: "No title")
+        Text(text = article.publishedAt ?: "No date")
     }
 }
