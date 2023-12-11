@@ -69,12 +69,12 @@ fun ArticleCard(
 ) {
     Column(
         modifier = modifier
-            .fillMaxWidth()
             .padding(10.dp)
+            .width(350.dp)
     ) {
         Card(
             modifier = modifier
-                .height(230.dp)
+                .height(220.dp)
                 .fillMaxWidth()
         ) {
             AsyncImage(
