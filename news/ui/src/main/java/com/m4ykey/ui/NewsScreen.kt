@@ -1,6 +1,5 @@
 package com.m4ykey.ui
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,7 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -34,6 +33,7 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 fun NewsScreen(
+    modifier : Modifier = Modifier,
     viewModel: NewsViewModel = hiltViewModel()
 ) {
 
@@ -42,9 +42,7 @@ fun NewsScreen(
     if (state.error != null) {
         Text(text = state.error.toString())
     } else {
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(5.dp)
-        ) {
+        LazyRow(modifier = modifier) {
             items(state.news.size) { n ->
                 val news = state.news[n]
                 if (n >= state.news.size - 1 && !state.endReached && !state.isLoading) {
