@@ -3,6 +3,7 @@ package com.m4ykey.data.remote
 import com.m4ykey.data.remote.model.News
 import retrofit2.http.GET
 import retrofit2.http.Query
+import java.util.Locale
 
 interface NewsApi {
 
@@ -11,7 +12,8 @@ interface NewsApi {
         @Query("q") query : String = "music",
         @Query("pageSize") pageSize : Int,
         @Query("page") page : Int,
-        @Query("sortBy") sortBy : String = "publishedAt"
+        @Query("sortBy") sortBy : String = "publishedAt",
+        @Query("language") language : String = Locale.getDefault().language
     ) : News
 
 }
