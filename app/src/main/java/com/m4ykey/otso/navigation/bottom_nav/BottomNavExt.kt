@@ -12,13 +12,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import com.m4ykey.otso.R
+import com.m4ykey.otso.navigation.HomeDestination
 
 @Composable
 fun getBottomNavigationItem(): List<BottomNavigationModel> {
     return listOf(
         BottomNavigationModel(
             title = stringResource(id = R.string.home),
-            route = "",
+            route = HomeDestination.route,
             icon = Icons.Outlined.Home
         )
     )
