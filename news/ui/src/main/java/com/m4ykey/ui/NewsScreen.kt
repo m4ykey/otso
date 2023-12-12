@@ -1,5 +1,6 @@
 package com.m4ykey.ui
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,9 +11,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Card
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,30 +39,37 @@ import com.m4ykey.data.remote.model.Article
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsScreen(
-    modifier : Modifier = Modifier,
-    viewModel: NewsViewModel = hiltViewModel()
+    modifier: Modifier = Modifier,
+    viewModel: NewsViewModel = hiltViewModel(),
+    onNavigateBack : () -> Unit
 ) {
 
     val state = viewModel.newsUiState
 
-    if (state.error != null) {
-        Text(text = state.error.toString())
-    } else {
-        LazyRow(modifier = modifier) {
-            items(state.news.size) { n ->
-                val news = state.news[n]
-                if (n >= state.news.size - 1 && !state.endReached && !state.isLoading) {
-                    LaunchedEffect(viewModel) { viewModel.getNextNews() }
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(title = { Text(text = "News") })
+        }
+    ) {
+        if (state.error != null) {
+            Text(text = state.error.toString())
+        } else {
+            LazyColumn(
+                modifier = modifier.padding(it),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(state.news.size) { n ->
+                    val news = state.news[n]
+                    if (n >= state.news.size - 1 && !state.endReached && !state.isLoading) {
+                        LaunchedEffect(viewModel) { viewModel.getNextNews() }
+                    }
+                    ArticleCard(article = news)
                 }
-                ArticleCard(article = news)
-            }
-            item {
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ) {
+                item {
                     CircularProgressIndicator()
                 }
             }

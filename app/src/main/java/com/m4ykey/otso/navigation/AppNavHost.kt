@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.m4ykey.otso.HomeScreen
+import com.m4ykey.ui.NewsScreen
 
 @Composable
 fun AppNavHost(
@@ -18,7 +19,14 @@ fun AppNavHost(
         startDestination = HomeDestination.route
     ) {
         composable(route = HomeDestination.route) {
-            HomeScreen()
+            HomeScreen(
+                onNewsClick = { navController.navigate(NewsDestination.route) }
+            )
+        }
+        composable(route = NewsDestination.route) {
+            NewsScreen(
+                onNavigateBack = { navController.navigateUp() }
+            )
         }
     }
 }

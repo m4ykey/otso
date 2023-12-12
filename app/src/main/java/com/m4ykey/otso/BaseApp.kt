@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.m4ykey.otso.navigation.AppNavHost
+import com.m4ykey.otso.navigation.NewsDestination
 import com.m4ykey.otso.navigation.bottom_nav.BottomNavigationBar
 import com.m4ykey.otso.navigation.bottom_nav.getBottomNavigationItem
 
@@ -22,11 +23,13 @@ fun BaseApp(
 
     Scaffold(
         bottomBar = {
-            BottomNavigationBar(
-                bottomItems = bottomItems,
-                navController = navController,
-                navBackStackEntry = navBackStackEntry
-            )
+            if (shouldShowBottomNavigationBar(navBackStackEntry.value?.destination?.route)) {
+                BottomNavigationBar(
+                    bottomItems = bottomItems,
+                    navController = navController,
+                    navBackStackEntry = navBackStackEntry
+                )
+            }
         }
     ) {
         AppNavHost(
@@ -34,4 +37,10 @@ fun BaseApp(
             modifier = modifier.padding(it)
         )
     }
+}
+
+fun shouldShowBottomNavigationBar(currentRoute : String?) : Boolean {
+    return currentRoute !in setOf(
+        NewsDestination.route
+    )
 }

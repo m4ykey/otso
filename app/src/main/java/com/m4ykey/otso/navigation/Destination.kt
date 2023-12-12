@@ -7,3 +7,7 @@ interface NavigationDestination {
 object HomeDestination : NavigationDestination {
     override val route = "home_destination"
 }
+
+object NewsDestination : NavigationDestination {
+    override val route = "news_destination"
+}

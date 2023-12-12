@@ -1,5 +1,6 @@
 package com.m4ykey.otso
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,7 +23,8 @@ import com.m4ykey.ui.LatestNews
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    modifier : Modifier = Modifier
+    modifier : Modifier = Modifier,
+    onNewsClick : () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -39,6 +41,7 @@ fun HomeScreen(
                 modifier = modifier
                     .padding(10.dp)
                     .fillMaxWidth()
+                    .clickable { onNewsClick() }
             ) {
                 Text(
                     text = "Get all news",

@@ -65,9 +65,9 @@ class NewsViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-//    init {
-//        viewModelScope.launch { getNextNews() }
-//    }
+    init {
+        viewModelScope.launch { getNextNews() }
+    }
 
     suspend fun getNextNews() {
         viewModelScope.launch { newsPaging.loadNextItem() }
