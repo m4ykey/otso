@@ -1,9 +1,9 @@
 package com.m4ykey.data.remote
 
+import com.m4ykey.core.Constants
 import com.m4ykey.data.remote.model.News
 import retrofit2.http.GET
 import retrofit2.http.Query
-import java.util.Locale
 
 interface NewsApi {
 
@@ -13,7 +13,7 @@ interface NewsApi {
         @Query("pageSize") pageSize : Int,
         @Query("page") page : Int,
         @Query("sortBy") sortBy : String = "publishedAt",
-        @Query("language") language : String = Locale.getDefault().language
+        @Query("domains") sources : String = Constants.DOMAINS
     ) : News
 
 }
