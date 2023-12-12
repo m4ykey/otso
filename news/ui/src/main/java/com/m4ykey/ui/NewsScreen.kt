@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,6 +16,8 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -57,6 +60,36 @@ fun NewsScreen(
                 ) {
                     CircularProgressIndicator()
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun LatestNews(
+    modifier : Modifier = Modifier,
+    viewModel: NewsViewModel = hiltViewModel()
+) {
+    val state by viewModel.latestNewsUiState.collectAsState()
+
+    LaunchedEffect(viewModel) {
+        viewModel.getLatestNews()
+    }
+
+    if (state.error != null) {
+        Text(text = state.error.toString())
+    } else if (state.isLoading) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = modifier.fillMaxHeight()
+        ) {
+            CircularProgressIndicator()
+        }
+    } else {
+        LazyRow(modifier = modifier) {
+            items(state.news.size) { n ->
+                val news = state.news[n]
+                ArticleCard(article = news)
             }
         }
     }
