@@ -11,16 +11,23 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
@@ -40,14 +47,27 @@ fun NewsScreen(
 ) {
 
     val state = viewModel.newsUiState
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     Scaffold(
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            CenterAlignedTopAppBar(title = { Text(text = "News") })
+            CenterAlignedTopAppBar(
+                title = { Text(text = stringResource(id = R.string.news)) },
+                navigationIcon = {
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = null
+                        )
+                    }
+                },
+                scrollBehavior = scrollBehavior
+            )
         }
     ) {
         if (state.error != null) {
-            Text(text = state.error.toString())
+            NewsErrorScreen()
         } else {
             LazyColumn(
                 modifier = modifier.padding(it)
@@ -91,7 +111,7 @@ fun NewsCard(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = article.title ?: "",
+                text = article.title ?: stringResource(id = R.string.no_title),
                 modifier = modifier.fillMaxWidth(),
                 fontSize = 16.sp,
                 fontFamily = FontFamily(Font(R.font.generalsans_medium)),
@@ -100,7 +120,7 @@ fun NewsCard(
             )
             Spacer(modifier = modifier.height(5.dp))
             Text(
-                text = article.description ?: "",
+                text = article.description ?: stringResource(id = R.string.no_description),
                 modifier = modifier.fillMaxWidth(),
                 fontSize = 14.sp,
                 overflow = TextOverflow.Ellipsis,
@@ -112,7 +132,7 @@ fun NewsCard(
                 modifier = modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = article.source.name ?: "",
+                    text = article.source.name ?: stringResource(id = R.string.no_source_name),
                     modifier = modifier.weight(1f),
                     fontSize = 13.sp,
                     fontFamily = FontFamily(Font(R.font.poppins))
@@ -120,7 +140,7 @@ fun NewsCard(
                 Spacer(modifier = modifier.width(10.dp))
                 Text(
                     fontFamily = FontFamily(Font(R.font.poppins)),
-                    text = formatPublishedDate(article.publishedAt ?: "no date"),
+                    text = formatPublishedDate(article.publishedAt ?: stringResource(id = R.string.no_date)),
                     fontSize = 13.sp
                 )
             }

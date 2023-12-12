@@ -9,13 +9,17 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
 @Composable
-fun LoadImage(url : String?, modifier: Modifier = Modifier) {
+fun LoadImage(
+    url : String?,
+    modifier: Modifier = Modifier,
+    contentScale: ContentScale = ContentScale.Crop
+) {
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data(url ?: "")
             .build(),
         contentDescription = null,
         modifier = modifier.fillMaxSize(),
-        contentScale = ContentScale.Crop
+        contentScale = contentScale
     )
 }

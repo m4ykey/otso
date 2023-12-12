@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_date">No date</string>
+    <string name="no_source_name">No source name</string>
+    <string name="no_title">No title</string>
+    <string name="news">News</string>
+    <string name="no_description">No description</string>
+</resources>

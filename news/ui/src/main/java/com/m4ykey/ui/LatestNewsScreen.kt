@@ -19,6 +19,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
@@ -41,14 +42,14 @@ fun LatestNewsCard(
     ) {
         Card(
             modifier = modifier
-                .height(220.dp)
+                .height(200.dp)
                 .fillMaxWidth()
         ) {
             LoadImage(url = article.urlToImage)
         }
         Spacer(modifier = modifier.height(5.dp))
         Text(
-            text = article.title ?: "",
+            text = article.title ?: stringResource(id = R.string.no_title),
             modifier = modifier.fillMaxWidth(),
             fontSize = 19.sp,
             fontFamily = FontFamily(Font(R.font.generalsans_medium)),
@@ -60,7 +61,7 @@ fun LatestNewsCard(
             modifier = modifier.fillMaxWidth()
         ) {
             Text(
-                text = article.source.name ?: "",
+                text = article.source.name ?: stringResource(id = R.string.no_source_name),
                 modifier = modifier.weight(1f),
                 fontSize = 15.sp,
                 fontFamily = FontFamily(Font(R.font.poppins))
@@ -68,7 +69,7 @@ fun LatestNewsCard(
             Spacer(modifier = modifier.width(10.dp))
             Text(
                 fontFamily = FontFamily(Font(R.font.poppins)),
-                text = formatPublishedDate(article.publishedAt ?: "no date"),
+                text = formatPublishedDate(article.publishedAt ?: stringResource(id = R.string.no_date)),
                 fontSize = 15.sp
             )
         }
@@ -87,7 +88,7 @@ fun LatestNews(
     }
 
     if (state.error != null) {
-        Text(text = state.error.toString())
+        NewsErrorScreen()
     } else if (state.isLoading) {
         Box(
             contentAlignment = Alignment.Center,

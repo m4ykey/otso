@@ -1,5 +1,8 @@
 package com.m4ykey.otso
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -21,9 +24,15 @@ fun BaseApp(
     val navBackStackEntry = navController.currentBackStackEntryAsState()
     val bottomItems = getBottomNavigationItem()
 
+    val bottomBarVisible = shouldShowBottomNavigationBar(navBackStackEntry.value?.destination?.route)
+
     Scaffold(
         bottomBar = {
-            if (shouldShowBottomNavigationBar(navBackStackEntry.value?.destination?.route)) {
+            AnimatedVisibility(
+                visible = bottomBarVisible,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
                 BottomNavigationBar(
                     bottomItems = bottomItems,
                     navController = navController,
