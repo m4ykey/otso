@@ -22,7 +22,6 @@ fun BaseApp(
 ) {
 
     val navBackStackEntry = navController.currentBackStackEntryAsState()
-    val bottomItems = getBottomNavigationItem()
 
     val bottomBarVisible = shouldShowBottomNavigationBar(navBackStackEntry.value?.destination?.route)
 
@@ -34,7 +33,7 @@ fun BaseApp(
                 exit = fadeOut()
             ) {
                 BottomNavigationBar(
-                    bottomItems = bottomItems,
+                    bottomItems = getBottomNavigationItem(),
                     navController = navController,
                     navBackStackEntry = navBackStackEntry
                 )

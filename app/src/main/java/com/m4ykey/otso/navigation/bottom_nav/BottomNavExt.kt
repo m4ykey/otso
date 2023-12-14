@@ -1,7 +1,10 @@
 package com.m4ykey.otso.navigation.bottom_nav
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.rounded.Build
+import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -10,9 +13,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.m4ykey.otso.R
 import com.m4ykey.otso.navigation.HomeDestination
+import com.m4ykey.otso.navigation.TestDestination
 
 @Composable
 fun getBottomNavigationItem(): List<BottomNavigationModel> {
@@ -20,7 +25,14 @@ fun getBottomNavigationItem(): List<BottomNavigationModel> {
         BottomNavigationModel(
             title = stringResource(id = R.string.home),
             route = HomeDestination.route,
-            icon = Icons.Outlined.Home
+            unSelectedIcon = Icons.Outlined.Home,
+            selectedIcon = Icons.Rounded.Home
+        ),
+        BottomNavigationModel(
+            title = "Test",
+            route = TestDestination.route,
+            unSelectedIcon = Icons.Outlined.Build,
+            selectedIcon = Icons.Rounded.Build
         )
     )
 }
@@ -33,17 +45,22 @@ fun BottomNavigationBar(
 ) {
     NavigationBar {
         bottomItems.forEach { item ->
+            val isSelected = item.route ==
+                    navBackStackEntry.value?.destination?.route
             NavigationBarItem(
-                selected = navBackStackEntry.value?.destination?.route == item.route,
+                selected = isSelected,
                 onClick = {
                     navController.navigate(item.route) {
                         launchSingleTop = true
-                        popUpTo(navController.graph.startDestinationId)
+                        restoreState = true
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
                     }
                 },
                 icon = {
                     Icon(
-                        imageVector = item.icon,
+                        imageVector = if (isSelected) item.selectedIcon else item.unSelectedIcon,
                         contentDescription = item.title
                     )
                 },

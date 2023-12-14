@@ -9,7 +9,7 @@ object Version {
     const val versionCode = 1
     const val versionName = "0.0.1"
 
-    const val kotlinCompilerExtension = "1.5.5"
+    const val kotlinCompilerExtension = "1.5.6"
 
     const val composeBom = "2023.10.01"
     const val lifecycle = "2.6.2"

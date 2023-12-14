@@ -11,3 +11,7 @@ object HomeDestination : NavigationDestination {
 object NewsDestination : NavigationDestination {
     override val route = "news_destination"
 }
+
+object TestDestination : NavigationDestination {
+    override val route = "test_dest"
+}
