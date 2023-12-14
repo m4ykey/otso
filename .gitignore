@@ -11,3 +11,5 @@ local.properties
 google-services.json
 buildSrc/build
 Keys.kt
+reporters.bin
+reporterProviders.bin
