@@ -56,4 +56,12 @@ dependencies {
     implementation(Dependencies.Coroutines.coroutinesAndroid)
     implementation(Dependencies.Coroutines.coroutinesCore)
 
+    implementation(Dependencies.AndroidX.Paging.paging)
+    implementation(Dependencies.AndroidX.Paging.pagingCompose)
+
+    implementation(Dependencies.AndroidX.Room.ktx)
+    implementation(Dependencies.AndroidX.Room.runtime)
+    implementation(Dependencies.AndroidX.Room.paging)
+    ksp(Dependencies.AndroidX.Room.compiler)
+
 }

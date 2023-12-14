@@ -1,9 +1,12 @@
 package com.m4ykey.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -25,8 +28,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -34,20 +39,34 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.m4ykey.data.remote.model.Article
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemContentType
+import androidx.paging.compose.itemKey
+import com.m4ykey.data.domain.model.Article
 import com.m4ykey.ui.helpers.LoadImage
 import com.m4ykey.ui.helpers.formatPublishedDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsScreen(
-    modifier: Modifier = Modifier,
+    modifier : Modifier = Modifier,
     viewModel: NewsViewModel = hiltViewModel(),
     onNavigateBack : () -> Unit
 ) {
-
-    val state = viewModel.newsUiState
+    val context = LocalContext.current
+    val lazyPagingItems = viewModel.pagingFlow.collectAsLazyPagingItems()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+
+    LaunchedEffect(key1 = lazyPagingItems.loadState) {
+        if (lazyPagingItems.loadState.refresh is LoadState.Error) {
+            Toast.makeText(
+                context,
+                "Error: ${(lazyPagingItems.loadState.refresh as LoadState.Error).error.message}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
 
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -65,22 +84,35 @@ fun NewsScreen(
                 scrollBehavior = scrollBehavior
             )
         }
-    ) {
-        if (state.error != null) {
-            NewsErrorScreen()
-        } else {
-            LazyColumn(
-                modifier = modifier.padding(it)
-            ) {
-                items(state.news.size) { n ->
-                    val news = state.news[n]
-                    if (n >= state.news.size - 1 && !state.endReached && !state.isLoading) {
-                        LaunchedEffect(viewModel) { viewModel.getNextNews() }
+    ) { paddingValues ->
+        Box(
+            modifier = modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+        ) {
+            if (lazyPagingItems.loadState.refresh is LoadState.Loading) {
+                CircularProgressIndicator(
+                    modifier = modifier.align(Alignment.Center)
+                )
+            } else {
+                LazyColumn(
+                    modifier = modifier.fillMaxSize()
+                ) {
+                    items(
+                        count = lazyPagingItems.itemCount,
+                        key = lazyPagingItems.itemKey { it.url },
+                        contentType = lazyPagingItems.itemContentType { "contentType" }
+                    ) { index ->
+                        val article = lazyPagingItems[index]
+                        if (article != null) {
+                            NewsCard(article = article)
+                        }
                     }
-                    NewsCard(article = news)
-                }
-                item {
-                    CircularProgressIndicator()
+                    item {
+                        if (lazyPagingItems.loadState.append is LoadState.Loading) {
+                            CircularProgressIndicator()
+                        }
+                    }
                 }
             }
         }
@@ -140,7 +172,9 @@ fun NewsCard(
                 Spacer(modifier = modifier.width(10.dp))
                 Text(
                     fontFamily = FontFamily(Font(R.font.poppins)),
-                    text = formatPublishedDate(article.publishedAt ?: stringResource(id = R.string.no_date)),
+                    text = formatPublishedDate(
+                        article.publishedAt ?: stringResource(id = R.string.no_date)
+                    ),
                     fontSize = 13.sp
                 )
             }

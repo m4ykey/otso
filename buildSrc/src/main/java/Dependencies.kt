@@ -24,9 +24,14 @@ object Dependencies {
             const val runtime = "androidx.room:room-runtime:${Version.room}"
             const val compiler = "androidx.room:room-compiler:${Version.room}"
             const val ktx = "androidx.room:room-ktx:${Version.room}"
+            const val paging = "androidx.room:room-paging:${Version.room}"
         }
         object DataStore {
             const val preferences = "androidx.datastore:datastore-preferences:1.0.0"
+        }
+        object Paging {
+            const val paging = "androidx.paging:paging-runtime-ktx:3.2.1"
+            const val pagingCompose = "androidx.paging:paging-compose:3.2.1"
         }
     }
 

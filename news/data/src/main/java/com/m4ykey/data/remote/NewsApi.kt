@@ -1,7 +1,7 @@
 package com.m4ykey.data.remote
 
 import com.m4ykey.core.Constants
-import com.m4ykey.data.remote.model.News
+import com.m4ykey.data.remote.model.NewsDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -14,6 +14,6 @@ interface NewsApi {
         @Query("page") page : Int,
         @Query("sortBy") sortBy : String = "publishedAt",
         @Query("domains") sources : String = Constants.DOMAINS
-    ) : News
+    ) : NewsDto
 
 }

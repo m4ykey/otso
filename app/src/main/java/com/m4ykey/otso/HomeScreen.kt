@@ -18,7 +18,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.m4ykey.ui.LatestNews
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,7 +48,7 @@ fun HomeScreen(
                 )
                 Icon(imageVector = Icons.Default.ArrowForward, contentDescription = null)
             }
-            LatestNews()
+
         }
     }
 

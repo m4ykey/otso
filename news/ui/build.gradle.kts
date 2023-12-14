@@ -78,4 +78,7 @@ dependencies {
 
     implementation(Dependencies.Coil.coil)
 
+    implementation(Dependencies.AndroidX.Paging.paging)
+    implementation(Dependencies.AndroidX.Paging.pagingCompose)
+
 }
