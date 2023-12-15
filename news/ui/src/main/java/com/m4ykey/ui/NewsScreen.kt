@@ -1,5 +1,6 @@
 package com.m4ykey.ui
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -51,10 +52,10 @@ import com.m4ykey.ui.helpers.formatPublishedDate
 @Composable
 fun NewsScreen(
     modifier : Modifier = Modifier,
-    viewModel: NewsViewModel = hiltViewModel(),
     onNavigateBack : () -> Unit
 ) {
     val context = LocalContext.current
+    val viewModel: NewsViewModel = hiltViewModel()
     val lazyPagingItems = viewModel.pagingFlow.collectAsLazyPagingItems()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
@@ -65,6 +66,7 @@ fun NewsScreen(
                 "Error: ${(lazyPagingItems.loadState.refresh as LoadState.Error).error.message}",
                 Toast.LENGTH_SHORT
             ).show()
+            Log.i("DatabaseError", "NewsScreen: ${(lazyPagingItems.loadState.refresh as LoadState.Error).error.message}")
         }
     }
 

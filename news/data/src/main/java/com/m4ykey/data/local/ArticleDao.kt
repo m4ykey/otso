@@ -1,20 +1,20 @@
 package com.m4ykey.data.local
 
-import androidx.paging.PagingSource
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Upsert
 
 @Dao
 interface ArticleDao {
 
-    @Upsert
-    suspend fun upsertAll(articles : List<ArticleEntity>)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(articles : List<ArticleEntity>)
 
-    @Query("DELETE FROM articleentity")
+    @Query("DELETE FROM article_table")
     suspend fun deleteAll()
 
-    @Query("SELECT * FROM articleentity")
-    fun pagingSource() : PagingSource<Int, ArticleEntity>
+    @Query("SELECT * FROM article_table")
+    fun getAllArticles() : List<ArticleEntity>
 
 }

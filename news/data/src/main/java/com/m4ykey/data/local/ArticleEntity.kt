@@ -2,8 +2,9 @@ package com.m4ykey.data.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.m4ykey.core.Constants.ARTICLE_TABLE
 
-@Entity
+@Entity(tableName = ARTICLE_TABLE)
 data class ArticleEntity(
     val author: String,
     val content: String,
@@ -11,7 +12,6 @@ data class ArticleEntity(
     val publishedAt: String,
     val source: String,
     val title: String,
-    val url: String,
-    val urlToImage: String,
-    @PrimaryKey(autoGenerate = true) val id : Int = 0
+    @PrimaryKey(autoGenerate = false) val url: String,
+    val urlToImage: String
 )

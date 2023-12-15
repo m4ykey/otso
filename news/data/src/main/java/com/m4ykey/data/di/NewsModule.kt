@@ -1,16 +1,13 @@
 package com.m4ykey.data.di
 
 import android.content.Context
-import androidx.paging.ExperimentalPagingApi
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.room.Room
 import com.m4ykey.core.Constants
 import com.m4ykey.core.Constants.NEWS_DATABASE
-import com.m4ykey.data.local.ArticleEntity
+import com.m4ykey.data.domain.repository.NewsRepository
 import com.m4ykey.data.local.NewsDatabase
 import com.m4ykey.data.remote.NewsApi
-import com.m4ykey.data.remote.paging.ArticleRemoteMediator
+import com.m4ykey.data.repository.NewsRepositoryImpl
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -47,21 +44,8 @@ object NewsModule {
             NEWS_DATABASE
         ).fallbackToDestructiveMigration().build()
 
-    @OptIn(ExperimentalPagingApi::class)
     @Provides
     @Singleton
-    fun provideNewsPager(
-        api : NewsApi,
-        db : NewsDatabase
-    ) : Pager<Int, ArticleEntity> = Pager(
-        config = PagingConfig(pageSize = 20),
-        remoteMediator = ArticleRemoteMediator(
-            db = db,
-            api = api
-        ),
-        pagingSourceFactory = {
-            db.dao.pagingSource()
-        }
-    )
+    fun provideNewsRepository(repository: NewsRepositoryImpl) : NewsRepository = repository
 
 }

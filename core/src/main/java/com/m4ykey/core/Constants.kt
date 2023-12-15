@@ -4,6 +4,7 @@ object Constants {
 
     const val NEWS_BASE_URL = "https://newsapi.org/"
     const val NEWS_DATABASE = "news_db"
+    const val ARTICLE_TABLE = "article_table"
     const val DOMAINS = "${MusicSources.BBC_MUSIC}," + "${MusicSources.MTV}," +
             "${MusicSources.ROLLING_STONE}," + "${MusicSources.NME}," +
             "${MusicSources.SPIN}," + "${MusicSources.BILLBOARD}," +

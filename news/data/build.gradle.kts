@@ -61,7 +61,6 @@ dependencies {
 
     implementation(Dependencies.AndroidX.Room.ktx)
     implementation(Dependencies.AndroidX.Room.runtime)
-    implementation(Dependencies.AndroidX.Room.paging)
     ksp(Dependencies.AndroidX.Room.compiler)
 
 }
