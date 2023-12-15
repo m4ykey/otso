@@ -1,14 +1,13 @@
 package com.m4ykey.data.local
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Upsert
 
 @Dao
 interface ArticleDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     suspend fun insertAll(articles : List<ArticleEntity>)
 
     @Query("DELETE FROM article_table")
