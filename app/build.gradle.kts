@@ -84,4 +84,6 @@ dependencies {
     implementation(Dependencies.Hilt.hiltAndroid)
     ksp(Dependencies.Hilt.hiltCompiler)
 
+    implementation(Dependencies.Coil.coil)
+
 }
