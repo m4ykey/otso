@@ -5,8 +5,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.m4ykey.core.navigation.HomeDestination
+import com.m4ykey.core.navigation.NewsDestination
+import com.m4ykey.core.navigation.ToolsDestination
 import com.m4ykey.otso.HomeScreen
-import com.m4ykey.otso.TestScreen
+import com.m4ykey.otso.ToolsScreen
 import com.m4ykey.ui.NewsScreen
 
 @Composable
@@ -30,7 +33,7 @@ fun AppNavHost(
             )
         }
         composable(route = ToolsDestination.route) {
-            TestScreen()
+            ToolsScreen()
         }
     }
 }

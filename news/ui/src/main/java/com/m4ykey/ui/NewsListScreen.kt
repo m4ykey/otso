@@ -1,6 +1,8 @@
 package com.m4ykey.ui
 
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -45,6 +47,7 @@ import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.m4ykey.data.domain.model.Article
 import com.m4ykey.ui.helpers.LoadImage
+import com.m4ykey.ui.helpers.OpenUrl
 import com.m4ykey.ui.helpers.formatPublishedDate
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,6 +60,12 @@ fun NewsScreen(
     val viewModel: NewsViewModel = hiltViewModel()
     val lazyPagingItems = viewModel.pagingFlow.collectAsLazyPagingItems()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+
+    val openUrl = rememberLauncherForActivityResult(OpenUrl()) { result ->
+        if (!result) {
+            Toast.makeText(context, "Failed to open URL", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     LaunchedEffect(key1 = lazyPagingItems.loadState) {
         if (lazyPagingItems.loadState.refresh is LoadState.Error) {
@@ -105,7 +114,12 @@ fun NewsScreen(
                     ) { index ->
                         val article = lazyPagingItems[index]
                         if (article != null) {
-                            NewsCard(article = article)
+                            NewsCard(
+                                article = article,
+                                onArticleClick = { url ->
+                                    openUrl.launch(url)
+                                }
+                            )
                         }
                     }
                     item {
@@ -122,12 +136,14 @@ fun NewsScreen(
 @Composable
 fun NewsCard(
     modifier: Modifier = Modifier,
-    article: Article
+    article: Article,
+    onArticleClick : (String) -> Unit
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .padding(start = 10.dp, end = 10.dp, top = 10.dp)
+            .clickable { onArticleClick(article.url) }
     ) {
         Column(
             modifier = modifier

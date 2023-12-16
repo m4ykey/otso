@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.m4ykey.core.navigation.NewsDestination
 import com.m4ykey.otso.navigation.AppNavHost
-import com.m4ykey.otso.navigation.NewsDestination
 import com.m4ykey.otso.navigation.bottom_nav.BottomNavigationBar
 import com.m4ykey.otso.navigation.bottom_nav.getBottomNavigationItem
 

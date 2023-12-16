@@ -15,9 +15,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import com.m4ykey.core.navigation.HomeDestination
+import com.m4ykey.core.navigation.ToolsDestination
 import com.m4ykey.otso.R
-import com.m4ykey.otso.navigation.HomeDestination
-import com.m4ykey.otso.navigation.ToolsDestination
 
 @Composable
 fun getBottomNavigationItem(): List<BottomNavigationModel> {

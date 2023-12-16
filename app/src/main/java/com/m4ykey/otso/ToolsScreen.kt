@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TestScreen() {
+fun ToolsScreen() {
     Scaffold(
         topBar = {
             TopAppBar(title = { Text(text = "Test") })

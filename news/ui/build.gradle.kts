@@ -81,4 +81,6 @@ dependencies {
     implementation(Dependencies.AndroidX.Paging.paging)
     implementation(Dependencies.AndroidX.Paging.pagingCompose)
 
+    implementation(Dependencies.AndroidX.Compose.composeNavigation)
+
 }

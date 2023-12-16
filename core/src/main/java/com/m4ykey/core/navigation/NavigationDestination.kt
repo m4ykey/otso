@@ -1,7 +1,11 @@
-package com.m4ykey.otso.navigation
+package com.m4ykey.core.navigation
 
 interface NavigationDestination {
     val route : String
+}
+
+object ToolsDestination : NavigationDestination {
+    override val route = "tools_destination"
 }
 
 object HomeDestination : NavigationDestination {
@@ -10,8 +14,4 @@ object HomeDestination : NavigationDestination {
 
 object NewsDestination : NavigationDestination {
     override val route = "news_destination"
-}
-
-object ToolsDestination : NavigationDestination {
-    override val route = "tools_destination"
 }
