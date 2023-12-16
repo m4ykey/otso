@@ -7,7 +7,7 @@ object Version {
     const val targetSdk = sdkVersion
 
     const val versionCode = 1
-    const val versionName = "0.0.1"
+    const val versionName = "0.1.0"
 
     const val kotlinCompilerExtension = "1.5.6"
 
