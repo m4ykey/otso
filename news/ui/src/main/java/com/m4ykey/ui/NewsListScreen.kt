@@ -1,6 +1,5 @@
 package com.m4ykey.ui
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -66,7 +65,6 @@ fun NewsScreen(
                 "Error: ${(lazyPagingItems.loadState.refresh as LoadState.Error).error.message}",
                 Toast.LENGTH_SHORT
             ).show()
-            Log.i("DatabaseError", "NewsScreen: ${(lazyPagingItems.loadState.refresh as LoadState.Error).error.message}")
         }
     }
 
@@ -131,13 +129,6 @@ fun NewsCard(
             .fillMaxWidth()
             .padding(start = 10.dp, end = 10.dp, top = 10.dp)
     ) {
-        Card(
-            modifier = modifier.size(100.dp),
-            shape = RoundedCornerShape(10.dp),
-            elevation = CardDefaults.cardElevation(0.dp)
-        ) {
-            LoadImage(url = article.urlToImage)
-        }
         Column(
             modifier = modifier
                 .weight(1f)
@@ -145,7 +136,7 @@ fun NewsCard(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = article.title ?: stringResource(id = R.string.no_title),
+                text = article.title,
                 modifier = modifier.fillMaxWidth(),
                 fontSize = 16.sp,
                 fontFamily = FontFamily(Font(R.font.generalsans_medium)),
@@ -154,7 +145,7 @@ fun NewsCard(
             )
             Spacer(modifier = modifier.height(5.dp))
             Text(
-                text = article.description ?: stringResource(id = R.string.no_description),
+                text = article.description,
                 modifier = modifier.fillMaxWidth(),
                 fontSize = 14.sp,
                 overflow = TextOverflow.Ellipsis,
@@ -166,7 +157,7 @@ fun NewsCard(
                 modifier = modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = article.source.name ?: stringResource(id = R.string.no_source_name),
+                    text = article.source.name,
                     modifier = modifier.weight(1f),
                     fontSize = 13.sp,
                     fontFamily = FontFamily(Font(R.font.poppins))
@@ -175,11 +166,18 @@ fun NewsCard(
                 Text(
                     fontFamily = FontFamily(Font(R.font.poppins)),
                     text = formatPublishedDate(
-                        article.publishedAt ?: stringResource(id = R.string.no_date)
+                        article.publishedAt
                     ),
                     fontSize = 13.sp
                 )
             }
+        }
+        Card(
+            modifier = modifier.size(100.dp),
+            shape = RoundedCornerShape(10.dp),
+            elevation = CardDefaults.cardElevation(0.dp)
+        ) {
+            LoadImage(url = article.urlToImage)
         }
     }
 }
