@@ -29,7 +29,7 @@ fun AppNavHost(
                 onNavigateBack = { navController.navigateUp() }
             )
         }
-        composable(route = TestDestination.route) {
+        composable(route = ToolsDestination.route) {
             TestScreen()
         }
     }

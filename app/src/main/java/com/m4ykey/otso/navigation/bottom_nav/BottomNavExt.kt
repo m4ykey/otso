@@ -17,7 +17,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.m4ykey.otso.R
 import com.m4ykey.otso.navigation.HomeDestination
-import com.m4ykey.otso.navigation.TestDestination
+import com.m4ykey.otso.navigation.ToolsDestination
 
 @Composable
 fun getBottomNavigationItem(): List<BottomNavigationModel> {
@@ -29,8 +29,8 @@ fun getBottomNavigationItem(): List<BottomNavigationModel> {
             selectedIcon = Icons.Rounded.Home
         ),
         BottomNavigationModel(
-            title = "Test",
-            route = TestDestination.route,
+            title = stringResource(id = R.string.tools),
+            route = ToolsDestination.route,
             unSelectedIcon = Icons.Outlined.Build,
             selectedIcon = Icons.Rounded.Build
         )

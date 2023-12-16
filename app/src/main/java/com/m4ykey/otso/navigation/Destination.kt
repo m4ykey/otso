@@ -12,6 +12,6 @@ object NewsDestination : NavigationDestination {
     override val route = "news_destination"
 }
 
-object TestDestination : NavigationDestination {
-    override val route = "test_dest"
+object ToolsDestination : NavigationDestination {
+    override val route = "tools_destination"
 }

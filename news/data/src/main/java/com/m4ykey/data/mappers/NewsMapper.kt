@@ -30,3 +30,16 @@ fun ArticleEntity.toArticle() : Article {
         source = Source(name = source)
     )
 }
+
+fun ArticleDto.toArticle() : Article {
+    return Article(
+        content = content ?: "",
+        description = description ?: "",
+        publishedAt = publishedAt ?: "",
+        title = title ?: "",
+        url = url ?: "",
+        urlToImage = urlToImage ?: "",
+        author = author ?: "",
+        source = Source(name = source.name ?: "")
+    )
+}
