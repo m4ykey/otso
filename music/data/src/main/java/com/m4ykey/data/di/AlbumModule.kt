@@ -1,16 +1,24 @@
 package com.m4ykey.data.di
 
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import com.m4ykey.core.Constants.SPOTIFY_AUTH_URL
 import com.m4ykey.core.Constants.SPOTIFY_BASE_URL
 import com.m4ykey.data.domain.repository.AlbumRepository
 import com.m4ykey.data.remote.AlbumApi
+import com.m4ykey.data.remote.AuthApi
+import com.m4ykey.data.remote.interceptor.SpotifyInterceptor
 import com.m4ykey.data.repository.AlbumRepositoryImpl
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
@@ -27,21 +35,38 @@ object AlbumModule {
     @Singleton
     fun provideAuth(
         moshi: Moshi
-    ) : Retrofit = Retrofit.Builder()
+    ) : AuthApi = Retrofit.Builder()
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .baseUrl(SPOTIFY_AUTH_URL)
         .build()
+        .create(AuthApi::class.java)
 
     @Provides
     @Singleton
     fun provideAlbumApi(
         moshi: Moshi,
-        httpClient: OkHttpClient
+        //httpClient: OkHttpClient
     ) : AlbumApi = Retrofit.Builder()
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .baseUrl(SPOTIFY_BASE_URL)
-        .client(httpClient)
+        //.client(httpClient)
         .build()
         .create(AlbumApi::class.java)
+
+    private val Context.dataStore : DataStore<Preferences> by preferencesDataStore(name = "spotify_key")
+
+    @Provides
+    @Singleton
+    fun provideDataStore(@ApplicationContext context : Context) : DataStore<Preferences> = context.dataStore
+
+    @Provides
+    @Singleton
+    fun provideSpotifyInterceptor(
+        spotifyInterceptor: SpotifyInterceptor,
+        loggingInterceptor: HttpLoggingInterceptor
+    ) : OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(loggingInterceptor)
+        .addInterceptor(spotifyInterceptor)
+        .build()
 
 }

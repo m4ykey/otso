@@ -32,6 +32,12 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = Version.kotlinCompilerExtension
+    }
 }
 
 dependencies {
@@ -53,5 +59,12 @@ dependencies {
 
     implementation(Dependencies.Network.OkHttp.okHttp)
     implementation(Dependencies.Network.OkHttp.loggingInterceptor)
+
+    implementation(Dependencies.Coil.coil)
+
+    implementation(platform(Dependencies.AndroidX.Compose.composeBom))
+    implementation(Dependencies.AndroidX.Compose.composeUi)
+    implementation(Dependencies.AndroidX.Compose.composeUiGraphics)
+    implementation(Dependencies.AndroidX.Compose.composeMaterial3)
 
 }

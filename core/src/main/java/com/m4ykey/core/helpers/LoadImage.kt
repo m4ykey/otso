@@ -1,4 +1,4 @@
-package com.m4ykey.ui.helpers
+package com.m4ykey.core.helpers
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable

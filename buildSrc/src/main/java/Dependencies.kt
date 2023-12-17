@@ -14,7 +14,7 @@ object Dependencies {
         object Core {
             const val core = "androidx.core:core-ktx:1.12.0"
             const val appcompat = "androidx.appcompat:appcompat:1.6.1"
-            const val material = "com.google.android.material:material:1.10.0"
+            const val material = "com.google.android.material:material:1.11.0"
         }
         object Lifecycle {
             const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:${Version.lifecycle}"

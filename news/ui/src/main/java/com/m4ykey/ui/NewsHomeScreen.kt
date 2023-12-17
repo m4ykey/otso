@@ -32,8 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.m4ykey.data.domain.model.Article
-import com.m4ykey.ui.helpers.LoadImage
-import com.m4ykey.ui.helpers.OpenUrl
+import com.m4ykey.core.helpers.LoadImage
+import com.m4ykey.core.helpers.OpenUrl
 import com.m4ykey.ui.helpers.formatPublishedDate
 
 @Composable
@@ -66,18 +66,14 @@ fun NewsHomeScreen(
                 Text(text = state.error.toString())
             }
             else -> {
-                Row(
-                    modifier = modifier.fillMaxWidth()
-                ) {
-                    LazyRow(modifier = modifier) {
-                        items(state.news) { article ->
-                            NewsHomeCard(
-                                article = article,
-                                onArticleClick = { url ->
-                                    openUrl.launch(url)
-                                }
-                            )
-                        }
+                LazyRow(modifier = modifier) {
+                    items(state.news) { article ->
+                        NewsHomeCard(
+                            article = article,
+                            onArticleClick = { url ->
+                                openUrl.launch(url)
+                            }
+                        )
                     }
                 }
             }

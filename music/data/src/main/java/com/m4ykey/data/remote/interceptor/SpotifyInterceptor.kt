@@ -1,5 +1,6 @@
 package com.m4ykey.data.remote.interceptor
 
+import android.util.Base64
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -53,13 +54,13 @@ class SpotifyInterceptor @Inject constructor(
     }
 
     suspend fun getAccessToken() : String {
-        val authHeader = "Basic " + android.util.Base64.encodeToString(
+        val authHeader = "Basic " + Base64.encodeToString(
             "${Keys.SPOTIFY_CLIENT_ID}:${Keys.SPOTIFY_CLIENT_SECRET}".toByteArray(),
-            android.util.Base64.NO_WRAP
+            Base64.NO_WRAP
         )
 
         val response = api.getAccessToken(authHeader, "client_credentials")
-        return response.accessToken
+        return response.access_token
     }
 
     private suspend fun saveAccessToken(token : String, time : Long) {

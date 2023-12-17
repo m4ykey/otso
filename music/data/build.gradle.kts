@@ -65,4 +65,6 @@ dependencies {
 
     implementation(Dependencies.AndroidX.DataStore.preferences)
 
+    implementation(Dependencies.Network.OkHttp.loggingInterceptor)
+
 }

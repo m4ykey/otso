@@ -56,6 +56,7 @@ android {
 dependencies {
 
     implementation(project(":news:ui"))
+    implementation(project(":music:ui"))
     implementation(project(":core"))
 
     implementation(Dependencies.AndroidX.Core.core)

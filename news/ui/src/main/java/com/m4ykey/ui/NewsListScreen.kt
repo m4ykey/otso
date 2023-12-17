@@ -46,8 +46,8 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.m4ykey.data.domain.model.Article
-import com.m4ykey.ui.helpers.LoadImage
-import com.m4ykey.ui.helpers.OpenUrl
+import com.m4ykey.core.helpers.LoadImage
+import com.m4ykey.core.helpers.OpenUrl
 import com.m4ykey.ui.helpers.formatPublishedDate
 
 @OptIn(ExperimentalMaterial3Api::class)

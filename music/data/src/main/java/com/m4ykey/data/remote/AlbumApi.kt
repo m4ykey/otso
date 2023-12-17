@@ -10,10 +10,10 @@ interface AlbumApi {
 
     @GET("browse/new-releases")
     suspend fun getNewReleases(
+        @Header("Authorization") token : String,
         @Query("limit") limit : Int,
         @Query("offset") offset : Int,
-        @Query("country") country : String = Locale.getDefault().country,
-        @Header("Authorization") token : String
+        @Query("country") country : String = Locale.getDefault().country
     ) : AlbumResponseDto
 
 }
