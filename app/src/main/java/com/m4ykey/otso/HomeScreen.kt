@@ -41,22 +41,38 @@ fun HomeScreen(
                 .verticalScroll(rememberScrollState())
                 .fillMaxSize()
         ) {
-            Row(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(start = 10.dp, end = 10.dp, bottom = 5.dp)
-                    .clickable { onNewsClick() },
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Latest",
-                    modifier = modifier.weight(1f),
-                    fontSize = 20.sp,
-                    fontFamily = FontFamily(Font(com.m4ykey.ui.R.font.generalsans_medium))
-                )
-                Icon(imageVector = Icons.Default.ArrowForward, contentDescription = null)
-            }
+            HomeRow(
+                title = "Latest",
+                navigation = onNewsClick
+            )
             NewsHomeScreen()
+            HomeRow(
+                title = "New Releases",
+                navigation = {}
+            )
         }
+    }
+}
+
+@Composable
+fun HomeRow(
+    modifier: Modifier = Modifier,
+    title : String,
+    navigation : () -> Unit
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(start = 10.dp, end = 10.dp, bottom = 5.dp)
+            .clickable { navigation() },
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = title,
+            modifier = modifier.weight(1f),
+            fontSize = 20.sp,
+            fontFamily = FontFamily(Font(com.m4ykey.ui.R.font.generalsans_medium))
+        )
+        Icon(imageVector = Icons.Default.ArrowForward, contentDescription = null)
     }
 }
