@@ -7,8 +7,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -35,7 +36,7 @@ fun AlbumCard(
     val image = item.images!!.find { it.height == 640 && it.width == 640 }
     Column(
         modifier = modifier
-            .width(200.dp)
+            .width(100.dp)
             .padding(start = 5.dp, end = 5.dp)
     ) {
         Card(
@@ -44,7 +45,7 @@ fun AlbumCard(
             elevation = CardDefaults.cardElevation(0.dp)
         ) {
             LoadImage(
-                modifier = modifier.height(200.dp),
+                modifier = modifier.height(100.dp),
                 url = image?.url.toString()
             )
         }
@@ -81,7 +82,9 @@ fun NewReleaseHomeScreen(
                 Text(text = state.error.toString())
             }
             else -> {
-                LazyRow(modifier = modifier) {
+                LazyHorizontalGrid(
+                    rows = GridCells.Fixed(2)
+                ) {
                     items(state.albums) { album ->
                         AlbumCard(item = album)
                     }

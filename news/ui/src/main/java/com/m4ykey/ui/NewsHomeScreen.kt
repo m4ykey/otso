@@ -11,9 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -31,21 +32,25 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.m4ykey.data.domain.model.Article
 import com.m4ykey.core.helpers.LoadImage
 import com.m4ykey.core.helpers.OpenUrl
+import com.m4ykey.data.domain.model.Article
 import com.m4ykey.ui.helpers.formatPublishedDate
 
 @Composable
 fun NewsHomeScreen(
-    modifier : Modifier = Modifier
+    modifier : Modifier = Modifier,
+    onNewsClick : () -> Unit
 ) {
     val viewModel : NewsViewModel = hiltViewModel()
     val state by viewModel.newsUiState.collectAsState()
     val context = LocalContext.current
 
     LaunchedEffect(key1 = viewModel) {
-        viewModel.getLatestNews()
+        viewModel.getLatestNews(
+            page = 1,
+            pageSize = 3
+        )
     }
 
     val openUrl = rememberLauncherForActivityResult(OpenUrl()) { result ->
@@ -66,14 +71,24 @@ fun NewsHomeScreen(
                 Text(text = state.error.toString())
             }
             else -> {
-                LazyRow(modifier = modifier) {
+                LazyColumn(modifier = modifier) {
                     items(state.news) { article ->
-                        NewsHomeCard(
+                        NewsCard(
                             article = article,
                             onArticleClick = { url ->
                                 openUrl.launch(url)
                             }
                         )
+                    }
+                    item {
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = modifier.fillMaxWidth()
+                        ) {
+                            Button(onClick = { onNewsClick() }) {
+                                Text(text = "See More")
+                            }
+                        }
                     }
                 }
             }
@@ -82,15 +97,15 @@ fun NewsHomeScreen(
 }
 
 @Composable
-fun NewsHomeCard(
+fun NewsCard(
     modifier : Modifier = Modifier,
     article : Article,
     onArticleClick : (String) -> Unit
 ) {
     Column(
         modifier = modifier
-            .padding(start = 5.dp, end = 5.dp)
-            .width(300.dp)
+            .padding(start = 20.dp, end = 20.dp, bottom = 10.dp)
+            .fillMaxWidth()
             .clickable { onArticleClick(article.url) }
     ) {
         Card(
@@ -98,7 +113,7 @@ fun NewsHomeCard(
             elevation = CardDefaults.cardElevation(0.dp),
             modifier = modifier
                 .fillMaxWidth()
-                .height(200.dp)
+                .height(180.dp)
         ) {
             LoadImage(url = article.urlToImage)
         }
@@ -109,14 +124,14 @@ fun NewsHomeCard(
             fontSize = 16.sp,
             fontFamily = FontFamily(Font(R.font.generalsans_medium)),
             overflow = TextOverflow.Ellipsis,
-            maxLines = 2
+            maxLines = 3
         )
         Spacer(modifier = modifier.height(5.dp))
         Row(
             modifier = modifier.fillMaxWidth()
         ) {
             Text(
-                text = article.source.name,
+                text = "by ${article.source.name}",
                 modifier = modifier.weight(1f),
                 fontSize = 13.sp,
                 fontFamily = FontFamily(Font(R.font.poppins))

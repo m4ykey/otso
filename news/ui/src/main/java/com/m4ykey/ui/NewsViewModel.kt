@@ -30,8 +30,8 @@ class NewsViewModel @Inject constructor(
             pagingData.map { it.toArticle() }
         }.cachedIn(viewModelScope)
 
-    suspend fun getLatestNews() {
-        repository.getLatestNews().onEach { result ->
+    suspend fun getLatestNews(page : Int, pageSize: Int) {
+        repository.getLatestNews(page = page, pageSize = pageSize).onEach { result ->
             when (result) {
                 is Resource.Success -> {
                     _newsUiState.value = newsUiState.value.copy(

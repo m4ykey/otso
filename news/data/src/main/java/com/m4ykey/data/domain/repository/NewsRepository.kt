@@ -9,6 +9,6 @@ import kotlinx.coroutines.flow.Flow
 interface NewsRepository {
 
     fun getNewsPager(): Pager<Int, ArticleEntity>
-    suspend fun getLatestNews() : Flow<Resource<List<Article>>>
+    suspend fun getLatestNews(page : Int, pageSize : Int) : Flow<Resource<List<Article>>>
 
 }

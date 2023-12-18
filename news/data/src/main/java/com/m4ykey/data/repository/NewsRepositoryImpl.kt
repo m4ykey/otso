@@ -28,15 +28,11 @@ class NewsRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun getLatestNews(): Flow<Resource<List<Article>>> {
+    override suspend fun getLatestNews(page : Int, pageSize : Int): Flow<Resource<List<Article>>> {
         return flow {
             emit(Resource.Loading())
-
             try {
-                val news = api.getNews(
-                    page = 1,
-                    pageSize = 10
-                ).articles.map { it.toArticle() }
+                val news = api.getNews(page = page, pageSize = pageSize).articles.map { it.toArticle() }
                 emit(Resource.Success(news))
             } catch (e : Exception) {
                 emit(Resource.Error(
