@@ -45,7 +45,7 @@ fun AlbumCard(
         ) {
             LoadImage(
                 modifier = modifier.height(200.dp),
-                url = image?.toString()
+                url = image?.url.toString()
             )
         }
         Text(
