@@ -1,6 +1,5 @@
 package com.m4ykey.ui
 
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -20,9 +19,11 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -35,6 +36,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.m4ykey.core.helpers.LoadImage
 import com.m4ykey.core.helpers.OpenUrl
 import com.m4ykey.data.domain.model.Article
+import com.m4ykey.ui.helpers.DisposableEffectCallback
 import com.m4ykey.ui.helpers.formatPublishedDate
 
 @Composable
@@ -45,8 +47,9 @@ fun NewsHomeScreen(
     val viewModel : NewsViewModel = hiltViewModel()
     val state by viewModel.newsUiState.collectAsState()
     val context = LocalContext.current
+    val callback = rememberUpdatedState(DisposableEffectCallback())
 
-    LaunchedEffect(key1 = viewModel) {
+    LaunchedEffect(viewModel) {
         viewModel.getLatestNews(
             page = 1,
             pageSize = 3
@@ -55,43 +58,39 @@ fun NewsHomeScreen(
 
     val openUrl = rememberLauncherForActivityResult(OpenUrl()) { result ->
         if (!result) {
-            Toast.makeText(context, "Failed to open URL", Toast.LENGTH_SHORT).show()
+            callback.value.onOpenUrlResult(context)
         }
     }
 
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = modifier.fillMaxWidth()
-    ) {
-        when {
-            state.isLoading -> {
-                CircularProgressIndicator()
-            }
-            state.error != null -> {
-                Text(text = state.error.toString())
-            }
-            else -> {
-                LazyColumn(modifier = modifier) {
-                    items(state.news) { article ->
-                        NewsCard(
-                            article = article,
-                            onArticleClick = { url ->
-                                openUrl.launch(url)
-                            }
-                        )
-                    }
-                    item {
-                        Box(
-                            contentAlignment = Alignment.Center,
-                            modifier = modifier.fillMaxWidth()
-                        ) {
-                            Button(onClick = { onNewsClick() }) {
-                                Text(text = "See More")
-                            }
-                        }
-                    }
+    DisposableEffect(callback) {
+        callback.value.launcher = openUrl
+
+        onDispose {
+            callback.value.launcher = null
+        }
+    }
+
+    LazyColumn(modifier = modifier) {
+        items(state.news) { article ->
+            NewsCard(
+                article = article,
+                onArticleClick = { url ->
+                    openUrl.launch(url)
                 }
+            )
+        }
+        item {
+            Button(onClick = onNewsClick) {
+                Text(text = "See more")
             }
+        }
+    }
+    Box(modifier = modifier) {
+        if (state.isLoading) {
+            CircularProgressIndicator(modifier = modifier.align(Alignment.Center))
+        }
+        if (state.error != null) {
+            Text(text = state.error.toString())
         }
     }
 }
@@ -113,7 +112,7 @@ fun NewsCard(
             elevation = CardDefaults.cardElevation(0.dp),
             modifier = modifier
                 .fillMaxWidth()
-                .height(180.dp)
+                .height(190.dp)
         ) {
             LoadImage(url = article.urlToImage)
         }

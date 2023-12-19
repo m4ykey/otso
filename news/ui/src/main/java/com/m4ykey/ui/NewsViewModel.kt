@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -41,17 +42,23 @@ class NewsViewModel @Inject constructor(
                 }
                 is Resource.Loading -> {
                     _newsUiState.value = newsUiState.value.copy(
-                        isLoading = true
+                        isLoading = true,
+                        news = result.data ?: emptyList()
                     )
                 }
                 is Resource.Error -> {
                     _newsUiState.value = newsUiState.value.copy(
                         error = result.message ?: "Unknown error",
+                        news = result.data ?: emptyList(),
                         isLoading = false
                     )
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun refreshNews() {
+        viewModelScope.launch { getLatestNews(page = 1, pageSize = 3) }
     }
 
 }

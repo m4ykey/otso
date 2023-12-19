@@ -58,6 +58,7 @@ dependencies {
 
     implementation(Dependencies.AndroidX.Paging.paging)
     implementation(Dependencies.AndroidX.Paging.pagingCompose)
+    implementation(Dependencies.AndroidX.Room.paging)
 
     implementation(Dependencies.AndroidX.Room.ktx)
     implementation(Dependencies.AndroidX.Room.runtime)

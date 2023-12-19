@@ -17,7 +17,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -29,6 +31,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.m4ykey.core.helpers.OpenUrl
+import com.m4ykey.ui.helpers.DisposableEffectCallback
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,20 +43,19 @@ fun NewsScreen(
     val viewModel: NewsViewModel = hiltViewModel()
     val lazyPagingItems = viewModel.pagingFlow.collectAsLazyPagingItems()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val callback = rememberUpdatedState(DisposableEffectCallback())
 
     val openUrl = rememberLauncherForActivityResult(OpenUrl()) { result ->
         if (!result) {
-            Toast.makeText(context, "Failed to open URL", Toast.LENGTH_SHORT).show()
+            callback.value.onOpenUrlResult(context)
         }
     }
 
-    LaunchedEffect(key1 = lazyPagingItems.loadState) {
-        if (lazyPagingItems.loadState.refresh is LoadState.Error) {
-            Toast.makeText(
-                context,
-                "Error: ${(lazyPagingItems.loadState.refresh as LoadState.Error).error.message}",
-                Toast.LENGTH_SHORT
-            ).show()
+    DisposableEffect(callback) {
+        callback.value.launcher = openUrl
+
+        onDispose {
+            callback.value.launcher = null
         }
     }
 
@@ -74,40 +76,44 @@ fun NewsScreen(
             )
         }
     ) { paddingValues ->
-        Box(
+        LazyColumn(
             modifier = modifier
-                .padding(paddingValues)
                 .fillMaxSize()
+                .padding(paddingValues)
         ) {
+            items(
+                count = lazyPagingItems.itemCount,
+                key = lazyPagingItems.itemKey { it.url },
+                contentType = lazyPagingItems.itemContentType { "contentType" }
+            ) { index ->
+                val article = lazyPagingItems[index]
+                if (article != null) {
+                    NewsCard(
+                        article = article,
+                        onArticleClick = { url ->
+                            openUrl.launch(url)
+                        }
+                    )
+                }
+            }
+            item {
+                if (lazyPagingItems.loadState.append is LoadState.Loading) {
+                    CircularProgressIndicator()
+                }
+            }
+        }
+        Box(modifier = modifier) {
+            if (lazyPagingItems.loadState.refresh is LoadState.Error) {
+                Toast.makeText(
+                    context,
+                    "Error: ${(lazyPagingItems.loadState.refresh as LoadState.Error).error.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
             if (lazyPagingItems.loadState.refresh is LoadState.Loading) {
                 CircularProgressIndicator(
                     modifier = modifier.align(Alignment.Center)
                 )
-            } else {
-                LazyColumn(
-                    modifier = modifier.fillMaxSize()
-                ) {
-                    items(
-                        count = lazyPagingItems.itemCount,
-                        key = lazyPagingItems.itemKey { it.url },
-                        contentType = lazyPagingItems.itemContentType { "contentType" }
-                    ) { index ->
-                        val article = lazyPagingItems[index]
-                        if (article != null) {
-                            NewsCard(
-                                article = article,
-                                onArticleClick = { url ->
-                                    openUrl.launch(url)
-                                }
-                            )
-                        }
-                    }
-                    item {
-                        if (lazyPagingItems.loadState.append is LoadState.Loading) {
-                            CircularProgressIndicator()
-                        }
-                    }
-                }
             }
         }
     }

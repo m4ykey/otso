@@ -17,4 +17,13 @@ interface ArticleDao {
     @Query("SELECT * FROM article_table")
     fun getAllArticles() : List<ArticleEntity>
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllHome(articles : List<ArticleHomeEntity>)
+
+    @Query("DELETE FROM article_home_entity")
+    suspend fun deleteAllHome()
+
+    @Query("SELECT * FROM article_home_entity")
+    fun getAllHomeArticles() : List<ArticleHomeEntity>
+
 }

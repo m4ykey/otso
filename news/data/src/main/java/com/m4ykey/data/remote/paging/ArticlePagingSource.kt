@@ -17,27 +17,25 @@ class ArticlePagingSource(
 ) : PagingSource<Int, ArticleEntity>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ArticleEntity> {
-
         return withContext(Dispatchers.IO) {
             try {
                 val page = params.key ?: 1
 
-                if (page == 1) {
-                    db.dao.deleteAll()
-                }
-
                 // Fetch data from the database
-                val articleData = db.dao.getAllArticles().toList()
+                val articleData = db.dao.getAllArticles()
 
                 if (articleData.isNotEmpty()) {
-                    // Data is not available in the database
+                    // Data is available in the database
+                    val prevKey = if (page > 1) page - 1 else null
+                    val nextKey = if (articleData.size == params.loadSize) page + 1 else null
+
                     LoadResult.Page(
                         data = articleData,
-                        prevKey = if (page > 1) page - 1 else null,
-                        nextKey = if (articleData.size == params.loadSize) page + 1 else null
+                        prevKey = prevKey,
+                        nextKey = nextKey
                     )
                 } else {
-                    // Data is not in the database, get from the api
+                    // Data is not in the database, get from the API
                     val response = api.getNews(page = page, pageSize = params.loadSize)
                     val articles = response.articles.map { it.toArticleEntity() }
 
@@ -46,15 +44,19 @@ class ArticlePagingSource(
                         db.dao.insertAll(articles)
                     }
 
+                    // Calculate prevKey and nextKey
+                    val prevKey = if (page > 1) page - 1 else null
+                    val nextKey = if (articles.isNotEmpty()) page + 1 else null
+
                     LoadResult.Page(
                         data = articles,
-                        prevKey = if (page > 1) page - 1 else null,
-                        nextKey = if (articles.isNotEmpty()) page + 1 else null
+                        prevKey = prevKey,
+                        nextKey = nextKey
                     )
                 }
             } catch (e: Exception) {
                 LoadResult.Error(e)
-            } catch (e : IOException) {
+            } catch (e: IOException) {
                 LoadResult.Error(e)
             }
         }
