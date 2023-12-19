@@ -22,6 +22,10 @@ class ArticlePagingSource(
             try {
                 val page = params.key ?: 1
 
+                if (page == 1) {
+                    db.dao.deleteAll()
+                }
+
                 // Fetch data from the database
                 val articleData = db.dao.getAllArticles().toList()
 
