@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -70,22 +69,20 @@ fun NewsHomeScreen(
         }
     }
 
-    LazyColumn(modifier = modifier) {
-        items(state.news) { article ->
-            NewsCard(
-                article = article,
-                onArticleClick = { url ->
-                    openUrl.launch(url)
-                }
-            )
-        }
-        item {
-            Button(onClick = onNewsClick) {
-                Text(text = "See more")
+    Box(
+        modifier = modifier.fillMaxWidth(),
+        contentAlignment = Alignment.Center
+    ) {
+        LazyColumn(modifier = modifier) {
+            items(state.news) { article ->
+                NewsCard(
+                    article = article,
+                    onArticleClick = { url ->
+                        openUrl.launch(url)
+                    }
+                )
             }
         }
-    }
-    Box(modifier = modifier) {
         if (state.isLoading) {
             CircularProgressIndicator(modifier = modifier.align(Alignment.Center))
         }
