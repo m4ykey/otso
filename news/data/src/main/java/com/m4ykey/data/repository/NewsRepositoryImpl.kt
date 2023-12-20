@@ -1,8 +1,10 @@
 package com.m4ykey.data.repository
 
+import android.net.ConnectivityManager
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.m4ykey.core.Constants.NEWS_PAGE_SIZE
+import com.m4ykey.core.network.NetworkStateMonitor
 import com.m4ykey.core.network.Resource
 import com.m4ykey.data.domain.model.Article
 import com.m4ykey.data.domain.repository.NewsRepository
@@ -19,11 +21,13 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class NewsRepositoryImpl @Inject constructor(
-    private val api : NewsApi,
-    private val db : NewsDatabase
+    private val api: NewsApi,
+    private val db: NewsDatabase,
+    private val connectivityManager: ConnectivityManager
 ) : NewsRepository {
 
     override fun getNewsPager(): Pager<Int, ArticleEntity> {
+        val networkStateMonitor = NetworkStateMonitor(connectivityManager = connectivityManager)
         return Pager(
             config = PagingConfig(
                 pageSize = NEWS_PAGE_SIZE,
@@ -31,7 +35,7 @@ class NewsRepositoryImpl @Inject constructor(
                 enablePlaceholders = false
             ),
             pagingSourceFactory = {
-                ArticlePagingSource(db = db, api = api)
+                ArticlePagingSource(db = db, api = api, networkStateMonitor = networkStateMonitor)
             }
         )
     }

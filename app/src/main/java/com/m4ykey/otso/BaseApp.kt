@@ -1,5 +1,6 @@
 package com.m4ykey.otso
 
+import android.net.ConnectivityManager
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -18,7 +19,8 @@ import com.m4ykey.otso.navigation.bottom_nav.getBottomNavigationItem
 @Composable
 fun BaseApp(
     modifier : Modifier = Modifier,
-    navController : NavHostController = rememberNavController()
+    navController : NavHostController = rememberNavController(),
+    connectivityManager: ConnectivityManager
 ) {
 
     val navBackStackEntry = navController.currentBackStackEntryAsState()
@@ -42,7 +44,8 @@ fun BaseApp(
     ) {
         AppNavHost(
             navController = navController,
-            modifier = modifier.padding(it)
+            modifier = modifier.padding(it),
+            connectivityManager = connectivityManager
         )
     }
 }

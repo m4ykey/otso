@@ -1,5 +1,6 @@
 package com.m4ykey.otso.navigation
 
+import android.net.ConnectivityManager
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -15,7 +16,8 @@ import com.m4ykey.ui.NewsScreen
 @Composable
 fun AppNavHost(
     modifier : Modifier = Modifier,
-    navController : NavHostController
+    navController : NavHostController,
+    connectivityManager: ConnectivityManager
 ) {
     NavHost(
         modifier = modifier,
@@ -24,12 +26,14 @@ fun AppNavHost(
     ) {
         composable(route = HomeDestination.route) {
             HomeScreen(
+                connectivityManager = connectivityManager,
                 onNewsClick = { navController.navigate(NewsDestination.route) }
             )
         }
         composable(route = NewsDestination.route) {
             NewsScreen(
-                onNavigateBack = { navController.navigateUp() }
+                onNavigateBack = { navController.navigateUp() },
+                connectivityManager = connectivityManager
             )
         }
         composable(route = ToolsDestination.route) {
