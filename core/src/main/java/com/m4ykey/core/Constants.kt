@@ -5,12 +5,14 @@ object Constants {
     const val NEWS_BASE_URL = "https://newsapi.org/"
     const val NEWS_DATABASE = "news_db"
     const val ARTICLE_TABLE = "article_table"
+    const val ARTICLE_HOME_TABLE = "article_home_entity"
     const val DOMAINS = "${MusicSources.BBC_MUSIC}," + "${MusicSources.MTV}," +
             "${MusicSources.ROLLING_STONE}," + "${MusicSources.NME}," +
             "${MusicSources.SPIN}," + "${MusicSources.BILLBOARD}," +
             "${MusicSources.PITCHFORK}," + "${MusicSources.MUSIC_NEWS}," +
             "${MusicSources.THE_GUARDIAN}," + "${MusicSources.NEW_YORK_TIMES}," +
             "${MusicSources.VARIETY}," + MusicSources.NBC_NEWS
+    const val NEWS_PAGE_SIZE = 20
 
     const val SPOTIFY_AUTH_URL = "https://accounts.spotify.com/"
     const val SPOTIFY_BASE_URL = "https://api.spotify.com/v1/"

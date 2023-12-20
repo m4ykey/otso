@@ -7,14 +7,14 @@ object Dependencies {
             const val composeUiGraphics = "androidx.compose.ui:ui-graphics"
             const val composeUiToolingPreview = "androidx.compose.ui:ui-tooling-preview"
             const val composeMaterial3 = "androidx.compose.material3:material3"
-            const val composeActivity = "androidx.activity:activity-compose:1.8.1"
+            const val composeActivity = "androidx.activity:activity-compose:${Version.composeActivity}"
             const val composeNavigationRuntime = "androidx.navigation:navigation-runtime-ktx:${Version.navigation}"
             const val composeNavigation = "androidx.navigation:navigation-compose:${Version.navigation}"
         }
         object Core {
-            const val core = "androidx.core:core-ktx:1.12.0"
-            const val appcompat = "androidx.appcompat:appcompat:1.6.1"
-            const val material = "com.google.android.material:material:1.11.0"
+            const val core = "androidx.core:core-ktx:${Version.core}"
+            const val appcompat = "androidx.appcompat:appcompat:${Version.appcompat}"
+            const val material = "com.google.android.material:material:${Version.material}"
         }
         object Lifecycle {
             const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:${Version.lifecycle}"
@@ -27,31 +27,31 @@ object Dependencies {
             const val paging = "androidx.room:room-paging:${Version.room}"
         }
         object DataStore {
-            const val preferences = "androidx.datastore:datastore-preferences:1.0.0"
+            const val preferences = "androidx.datastore:datastore-preferences:${Version.datastore}"
         }
         object Paging {
-            const val paging = "androidx.paging:paging-runtime-ktx:3.2.1"
-            const val pagingCompose = "androidx.paging:paging-compose:3.2.1"
+            const val paging = "androidx.paging:paging-runtime-ktx:${Version.paging}"
+            const val pagingCompose = "androidx.paging:paging-compose:${Version.paging}"
         }
     }
 
     object Firebase {
-        const val crashlytics = "com.google.firebase:firebase-crashlytics:18.6.0"
-        const val analytics = "com.google.firebase:firebase-analytics:21.5.0"
+        const val crashlytics = "com.google.firebase:firebase-crashlytics:${Version.crashlytics}"
+        const val analytics = "com.google.firebase:firebase-analytics:${Version.analytics}"
     }
 
     object Test {
         object TestImplementation {
-            const val junit = "junit:junit:4.13.2"
+            const val junit = "junit:junit:${Version.junit}"
         }
         object DebugImplementation {
             const val composeUiTooling = "androidx.compose.ui:ui-tooling"
             const val composeUiTestManifest = "androidx.compose.ui:ui-test-manifest"
         }
         object AndroidTestImplementation {
-            const val espresso = "androidx.test.espresso:espresso-core:3.5.1"
+            const val espresso = "androidx.test.espresso:espresso-core:${Version.espresso}"
             const val composeUiTestJunit4 = "androidx.compose.ui:ui-test-junit4"
-            const val testExtJunit = "androidx.test.ext:junit:1.1.5"
+            const val testExtJunit = "androidx.test.ext:junit:${Version.extJunit}"
         }
     }
 
@@ -74,7 +74,7 @@ object Dependencies {
     object Hilt {
         const val hiltAndroid = "com.google.dagger:hilt-android:${Version.hilt}"
         const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Version.hilt}"
-        const val hiltNavigation = "androidx.hilt:hilt-navigation-compose:1.1.0"
+        const val hiltNavigation = "androidx.hilt:hilt-navigation-compose:${Version.hiltNavigation}"
     }
 
     object Coroutines {
@@ -83,7 +83,7 @@ object Dependencies {
     }
 
     object Coil {
-        const val coil = "io.coil-kt:coil-compose:2.5.0"
+        const val coil = "io.coil-kt:coil-compose:${Version.coil}"
     }
 
 }

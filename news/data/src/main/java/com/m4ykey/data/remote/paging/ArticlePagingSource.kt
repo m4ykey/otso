@@ -26,13 +26,10 @@ class ArticlePagingSource(
 
                 if (articleData.isNotEmpty()) {
                     // Data is available in the database
-                    val prevKey = if (page > 1) page - 1 else null
-                    val nextKey = if (articleData.size == params.loadSize) page + 1 else null
-
                     LoadResult.Page(
                         data = articleData,
-                        prevKey = prevKey,
-                        nextKey = nextKey
+                        prevKey = if (page > 1) page - 1 else null,
+                        nextKey = if (articleData.size == params.loadSize) page + 1 else null
                     )
                 } else {
                     // Data is not in the database, get from the API
@@ -41,17 +38,15 @@ class ArticlePagingSource(
 
                     // Insert fetched data into the database
                     db.withTransaction {
+                        // Clear the existing data before inserting new data
+                        db.dao.deleteAll()
                         db.dao.insertAll(articles)
                     }
 
-                    // Calculate prevKey and nextKey
-                    val prevKey = if (page > 1) page - 1 else null
-                    val nextKey = if (articles.isNotEmpty()) page + 1 else null
-
                     LoadResult.Page(
                         data = articles,
-                        prevKey = prevKey,
-                        nextKey = nextKey
+                        prevKey = if (page > 1) page - 1 else null,
+                        nextKey = if (articles.isNotEmpty()) page + 1 else null
                     )
                 }
             } catch (e: Exception) {

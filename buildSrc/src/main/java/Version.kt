@@ -20,5 +20,18 @@ object Version {
     const val coroutines = "1.7.3"
     const val room = "2.6.1"
     const val okHttp = "4.12.0"
+    const val composeActivity = "1.8.1"
+    const val core = "1.12.0"
+    const val appcompat = "1.6.1"
+    const val material = "1.11.0"
+    const val datastore = "1.0.0"
+    const val paging = "3.2.1"
+    const val coil = "2.5.0"
+    const val hiltNavigation = "1.1.0"
+    const val crashlytics = "18.6.0"
+    const val analytics = "21.5.0"
+    const val junit = "4.13.2"
+    const val espresso = "3.5.1"
+    const val extJunit = "1.1.5"
 
 }

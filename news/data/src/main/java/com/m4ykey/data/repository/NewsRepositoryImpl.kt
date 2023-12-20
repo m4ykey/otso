@@ -2,13 +2,13 @@ package com.m4ykey.data.repository
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import com.m4ykey.core.Constants.NEWS_PAGE_SIZE
 import com.m4ykey.core.network.Resource
 import com.m4ykey.data.domain.model.Article
 import com.m4ykey.data.domain.repository.NewsRepository
 import com.m4ykey.data.local.ArticleEntity
 import com.m4ykey.data.local.NewsDatabase
 import com.m4ykey.data.mappers.toArticle
-import com.m4ykey.data.mappers.toArticleEntity
 import com.m4ykey.data.mappers.toArticleHomeEntity
 import com.m4ykey.data.remote.NewsApi
 import com.m4ykey.data.remote.paging.ArticlePagingSource
@@ -25,7 +25,11 @@ class NewsRepositoryImpl @Inject constructor(
 
     override fun getNewsPager(): Pager<Int, ArticleEntity> {
         return Pager(
-            config = PagingConfig(pageSize = 20),
+            config = PagingConfig(
+                pageSize = NEWS_PAGE_SIZE,
+                maxSize = NEWS_PAGE_SIZE + (NEWS_PAGE_SIZE * 2),
+                enablePlaceholders = false
+            ),
             pagingSourceFactory = {
                 ArticlePagingSource(db = db, api = api)
             }

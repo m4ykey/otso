@@ -2,8 +2,9 @@ package com.m4ykey.data.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.m4ykey.core.Constants.ARTICLE_HOME_TABLE
 
-@Entity(tableName = "article_home_entity")
+@Entity(tableName = ARTICLE_HOME_TABLE)
 data class ArticleHomeEntity(
     val author: String,
     val content: String,

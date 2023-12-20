@@ -1,5 +1,6 @@
 package com.m4ykey.ui
 
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -87,7 +88,7 @@ fun NewsHomeScreen(
             CircularProgressIndicator(modifier = modifier.align(Alignment.Center))
         }
         if (state.error != null) {
-            Text(text = state.error.toString())
+            Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
         }
     }
 }
