@@ -1,6 +1,7 @@
 package com.m4ykey.ui.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +15,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
@@ -30,10 +32,13 @@ fun NewsCard(
     article : Article,
     onArticleClick : (String) -> Unit
 ) {
+
+    val isSystemInDarkTheme = isSystemInDarkTheme()
+
     Column(
         modifier = modifier
-            .padding(start = 20.dp, end = 20.dp, bottom = 10.dp)
-            .fillMaxWidth()
+            .width(350.dp)
+            .padding(start = 10.dp, end = 10.dp)
             .clickable { onArticleClick(article.url) }
     ) {
         Card(
@@ -52,7 +57,8 @@ fun NewsCard(
             fontSize = 16.sp,
             fontFamily = FontFamily(Font(R.font.generalsans_medium)),
             overflow = TextOverflow.Ellipsis,
-            maxLines = 3
+            maxLines = 3,
+            color = if (isSystemInDarkTheme) Color.White else Color.Black
         )
         Spacer(modifier = modifier.height(5.dp))
         Row(
@@ -62,7 +68,8 @@ fun NewsCard(
                 text = "by ${article.source.name}",
                 modifier = modifier.weight(1f),
                 fontSize = 13.sp,
-                fontFamily = FontFamily(Font(R.font.poppins))
+                fontFamily = FontFamily(Font(R.font.poppins)),
+                color = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray
             )
             Spacer(modifier = modifier.width(10.dp))
             Text(
@@ -70,6 +77,7 @@ fun NewsCard(
                 text = formatPublishedDate(
                     article.publishedAt
                 ),
+                color = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray,
                 fontSize = 13.sp
             )
         }

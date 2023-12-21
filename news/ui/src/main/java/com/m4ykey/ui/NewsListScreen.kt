@@ -1,6 +1,5 @@
 package com.m4ykey.ui
 
-import android.net.ConnectivityManager
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Box
@@ -20,7 +19,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,32 +31,20 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.m4ykey.core.helpers.OpenUrl
-import com.m4ykey.core.network.NetworkStateMonitor
 import com.m4ykey.ui.components.NewsCard
 import com.m4ykey.ui.helpers.DisposableEffectCallback
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsScreen(
-    modifier : Modifier = Modifier,
-    onNavigateBack : () -> Unit,
-    connectivityManager: ConnectivityManager
+    modifier: Modifier = Modifier,
+    onNavigateBack: () -> Unit
 ) {
     val context = LocalContext.current
     val viewModel: NewsViewModel = hiltViewModel()
     val lazyPagingItems = viewModel.pagingFlow.collectAsLazyPagingItems()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val callback = rememberUpdatedState(DisposableEffectCallback())
-    val networkStateMonitor = remember(connectivityManager) {
-        NetworkStateMonitor(connectivityManager)
-    }
-
-    DisposableEffect(Unit) {
-        networkStateMonitor.startMonitoring()
-        onDispose {
-            networkStateMonitor.stopMonitoring()
-        }
-    }
 
     val openUrl = rememberLauncherForActivityResult(OpenUrl()) { result ->
         if (!result) {

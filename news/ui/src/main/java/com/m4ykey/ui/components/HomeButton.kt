@@ -1,9 +1,11 @@
 package com.m4ykey.ui.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -31,13 +33,17 @@ fun HomeButton(
     navigation: () -> Unit,
     text: Int
 ) {
+    val isSystemInDarkTheme = isSystemInDarkTheme()
+
     Button(
         onClick = { navigation() },
-        modifier = modifier.padding(start = 10.dp, end = 10.dp, bottom = 5.dp, top = 5.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(start = 10.dp, end = 10.dp, bottom = 5.dp, top = 5.dp),
         shape = CutCornerShape(10),
         border = BorderStroke(1.dp, Color.LightGray),
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color.Transparent
+            containerColor = if (isSystemInDarkTheme) Color.DarkGray else Color.White
         )
     ) {
         Row(
@@ -48,13 +54,13 @@ fun HomeButton(
                 text = stringResource(id = text),
                 fontFamily = FontFamily(Font(R.font.generalsans_medium)),
                 fontSize = 16.sp,
-                color = Color.Black
+                color = if (isSystemInDarkTheme) Color.White else Color.Black
             )
             Spacer(modifier = modifier.width(5.dp))
             Icon(
                 imageVector = Icons.Default.ArrowForward,
                 contentDescription = null,
-                tint = Color.Black,
+                tint = if (isSystemInDarkTheme) Color.White else Color.Black,
                 modifier = modifier.size(20.dp)
             )
         }

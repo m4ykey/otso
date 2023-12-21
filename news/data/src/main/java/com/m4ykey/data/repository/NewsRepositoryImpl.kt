@@ -1,17 +1,15 @@
 package com.m4ykey.data.repository
 
-import android.net.ConnectivityManager
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.m4ykey.core.Constants.NEWS_PAGE_SIZE
-import com.m4ykey.core.network.NetworkStateMonitor
 import com.m4ykey.core.network.Resource
 import com.m4ykey.data.domain.model.Article
 import com.m4ykey.data.domain.repository.NewsRepository
 import com.m4ykey.data.local.ArticleEntity
 import com.m4ykey.data.local.NewsDatabase
 import com.m4ykey.data.mappers.toArticle
-import com.m4ykey.data.mappers.toArticleHomeEntity
+import com.m4ykey.data.mappers.toArticleEntity
 import com.m4ykey.data.remote.NewsApi
 import com.m4ykey.data.remote.paging.ArticlePagingSource
 import kotlinx.coroutines.Dispatchers
@@ -22,12 +20,10 @@ import javax.inject.Inject
 
 class NewsRepositoryImpl @Inject constructor(
     private val api: NewsApi,
-    private val db: NewsDatabase,
-    private val connectivityManager: ConnectivityManager
+    private val db: NewsDatabase
 ) : NewsRepository {
 
     override fun getNewsPager(): Pager<Int, ArticleEntity> {
-        val networkStateMonitor = NetworkStateMonitor(connectivityManager = connectivityManager)
         return Pager(
             config = PagingConfig(
                 pageSize = NEWS_PAGE_SIZE,
@@ -35,7 +31,7 @@ class NewsRepositoryImpl @Inject constructor(
                 enablePlaceholders = false
             ),
             pagingSourceFactory = {
-                ArticlePagingSource(db = db, api = api, networkStateMonitor = networkStateMonitor)
+                ArticlePagingSource(api = api)
             }
         )
     }
@@ -45,7 +41,7 @@ class NewsRepositoryImpl @Inject constructor(
             emit(Resource.Loading())
 
             val cachedNews = withContext(Dispatchers.IO) {
-                db.dao.getAllHomeArticles().map { it.toArticle() }
+                db.dao.getAllArticles().map { it.toArticle() }
             }
 
             emit(Resource.Loading(data = cachedNews))
@@ -55,15 +51,15 @@ class NewsRepositoryImpl @Inject constructor(
                 val limitedNews = networkNews.take(3)
 
                 withContext(Dispatchers.IO) {
-                    db.dao.deleteAllHome()
-                    db.dao.insertAllHome(limitedNews.map { it.toArticleHomeEntity() })
+                    db.dao.deleteAll()
+                    db.dao.insertAll(limitedNews.map { it.toArticleEntity() })
                 }
 
                 emit(Resource.Success(limitedNews))
             } catch (e: Exception) {
                 emit(Resource.Error(
                     data = withContext(Dispatchers.IO) {
-                        val limitedNews = db.dao.getAllHomeArticles()
+                        val limitedNews = db.dao.getAllArticles()
                         limitedNews.take(3).map { it.toArticle() }
                     },
                     message = e.localizedMessage ?: "An unexpected error occurred: ${e.message}"

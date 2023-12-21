@@ -1,8 +1,12 @@
 package com.m4ykey.otso
 
-import android.net.ConnectivityManager
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -12,19 +16,24 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import com.m4ykey.ui.NewReleaseHomeScreen
 import com.m4ykey.ui.NewsHomeScreen
+import com.m4ykey.ui.components.HomeButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    modifier : Modifier = Modifier,
-    onNewsClick : () -> Unit,
-    onSearchClick : () -> Unit = {},
-    connectivityManager: ConnectivityManager
+    modifier: Modifier = Modifier,
+    onNewsClick: () -> Unit,
+    onSearchClick: () -> Unit = {},
+    onNewReleaseClick : () -> Unit
 ) {
+
+    val scrollState = rememberScrollState()
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -39,13 +48,21 @@ fun HomeScreen(
     ) { paddingValues ->
         Column(
             modifier = modifier
-                .padding(paddingValues),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(paddingValues)
+                .verticalScroll(scrollState)
+                .fillMaxSize()
         ) {
-            NewsHomeScreen(
-                connectivityManager = connectivityManager,
-                onNewsClick = onNewsClick
+            HomeButton(
+                navigation = { onNewsClick() },
+                text = R.string.read_more
             )
+            NewsHomeScreen()
+            Spacer(modifier = modifier.height(10.dp))
+            HomeButton(
+                navigation = { onNewReleaseClick() },
+                text = R.string.discover_more
+            )
+            NewReleaseHomeScreen()
         }
     }
 }
