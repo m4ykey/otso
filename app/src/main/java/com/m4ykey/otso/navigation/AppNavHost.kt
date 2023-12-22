@@ -11,7 +11,7 @@ import com.m4ykey.core.navigation.NewsDestination
 import com.m4ykey.core.navigation.ToolsDestination
 import com.m4ykey.otso.HomeScreen
 import com.m4ykey.otso.ToolsScreen
-import com.m4ykey.ui.NewReleaseScreen
+import com.m4ykey.ui.spotify.NewReleaseScreen
 import com.m4ykey.ui.NewsScreen
 
 @Composable

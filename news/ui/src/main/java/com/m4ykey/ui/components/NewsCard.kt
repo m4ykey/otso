@@ -37,8 +37,8 @@ fun NewsCard(
 
     Column(
         modifier = modifier
-            .width(350.dp)
-            .padding(start = 10.dp, end = 10.dp)
+            .fillMaxWidth()
+            .padding(start = 10.dp, end = 10.dp, bottom = 5.dp)
             .clickable { onArticleClick(article.url) }
     ) {
         Card(

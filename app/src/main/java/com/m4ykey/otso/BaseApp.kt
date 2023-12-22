@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.m4ykey.core.navigation.NewReleaseDestination
 import com.m4ykey.core.navigation.NewsDestination
 import com.m4ykey.otso.navigation.AppNavHost
 import com.m4ykey.otso.navigation.bottom_nav.BottomNavigationBar
@@ -49,6 +50,7 @@ fun BaseApp(
 
 fun shouldShowBottomNavigationBar(currentRoute : String?) : Boolean {
     return currentRoute !in setOf(
-        NewsDestination.route
+        NewsDestination.route,
+        NewReleaseDestination.route
     )
 }

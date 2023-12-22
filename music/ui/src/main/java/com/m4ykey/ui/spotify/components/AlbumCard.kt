@@ -1,4 +1,4 @@
-package com.m4ykey.ui.components
+package com.m4ykey.ui.spotify.components
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column

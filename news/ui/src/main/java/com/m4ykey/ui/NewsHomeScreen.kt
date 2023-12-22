@@ -2,8 +2,9 @@ package com.m4ykey.ui
 
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
@@ -60,20 +61,19 @@ fun NewsHomeScreen(
             }
     }
 
-    LazyRow(
-        modifier = modifier
-            .fillMaxWidth()
-    ) {
-        items(state.news) { article ->
-            NewsCard(
-                article = article,
-                onArticleClick = { url ->
-                    openUrl.launch(url)
-                }
-            )
+    Column(modifier = modifier.fillMaxWidth()) {
+        if (state.isLoading) {
+            CircularProgressIndicator()
         }
-    }
-    if (state.isLoading) {
-        CircularProgressIndicator()
+        LazyColumn(modifier = modifier.weight(1f)) {
+            items(state.news) { article ->
+                NewsCard(
+                    article = article,
+                    onArticleClick = { url ->
+                        openUrl.launch(url)
+                    }
+                )
+            }
+        }
     }
 }

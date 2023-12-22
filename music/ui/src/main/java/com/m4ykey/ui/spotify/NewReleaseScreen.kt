@@ -1,4 +1,4 @@
-package com.m4ykey.ui
+package com.m4ykey.ui.spotify
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

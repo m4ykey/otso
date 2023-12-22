@@ -1,4 +1,4 @@
-package com.m4ykey.ui.uistate
+package com.m4ykey.ui.spotify.uistate
 
 import com.m4ykey.data.domain.model.Items
 
