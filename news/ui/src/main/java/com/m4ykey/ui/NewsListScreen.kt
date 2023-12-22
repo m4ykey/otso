@@ -31,7 +31,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.m4ykey.core.helpers.OpenUrl
-import com.m4ykey.ui.components.NewsCard
+import com.m4ykey.ui.components.NewsListCard
 import com.m4ykey.ui.helpers.DisposableEffectCallback
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -99,7 +99,7 @@ fun NewsScreen(
             ) { index ->
                 val article = lazyPagingItems[index]
                 if (article != null) {
-                    NewsCard(
+                    NewsListCard(
                         article = article,
                         onArticleClick = { url ->
                             openUrl.launch(url)

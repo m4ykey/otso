@@ -5,6 +5,9 @@ import com.m4ykey.data.domain.model.Artist
 import com.m4ykey.data.domain.model.ExternalUrls
 import com.m4ykey.data.domain.model.Image
 import com.m4ykey.data.domain.model.Items
+import com.m4ykey.data.local.ArtistEntity
+import com.m4ykey.data.local.ImageEntity
+import com.m4ykey.data.local.NewReleaseEntity
 import com.m4ykey.data.remote.album.model.AlbumsDto
 import com.m4ykey.data.remote.album.model.ArtistDto
 import com.m4ykey.data.remote.album.model.ExternalUrlsDto
@@ -49,5 +52,54 @@ fun ItemsDto.toItems() : Items {
 fun AlbumsDto.toAlbums() : Albums {
     return Albums(
         items = items.map { it.toItems() }
+    )
+}
+
+fun NewReleaseEntity.toNewRelease() : Items {
+    return Items(
+        name = name,
+        images = listOf(images.toImage()),
+        artists = artists.map(ArtistEntity::toArtist)
+    )
+}
+
+fun ImageEntity.toImage() : Image {
+    return Image(
+        height = height,
+        url = url,
+        width = width
+    )
+}
+
+fun ArtistEntity.toArtist() : Artist {
+    return Artist(
+        name = name
+    )
+}
+
+fun Items.toNewReleaseEntity() : NewReleaseEntity {
+    return NewReleaseEntity(
+        id = id ?: "",
+        name = name ?: "",
+        artists = artists?.map(Artist::toArtistEntity) ?: emptyList(),
+        images = images?.firstOrNull()?.toImageEntity() ?: ImageEntity(
+            height = 0,
+            width = 0,
+            url = ""
+        )
+    )
+}
+
+fun Artist.toArtistEntity() : ArtistEntity {
+    return ArtistEntity(
+        name = name.orEmpty()
+    )
+}
+
+fun Image.toImageEntity() : ImageEntity {
+    return ImageEntity(
+        height = height ?: 0,
+        url = url ?: "",
+        width = width ?: 0
     )
 }

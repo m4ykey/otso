@@ -1,20 +1,17 @@
 package com.m4ykey.ui.spotify
 
 import android.widget.Toast
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.m4ykey.ui.spotify.components.AlbumCard
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun NewReleaseHomeScreen(
@@ -24,27 +21,16 @@ fun NewReleaseHomeScreen(
     val state by viewModel.albumUiState.collectAsState()
     val context = LocalContext.current
 
-    LaunchedEffect(key1 = viewModel) {
-        viewModel.getNewReleases()
+    state.error?.let { error ->
+        Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
     }
 
-    LaunchedEffect(viewModel.albumUiState) {
-        snapshotFlow { viewModel.albumUiState }
-            .collectLatest { state ->
-                state.value.error?.let { error ->
-                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
-                }
-            }
+    if (state.isLoading) {
+        CircularProgressIndicator()
     }
-
-    Row(modifier = modifier) {
-        if (state.isLoading) {
-            CircularProgressIndicator()
-        }
-        LazyRow(modifier = modifier.weight(1f)) {
-            items(state.albums) { album ->
-                AlbumCard(item = album)
-            }
+    LazyRow(modifier = modifier.fillMaxWidth()) {
+        items(state.albums) { album ->
+            AlbumCard(item = album)
         }
     }
 }

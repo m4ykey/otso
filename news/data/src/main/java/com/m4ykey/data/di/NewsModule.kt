@@ -25,10 +25,8 @@ object NewsModule {
     @Provides
     @Singleton
     fun provideNewsApi(
-        //httpClient: OkHttpClient,
         moshi : Moshi
     ) : NewsApi = Retrofit.Builder()
-        //.client(httpClient)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .baseUrl(Constants.NEWS_BASE_URL)
         .build()

@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,7 +21,11 @@ class AlbumViewModel @Inject constructor(
     private val _albumUiState = MutableStateFlow(AlbumUiState())
     val albumUiState = _albumUiState.asStateFlow()
 
-    suspend fun getNewReleases() {
+    init {
+        viewModelScope.launch { getNewReleases() }
+    }
+
+    private suspend fun getNewReleases() {
         repository.getNewReleases().onEach { result ->
             when (result) {
                 is Resource.Success -> {
@@ -31,13 +36,15 @@ class AlbumViewModel @Inject constructor(
                 }
                 is Resource.Loading -> {
                     _albumUiState.value = albumUiState.value.copy(
-                        isLoading = true
+                        isLoading = true,
+                        albums = result.data ?: emptyList()
                     )
                 }
                 is Resource.Error -> {
                     _albumUiState.value = albumUiState.value.copy(
                         error = result.message ?: "Unknown error",
-                        isLoading = false
+                        isLoading = false,
+                        albums = result.data ?: emptyList()
                     )
                 }
             }

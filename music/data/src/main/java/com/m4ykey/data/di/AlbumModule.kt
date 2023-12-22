@@ -4,9 +4,13 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.room.Room
+import com.m4ykey.core.Constants
 import com.m4ykey.core.Constants.SPOTIFY_AUTH_URL
 import com.m4ykey.core.Constants.SPOTIFY_BASE_URL
 import com.m4ykey.data.domain.repository.AlbumRepository
+import com.m4ykey.data.local.MusicDatabase
+import com.m4ykey.data.local.converter.AlbumConverter
 import com.m4ykey.data.remote.AlbumApi
 import com.m4ykey.data.remote.AuthApi
 import com.m4ykey.data.remote.interceptor.SpotifyInterceptor
@@ -45,11 +49,9 @@ object AlbumModule {
     @Singleton
     fun provideAlbumApi(
         moshi: Moshi,
-        //httpClient: OkHttpClient
     ) : AlbumApi = Retrofit.Builder()
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .baseUrl(SPOTIFY_BASE_URL)
-        //.client(httpClient)
         .build()
         .create(AlbumApi::class.java)
 
@@ -68,5 +70,18 @@ object AlbumModule {
         .addInterceptor(loggingInterceptor)
         .addInterceptor(spotifyInterceptor)
         .build()
+
+    @Provides
+    @Singleton
+    fun provideMusicDatabase(@ApplicationContext context: Context, moshi: Moshi) : MusicDatabase {
+        val albumConverter = AlbumConverter(moshi = moshi)
+        return Room.databaseBuilder(
+            context,
+            MusicDatabase::class.java,
+            Constants.MUSIC_DATABASE
+        )
+            .addTypeConverter(albumConverter)
+            .build()
+    }
 
 }

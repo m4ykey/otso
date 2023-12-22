@@ -1,11 +1,13 @@
 package com.m4ykey.otso
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -22,7 +24,7 @@ import com.m4ykey.ui.NewsHomeScreen
 import com.m4ykey.ui.components.HomeButton
 import com.m4ykey.ui.spotify.NewReleaseHomeScreen
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -42,32 +44,17 @@ fun HomeScreen(
             )
         }
     ) { paddingValues ->
-        LazyColumn(
+        Column(
             modifier = modifier
-                .fillMaxSize()
                 .padding(paddingValues)
+                .verticalScroll(rememberScrollState())
+                .fillMaxSize()
         ) {
-            item {
-                Column(modifier = modifier.fillParentMaxSize()) {
-                    HomeButton(
-                        navigation = { onNewsClick() },
-                        text = R.string.read_more
-                    )
-                    NewsHomeScreen()
-                }
-            }
-            item { 
-                Spacer(modifier = modifier.height(10.dp))
-            }
-            item {
-                Column(modifier = modifier.fillParentMaxWidth()) {
-                    HomeButton(
-                        navigation = { onNewReleaseClick() },
-                        text = R.string.discover_more
-                    )
-                    NewReleaseHomeScreen()
-                }
-            }
+            HomeButton(navigation = { onNewsClick() }, text = R.string.read_more)
+            NewsHomeScreen()
+            Spacer(modifier = modifier.height(10.dp))
+            HomeButton(navigation = { onNewReleaseClick() }, text = R.string.discover_more)
+            NewReleaseHomeScreen()
         }
     }
 }
