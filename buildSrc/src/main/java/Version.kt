@@ -1,5 +1,6 @@
 object Version {
 
+    // Project
     private const val sdkVersion = 34
 
     const val compileSdk = sdkVersion
@@ -11,6 +12,7 @@ object Version {
 
     const val kotlinCompilerExtension = "1.5.6"
 
+    // Dependency
     const val composeBom = "2023.10.01"
     const val lifecycle = "2.6.2"
     const val navigation = "2.7.5"
@@ -33,5 +35,16 @@ object Version {
     const val junit = "4.13.2"
     const val espresso = "3.5.1"
     const val extJunit = "1.1.5"
+
+    // Gradle
+    const val ktlint = "1.1.0"
+    const val ktlintGradle = "12.0.3"
+    const val ksp = "1.9.21-1.0.16"
+    const val androidLibrary = "8.2.0"
+    const val kotlinAndroid = "1.9.21"
+    const val application = "8.2.0"
+    const val gms = "4.4.0"
+    const val firebaseGradle = "2.9.9"
+    const val toolsBuildGradle = "8.2.0"
 
 }

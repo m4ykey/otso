@@ -1,10 +1,10 @@
-package com.m4ykey.otso.navigation.bottom_nav
+package com.m4ykey.navigation.bottom_nav
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Build
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.rounded.Build
-import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.outlined.MusicNote
+import androidx.compose.material.icons.outlined.Public
+import androidx.compose.material.icons.rounded.MusicNote
+import androidx.compose.material.icons.rounded.Public
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -15,24 +15,24 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import com.m4ykey.core.navigation.HomeDestination
-import com.m4ykey.core.navigation.ToolsDestination
-import com.m4ykey.otso.R
+import com.m4ykey.navigation.MusicDestination
+import com.m4ykey.navigation.NewsDestination
+import com.m4ykey.navigation.R
 
 @Composable
 fun getBottomNavigationItem(): List<BottomNavigationModel> {
     return listOf(
         BottomNavigationModel(
-            title = stringResource(id = R.string.home),
-            route = HomeDestination.route,
-            unSelectedIcon = Icons.Outlined.Home,
-            selectedIcon = Icons.Rounded.Home
+            title = stringResource(id = R.string.music),
+            route = MusicDestination.route,
+            unSelectedIcon = Icons.Outlined.MusicNote,
+            selectedIcon = Icons.Rounded.MusicNote
         ),
         BottomNavigationModel(
-            title = stringResource(id = R.string.tools),
-            route = ToolsDestination.route,
-            unSelectedIcon = Icons.Outlined.Build,
-            selectedIcon = Icons.Rounded.Build
+            title = stringResource(id = R.string.news),
+            route = NewsDestination.route,
+            unSelectedIcon = Icons.Outlined.Public,
+            selectedIcon = Icons.Rounded.Public
         )
     )
 }

@@ -43,8 +43,6 @@ android {
 dependencies {
 
     implementation(Dependencies.AndroidX.Core.core)
-    implementation(Dependencies.AndroidX.Core.appcompat)
-    implementation(Dependencies.AndroidX.Core.material)
 
     testImplementation(Dependencies.Test.TestImplementation.junit)
 

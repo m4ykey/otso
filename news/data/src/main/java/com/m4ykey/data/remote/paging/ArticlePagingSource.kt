@@ -2,22 +2,22 @@ package com.m4ykey.data.remote.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.m4ykey.data.local.ArticleEntity
-import com.m4ykey.data.mappers.toArticleEntity
+import com.m4ykey.data.domain.model.Article
+import com.m4ykey.data.mappers.toArticle
 import com.m4ykey.data.remote.NewsApi
 import retrofit2.HttpException
 
 class ArticlePagingSource(
     private val api: NewsApi
-) : PagingSource<Int, ArticleEntity>() {
-    override fun getRefreshKey(state: PagingState<Int, ArticleEntity>): Int? {
+) : PagingSource<Int, Article>() {
+    override fun getRefreshKey(state: PagingState<Int, Article>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.prevKey
                 ?: state.closestPageToPosition(anchorPosition)?.nextKey
         }
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ArticleEntity> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
         return try {
             val page = params.key ?: 1
             val pageSize = params.loadSize
@@ -25,7 +25,7 @@ class ArticlePagingSource(
             val response = api.getNews(
                 page = page,
                 pageSize = pageSize
-            ).articles.map { it.toArticleEntity() }
+            ).articles.map { it.toArticle() }
 
             LoadResult.Page(
                 data = response,
