@@ -1,7 +1,3 @@
 <resources>
     <string name="app_name">otso</string>
-    <string name="home">Home</string>
-    <string name="tools">Tools</string>
-    <string name="read_more">Read more</string>
-    <string name="discover_more">Discover more</string>
 </resources>

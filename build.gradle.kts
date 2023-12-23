@@ -2,26 +2,26 @@ import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 buildscript {
     dependencies {
-        classpath("com.android.tools.build:gradle:8.1.0")
-        classpath("com.google.gms:google-services:4.4.0")
-        classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.9")
+        classpath("com.android.tools.build:gradle:${Version.toolsBuildGradle}")
+        classpath("com.google.gms:google-services:${Version.gms}")
+        classpath("com.google.firebase:firebase-crashlytics-gradle:${Version.firebaseGradle}")
     }
 }
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    id("com.android.application") version "8.2.0" apply false
-    id("org.jetbrains.kotlin.android") version "1.9.21" apply false
-    id("com.android.library") version "8.2.0" apply false
-    id("com.google.devtools.ksp") version "1.9.21-1.0.15" apply false
+    id("com.android.application") version Version.application apply false
+    id("org.jetbrains.kotlin.android") version Version.kotlinAndroid apply false
+    id("com.android.library") version Version.androidLibrary apply false
+    id("com.google.devtools.ksp") version Version.ksp apply false
     id("com.google.dagger.hilt.android") version Version.hilt apply false
-    id("org.jlleitschuh.gradle.ktlint") version "12.0.3"
+    id("org.jlleitschuh.gradle.ktlint") version Version.ktlintGradle
 }
 
 subprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
     configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
-        version.set("1.0.1")
+        version.set(Version.ktlint)
         android.set(true)
         verbose.set(true)
         reporters {

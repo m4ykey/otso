@@ -3,8 +3,6 @@ package com.m4ykey.core
 object Constants {
 
     const val NEWS_BASE_URL = "https://newsapi.org/"
-    const val NEWS_DATABASE = "news_db"
-    const val ARTICLE_TABLE = "article_table"
     const val DOMAINS = "${MusicSources.ROLLING_STONE}, ${MusicSources.VARIETY}, ${MusicSources.BILLBOARD}, " +
             "${MusicSources.PITCHFORK}, ${MusicSources.NBC_NEWS}"
     const val NEWS_PAGE_SIZE = 20

@@ -6,13 +6,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -20,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
@@ -31,14 +25,12 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.m4ykey.core.helpers.OpenUrl
-import com.m4ykey.ui.components.NewsListCard
 import com.m4ykey.ui.helpers.DisposableEffectCallback
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsScreen(
-    modifier: Modifier = Modifier,
-    onNavigateBack: () -> Unit
+    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     val viewModel: NewsViewModel = hiltViewModel()
@@ -75,14 +67,6 @@ fun NewsScreen(
         topBar = {
             CenterAlignedTopAppBar(
                 title = { Text(text = stringResource(id = R.string.news)) },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = null
-                        )
-                    }
-                },
                 scrollBehavior = scrollBehavior
             )
         }
@@ -109,15 +93,15 @@ fun NewsScreen(
             }
             item {
                 if (lazyPagingItems.loadState.append is LoadState.Loading) {
-                    CircularProgressIndicator()
+                   // CircularProgressIndicator()
                 }
             }
         }
         Box(modifier = modifier) {
             if (lazyPagingItems.loadState.refresh is LoadState.Loading) {
-                CircularProgressIndicator(
-                    modifier = modifier.align(Alignment.Center)
-                )
+//                CircularProgressIndicator(
+//                    modifier = modifier.align(Alignment.Center)
+//                )
             }
         }
     }

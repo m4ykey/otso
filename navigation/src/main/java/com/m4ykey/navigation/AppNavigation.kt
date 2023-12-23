@@ -1,4 +1,4 @@
-package com.m4ykey.otso.navigation
+package com.m4ykey.navigation
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -9,20 +9,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import com.m4ykey.core.navigation.NewReleaseDestination
-import com.m4ykey.core.navigation.NewsDestination
-import com.m4ykey.otso.navigation.bottom_nav.BottomNavigationBar
-import com.m4ykey.otso.navigation.bottom_nav.getBottomNavigationItem
+import com.m4ykey.navigation.bottom_nav.BottomNavigationBar
+import com.m4ykey.navigation.bottom_nav.getBottomNavigationItem
 
 @Composable
-fun BaseApp(
+fun AppNavigation(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController
 ) {
 
     val navBackStackEntry = navController.currentBackStackEntryAsState()
-
     val bottomBarVisible = shouldShowBottomNavigationBar(navBackStackEntry.value?.destination?.route)
 
     Scaffold(
@@ -49,7 +45,6 @@ fun BaseApp(
 
 fun shouldShowBottomNavigationBar(currentRoute : String?) : Boolean {
     return currentRoute !in setOf(
-        NewsDestination.route,
-        NewReleaseDestination.route
+        ""
     )
 }
