@@ -1,10 +1,10 @@
 package com.m4ykey.navigation.bottom_nav
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.outlined.MusicNote
 import androidx.compose.material.icons.outlined.Public
 import androidx.compose.material.icons.rounded.MusicNote
-import androidx.compose.material.icons.rounded.Public
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -32,7 +32,7 @@ fun getBottomNavigationItem(): List<BottomNavigationModel> {
             title = stringResource(id = R.string.news),
             route = NewsDestination.route,
             unSelectedIcon = Icons.Outlined.Public,
-            selectedIcon = Icons.Rounded.Public
+            selectedIcon = Icons.Default.Public
         )
     )
 }

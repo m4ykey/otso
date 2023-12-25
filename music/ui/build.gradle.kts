@@ -65,6 +65,7 @@ dependencies {
     implementation(Dependencies.AndroidX.Compose.composeUiGraphics)
     implementation(Dependencies.AndroidX.Compose.composeUiToolingPreview)
     implementation(Dependencies.AndroidX.Compose.composeMaterial3)
+    implementation(Dependencies.AndroidX.Compose.composeConstraintLayout)
 
     implementation(Dependencies.Hilt.hiltAndroid)
     implementation(Dependencies.Hilt.hiltNavigation)

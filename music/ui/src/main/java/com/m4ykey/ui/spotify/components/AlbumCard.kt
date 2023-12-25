@@ -28,14 +28,12 @@ fun AlbumCard(
     modifier : Modifier = Modifier,
     item : Items
 ) {
-    val image = item.images!!.find { it.height == 640 && it.width == 640 }
-    val artistList = item.artists?.joinToString(", ") { it.name!! }
+    val image = item.images.find { it.height == 640 && it.width == 640 }
+    val artistList = item.artists.joinToString(", ") { it.name }
     val isSystemInDarkTheme = isSystemInDarkTheme()
 
     Column(
-        modifier = modifier
-            .width(140.dp)
-            .padding(start = 10.dp, end = 10.dp)
+        modifier = modifier.width(120.dp)
     ) {
         Card(
             modifier = modifier.height(120.dp),
@@ -45,7 +43,7 @@ fun AlbumCard(
             LoadImage(url = image?.url.toString())
         }
         Text(
-            text = item.name!!,
+            text = item.name,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
             fontSize = 15.sp,
@@ -62,7 +60,7 @@ fun AlbumCard(
             modifier = modifier.fillMaxWidth(),
             fontFamily = FontFamily(Font(R.font.poppins_medium)),
             fontSize = 12.sp,
-            text = artistList.toString()
+            text = artistList
         )
     }
 }

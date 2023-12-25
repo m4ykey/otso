@@ -9,7 +9,8 @@ object Dependencies {
             const val composeMaterial3 = "androidx.compose.material3:material3"
             const val composeActivity = "androidx.activity:activity-compose:${Version.composeActivity}"
             const val composeNavigation = "androidx.navigation:navigation-compose:${Version.navigation}"
-            const val composeIconsExtended = "androidx.compose.material:material-icons-extended:1.6.0-beta03"
+            const val composeIconsExtended = "androidx.compose.material:material-icons-extended:${Version.iconsExtended}"
+            const val composeConstraintLayout = "androidx.constraintlayout:constraintlayout-compose:${Version.constraintLayout}"
         }
         object Core {
             const val core = "androidx.core:core-ktx:${Version.core}"

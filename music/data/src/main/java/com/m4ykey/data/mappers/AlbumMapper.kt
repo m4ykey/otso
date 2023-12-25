@@ -59,7 +59,8 @@ fun NewReleaseEntity.toNewRelease() : Items {
     return Items(
         name = name,
         images = listOf(images.toImage()),
-        artists = artists.map(ArtistEntity::toArtist)
+        artists = artists.map(ArtistEntity::toArtist),
+        id = id
     )
 }
 
@@ -79,10 +80,10 @@ fun ArtistEntity.toArtist() : Artist {
 
 fun Items.toNewReleaseEntity() : NewReleaseEntity {
     return NewReleaseEntity(
-        id = id ?: "",
-        name = name ?: "",
-        artists = artists?.map(Artist::toArtistEntity) ?: emptyList(),
-        images = images?.firstOrNull()?.toImageEntity() ?: ImageEntity(
+        id = id,
+        name = name,
+        artists = artists.map(Artist::toArtistEntity),
+        images = images.firstOrNull()?.toImageEntity() ?: ImageEntity(
             height = 0,
             width = 0,
             url = ""
@@ -92,14 +93,14 @@ fun Items.toNewReleaseEntity() : NewReleaseEntity {
 
 fun Artist.toArtistEntity() : ArtistEntity {
     return ArtistEntity(
-        name = name.orEmpty()
+        name = name
     )
 }
 
 fun Image.toImageEntity() : ImageEntity {
     return ImageEntity(
-        height = height ?: 0,
-        url = url ?: "",
-        width = width ?: 0
+        height = height,
+        url = url,
+        width = width
     )
 }

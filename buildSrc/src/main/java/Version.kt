@@ -35,6 +35,8 @@ object Version {
     const val junit = "4.13.2"
     const val espresso = "3.5.1"
     const val extJunit = "1.1.5"
+    const val constraintLayout = "1.0.1"
+    const val iconsExtended = "1.6.0-beta03"
 
     // Gradle
     const val ktlint = "1.1.0"
