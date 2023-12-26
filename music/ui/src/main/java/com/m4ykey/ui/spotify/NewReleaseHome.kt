@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.m4ykey.ui.R
-import com.m4ykey.ui.spotify.components.AlbumCard
+import com.m4ykey.ui.components.AlbumCard
 
 @Composable
 fun NewReleaseHome(
@@ -75,7 +75,10 @@ fun NewReleaseHome(
             state.albums,
             key = { it.id }
         ) { album ->
-            AlbumCard(item = album)
+            AlbumCard(
+                item = album,
+                size = 120.dp
+            )
         }
         item {
             Column(

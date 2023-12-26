@@ -1,4 +1,4 @@
-package com.m4ykey.ui.spotify.components
+package com.m4ykey.ui.components
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.m4ykey.core.helpers.LoadImage
@@ -26,17 +27,18 @@ import com.m4ykey.ui.R
 @Composable
 fun AlbumCard(
     modifier : Modifier = Modifier,
-    item : Items
+    item : Items,
+    size : Dp
 ) {
     val image = item.images.find { it.height == 640 && it.width == 640 }
     val artistList = item.artists.joinToString(", ") { it.name }
     val isSystemInDarkTheme = isSystemInDarkTheme()
 
     Column(
-        modifier = modifier.width(120.dp)
+        modifier = modifier.width(size)
     ) {
         Card(
-            modifier = modifier.height(120.dp),
+            modifier = modifier.height(size),
             shape = RoundedCornerShape(10),
             elevation = CardDefaults.cardElevation(0.dp)
         ) {

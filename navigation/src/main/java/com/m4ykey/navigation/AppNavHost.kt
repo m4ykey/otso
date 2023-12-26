@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.m4ykey.ui.MusicHomeScreen
+import com.m4ykey.ui.spotify.NewReleaseScreen
 import com.m4ykey.ui.NewsScreen
 
 @Composable
@@ -27,6 +28,11 @@ fun AppNavHost(
         }
         composable(route = NewsDestination.route) {
             NewsScreen()
+        }
+        composable(route = NewReleaseDestination.route) {
+            NewReleaseScreen(
+                onNavigateBack = { navController.navigateUp() }
+            )
         }
     }
 }

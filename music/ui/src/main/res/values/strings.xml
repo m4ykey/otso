@@ -2,4 +2,5 @@
 <resources>
     <string name="latest_new_releases">Latest New Releases</string>
     <string name="see_more">See more</string>
+    <string name="new_release">New Release</string>
 </resources>

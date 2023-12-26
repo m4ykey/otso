@@ -1,5 +1,7 @@
 package com.m4ykey.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import com.m4ykey.core.network.Resource
 import com.m4ykey.data.domain.model.Items
 import com.m4ykey.data.domain.repository.AlbumRepository
@@ -9,6 +11,7 @@ import com.m4ykey.data.mappers.toNewRelease
 import com.m4ykey.data.mappers.toNewReleaseEntity
 import com.m4ykey.data.remote.AlbumApi
 import com.m4ykey.data.remote.interceptor.SpotifyInterceptor
+import com.m4ykey.data.remote.paging.NewReleasePagingSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -52,5 +55,18 @@ class AlbumRepositoryImpl @Inject constructor(
                 ))
             }
         }
+    }
+
+    override fun getNewReleasePager(): Pager<Int, Items> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                maxSize = 20 + (20 * 2),
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = {
+                NewReleasePagingSource(api = api, interceptor = interceptor)
+            }
+        )
     }
 }

@@ -2,6 +2,7 @@ package com.m4ykey.ui.spotify
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.m4ykey.core.network.Resource
 import com.m4ykey.data.domain.repository.AlbumRepository
 import com.m4ykey.ui.spotify.uistate.AlbumUiState
@@ -50,5 +51,9 @@ class AlbumViewModel @Inject constructor(
             }
         }.launchIn(viewModelScope)
     }
+
+    val pagingFlow = repository.getNewReleasePager()
+        .flow
+        .cachedIn(viewModelScope)
 
 }
