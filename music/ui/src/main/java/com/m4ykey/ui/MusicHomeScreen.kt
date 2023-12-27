@@ -1,6 +1,8 @@
 package com.m4ykey.ui
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -17,6 +19,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.m4ykey.ui.spotify.NewReleaseHome
+import com.m4ykey.ui.video.TrendingVideosHome
 import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -59,6 +62,14 @@ fun MusicHomeScreen(
                 fontSize = 20.sp
             )
             NewReleaseHome(onNewReleaseClick = onNewReleaseClick)
+            Spacer(modifier = modifier.height(10.dp))
+            Text(
+                modifier = modifier.padding(5.dp),
+                text = stringResource(id = R.string.most_popular_videos),
+                fontFamily = FontFamily(Font(R.font.generalsans_medium)),
+                fontSize = 20.sp
+            )
+            TrendingVideosHome()
         }
     }
 }

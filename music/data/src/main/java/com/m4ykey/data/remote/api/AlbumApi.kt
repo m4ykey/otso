@@ -1,6 +1,6 @@
-package com.m4ykey.data.remote
+package com.m4ykey.data.remote.api
 
-import com.m4ykey.data.remote.album.model.AlbumResponseDto
+import com.m4ykey.data.remote.model.album.AlbumResponseDto
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query

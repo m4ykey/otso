@@ -1,6 +1,6 @@
 package com.m4ykey.ui.spotify.uistate
 
-import com.m4ykey.data.domain.model.Items
+import com.m4ykey.data.domain.model.album.Items
 
 data class AlbumUiState(
     val isLoading : Boolean = false,

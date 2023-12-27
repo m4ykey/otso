@@ -2,7 +2,6 @@ package com.m4ykey.ui
 
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -25,6 +24,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.m4ykey.core.helpers.OpenUrl
+import com.m4ykey.ui.components.NewsListCard
 import com.m4ykey.ui.helpers.DisposableEffectCallback
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -90,18 +90,6 @@ fun NewsScreen(
                         }
                     )
                 }
-            }
-            item {
-                if (lazyPagingItems.loadState.append is LoadState.Loading) {
-                   // CircularProgressIndicator()
-                }
-            }
-        }
-        Box(modifier = modifier) {
-            if (lazyPagingItems.loadState.refresh is LoadState.Loading) {
-//                CircularProgressIndicator(
-//                    modifier = modifier.align(Alignment.Center)
-//                )
             }
         }
     }

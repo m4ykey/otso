@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.m4ykey.core.helpers.LoadImage
-import com.m4ykey.data.domain.model.Items
+import com.m4ykey.data.domain.model.album.Items
 import com.m4ykey.ui.R
 
 @Composable

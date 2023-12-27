@@ -1,4 +1,4 @@
-package com.m4ykey.data.remote.album.model
+package com.m4ykey.data.remote.model.album
 
 import com.squareup.moshi.JsonClass
 

@@ -1,4 +1,4 @@
-package com.m4ykey.ui
+package com.m4ykey.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.m4ykey.core.helpers.LoadImage
 import com.m4ykey.data.domain.model.Article
+import com.m4ykey.ui.R
 import com.m4ykey.ui.helpers.formatPublishedDate
 
 @Composable

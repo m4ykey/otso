@@ -13,6 +13,8 @@ object Constants {
     const val NEW_RELEASE_TABLE = "new_release_table"
     const val MUSIC_DATABASE = "music_db"
 
+    const val YOUTUBE_BASE_URL = "https://www.googleapis.com/youtube/v3/"
+
 }
 
 object MusicSources {

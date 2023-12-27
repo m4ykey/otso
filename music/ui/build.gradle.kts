@@ -82,6 +82,4 @@ dependencies {
     implementation(Dependencies.AndroidX.Paging.paging)
     implementation(Dependencies.AndroidX.Paging.pagingCompose)
 
-    implementation("androidx.compose.animation:animation:1.5.4")
-
 }

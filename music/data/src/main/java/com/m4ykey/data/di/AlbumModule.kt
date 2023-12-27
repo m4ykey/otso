@@ -11,8 +11,8 @@ import com.m4ykey.core.Constants.SPOTIFY_BASE_URL
 import com.m4ykey.data.domain.repository.AlbumRepository
 import com.m4ykey.data.local.MusicDatabase
 import com.m4ykey.data.local.converter.AlbumConverter
-import com.m4ykey.data.remote.AlbumApi
-import com.m4ykey.data.remote.AuthApi
+import com.m4ykey.data.remote.api.AlbumApi
+import com.m4ykey.data.remote.api.AuthApi
 import com.m4ykey.data.remote.interceptor.SpotifyInterceptor
 import com.m4ykey.data.repository.AlbumRepositoryImpl
 import com.squareup.moshi.Moshi

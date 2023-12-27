@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -40,13 +40,13 @@ fun NewReleaseScreen(
     val context = LocalContext.current
     val lazyPagingItems = viewModel.observePagingFlow()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-    
+
     LaunchedEffect(Unit) {
         if (lazyPagingItems.loadState.refresh is LoadState.Error) {
             Toast.makeText(context, "${lazyPagingItems.loadState.refresh as LoadState.Error}", Toast.LENGTH_SHORT).show()
         }
     }
-    
+
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
@@ -54,7 +54,7 @@ fun NewReleaseScreen(
                 title = { Text(text = stringResource(id = R.string.new_release)) },
                 navigationIcon = {
                     IconButton(onClick = { onNavigateBack() }) {
-                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
                     }
                 }
             )
@@ -72,7 +72,7 @@ fun NewReleaseScreen(
             items(
                 count = lazyPagingItems.itemCount,
                 key = lazyPagingItems.itemKey { it.id },
-                contentType = lazyPagingItems.itemContentType { "contentType" }
+                contentType = lazyPagingItems.itemContentType { "albumType" }
             ) { index ->
                 val albums = lazyPagingItems[index]
                 if (albums != null) {

@@ -1,18 +1,18 @@
 package com.m4ykey.data.mappers
 
-import com.m4ykey.data.domain.model.Albums
-import com.m4ykey.data.domain.model.Artist
-import com.m4ykey.data.domain.model.ExternalUrls
-import com.m4ykey.data.domain.model.Image
-import com.m4ykey.data.domain.model.Items
+import com.m4ykey.data.domain.model.album.Albums
+import com.m4ykey.data.domain.model.album.Artist
+import com.m4ykey.data.domain.model.album.ExternalUrls
+import com.m4ykey.data.domain.model.album.Image
+import com.m4ykey.data.domain.model.album.Items
 import com.m4ykey.data.local.ArtistEntity
 import com.m4ykey.data.local.ImageEntity
 import com.m4ykey.data.local.NewReleaseEntity
-import com.m4ykey.data.remote.album.model.AlbumsDto
-import com.m4ykey.data.remote.album.model.ArtistDto
-import com.m4ykey.data.remote.album.model.ExternalUrlsDto
-import com.m4ykey.data.remote.album.model.ImageDto
-import com.m4ykey.data.remote.album.model.ItemsDto
+import com.m4ykey.data.remote.model.album.AlbumsDto
+import com.m4ykey.data.remote.model.album.ArtistDto
+import com.m4ykey.data.remote.model.album.ExternalUrlsDto
+import com.m4ykey.data.remote.model.album.ImageDto
+import com.m4ykey.data.remote.model.album.ItemsDto
 
 fun ArtistDto.toArtist() : Artist {
     return Artist(

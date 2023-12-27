@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.m4ykey.core.network.Resource
-import com.m4ykey.data.domain.model.Items
+import com.m4ykey.data.domain.model.album.Items
 import com.m4ykey.data.domain.repository.AlbumRepository
 import com.m4ykey.ui.spotify.uistate.AlbumUiState
 import dagger.hilt.android.lifecycle.HiltViewModel

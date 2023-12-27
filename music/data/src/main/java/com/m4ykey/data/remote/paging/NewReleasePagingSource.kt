@@ -2,9 +2,9 @@ package com.m4ykey.data.remote.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.m4ykey.data.domain.model.Items
+import com.m4ykey.data.domain.model.album.Items
 import com.m4ykey.data.mappers.toItems
-import com.m4ykey.data.remote.AlbumApi
+import com.m4ykey.data.remote.api.AlbumApi
 import com.m4ykey.data.remote.interceptor.SpotifyInterceptor
 import retrofit2.HttpException
 

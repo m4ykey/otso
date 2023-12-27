@@ -1,4 +1,4 @@
-package com.m4ykey.data.remote.auth
+package com.m4ykey.data.remote.model.auth
 
 import com.squareup.moshi.JsonClass
 

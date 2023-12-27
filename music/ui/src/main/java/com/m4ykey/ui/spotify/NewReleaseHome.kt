@@ -15,9 +15,10 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,76 +40,74 @@ import com.m4ykey.ui.components.AlbumCard
 
 @Composable
 fun NewReleaseHome(
-    modifier : Modifier = Modifier,
+    modifier: Modifier = Modifier,
     onNewReleaseClick: () -> Unit
 ) {
-    val viewModel : AlbumViewModel = hiltViewModel()
+    val viewModel: AlbumViewModel = hiltViewModel()
     val state by viewModel.albumUiState.collectAsState()
     val context = LocalContext.current
 
-    state.error?.let { error ->
-        Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
-    }
-
-    if (state.isLoading) {
-        ConstraintLayout(
-            modifier = modifier.fillMaxWidth()
-        ) {
-            val progressBar = createRef()
-//            CircularProgressIndicator(
-//                modifier = modifier.constrainAs(progressBar) {
-//                    top.linkTo(parent.top)
-//                    end.linkTo(parent.end)
-//                    start.linkTo(parent.start)
-//                    bottom.linkTo(parent.bottom)
-//                }
-//            )
-        }
-    }
-
-    LazyRow(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-        items(
-            state.albums,
-            key = { it.id }
-        ) { album ->
-            AlbumCard(
-                item = album,
-                size = 120.dp
-            )
-        }
-        item {
-            if (!state.isLoading) {
-                Column(
-                    modifier = modifier
-                        .width(120.dp)
-                        .clickable { onNewReleaseClick() }
-                ) {
-                    Card(
-                        modifier = modifier.height(120.dp),
-                        shape = RoundedCornerShape(10),
-                        elevation = CardDefaults.cardElevation(0.dp),
-                        border = BorderStroke(1.dp, Color.LightGray)
-                    ) {
-                        Box(
-                            modifier = modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.ArrowForward,
-                                contentDescription = null,
-                                modifier = modifier.size(32.dp)
-                            )
-                        }
+    when {
+        state.isLoading -> {
+            ConstraintLayout(
+                modifier = modifier.fillMaxWidth()
+            ) {
+                val progressBar = createRef()
+                CircularProgressIndicator(
+                    modifier = modifier.constrainAs(progressBar) {
+                        end.linkTo(parent.end)
+                        start.linkTo(parent.start)
                     }
-                    Text(
-                        text = stringResource(id = R.string.see_more),
-                        textAlign = TextAlign.Center,
-                        modifier = modifier.fillMaxWidth(),
-                        fontFamily = FontFamily(Font(R.font.poppins_medium))
+                )
+            }
+        }
+        state.error != null -> {
+            Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
+        }
+        else -> {
+            LazyRow(
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                items(
+                    state.albums,
+                    key = { it.id }
+                ) { album ->
+                    AlbumCard(
+                        item = album,
+                        size = 120.dp
                     )
+                }
+                item {
+                    Column(
+                        modifier = modifier
+                            .width(120.dp)
+                            .clickable { onNewReleaseClick() }
+                    ) {
+                        Card(
+                            modifier = modifier.height(120.dp),
+                            shape = RoundedCornerShape(10),
+                            elevation = CardDefaults.cardElevation(0.dp),
+                            border = BorderStroke(1.dp, Color.LightGray)
+                        ) {
+                            Box(
+                                modifier = modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                    contentDescription = null,
+                                    modifier = modifier.size(32.dp)
+                                )
+                            }
+                        }
+                        Text(
+                            text = stringResource(id = R.string.see_more),
+                            textAlign = TextAlign.Center,
+                            modifier = modifier.fillMaxWidth(),
+                            fontFamily = FontFamily(Font(R.font.poppins_medium))
+                        )
+                    }
                 }
             }
         }

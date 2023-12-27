@@ -4,13 +4,13 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.m4ykey.core.Constants.PAGE_SIZE
 import com.m4ykey.core.network.Resource
-import com.m4ykey.data.domain.model.Items
+import com.m4ykey.data.domain.model.album.Items
 import com.m4ykey.data.domain.repository.AlbumRepository
 import com.m4ykey.data.local.MusicDatabase
 import com.m4ykey.data.mappers.toAlbums
 import com.m4ykey.data.mappers.toNewRelease
 import com.m4ykey.data.mappers.toNewReleaseEntity
-import com.m4ykey.data.remote.AlbumApi
+import com.m4ykey.data.remote.api.AlbumApi
 import com.m4ykey.data.remote.interceptor.SpotifyInterceptor
 import com.m4ykey.data.remote.paging.NewReleasePagingSource
 import kotlinx.coroutines.Dispatchers
