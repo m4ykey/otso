@@ -49,7 +49,9 @@ fun AlbumCard(
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
             fontSize = 15.sp,
-            modifier = modifier.padding(5.dp),
+            modifier = modifier
+                .padding(5.dp)
+                .fillMaxWidth(),
             textAlign = TextAlign.Center,
             fontFamily = FontFamily(Font(R.font.generalsans_medium)),
             color = if (isSystemInDarkTheme) Color.White else Color.Black

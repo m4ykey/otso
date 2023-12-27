@@ -24,7 +24,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
-import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.m4ykey.ui.R
@@ -34,15 +33,15 @@ import com.m4ykey.ui.components.AlbumCard
 @Composable
 fun NewReleaseScreen(
     modifier : Modifier = Modifier,
-    onNavigateBack : () -> Unit
+    onNavigateBack : () -> Unit,
+    viewModel : AlbumViewModel = hiltViewModel()
 ) {
     
     val context = LocalContext.current
-    val viewModel : AlbumViewModel = hiltViewModel()
-    val lazyPagingItems = viewModel.pagingFlow.collectAsLazyPagingItems()
+    val lazyPagingItems = viewModel.observePagingFlow()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     
-    LaunchedEffect(lazyPagingItems.loadState.refresh) {
+    LaunchedEffect(Unit) {
         if (lazyPagingItems.loadState.refresh is LoadState.Error) {
             Toast.makeText(context, "${lazyPagingItems.loadState.refresh as LoadState.Error}", Toast.LENGTH_SHORT).show()
         }

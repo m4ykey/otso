@@ -54,16 +54,15 @@ fun NewReleaseHome(
         ConstraintLayout(
             modifier = modifier.fillMaxWidth()
         ) {
-            val progressBar = createGuidelineFromTop(0.5f)
-
-           // CircularProgressIndicator(
-//                modifier = Modifier.constrainAs(progressBar) {
+            val progressBar = createRef()
+//            CircularProgressIndicator(
+//                modifier = modifier.constrainAs(progressBar) {
 //                    top.linkTo(parent.top)
-//                    start.linkTo(parent.start)
 //                    end.linkTo(parent.end)
+//                    start.linkTo(parent.start)
 //                    bottom.linkTo(parent.bottom)
 //                }
-            //)
+//            )
         }
     }
 
@@ -81,34 +80,36 @@ fun NewReleaseHome(
             )
         }
         item {
-            Column(
-                modifier = modifier
-                    .width(120.dp)
-                    .clickable { onNewReleaseClick() }
-            ) {
-                Card(
-                    modifier = modifier.height(120.dp),
-                    shape = RoundedCornerShape(10),
-                    elevation = CardDefaults.cardElevation(0.dp),
-                    border = BorderStroke(1.dp, Color.LightGray)
+            if (!state.isLoading) {
+                Column(
+                    modifier = modifier
+                        .width(120.dp)
+                        .clickable { onNewReleaseClick() }
                 ) {
-                    Box(
-                        modifier = modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
+                    Card(
+                        modifier = modifier.height(120.dp),
+                        shape = RoundedCornerShape(10),
+                        elevation = CardDefaults.cardElevation(0.dp),
+                        border = BorderStroke(1.dp, Color.LightGray)
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowForward,
-                            contentDescription = null,
-                            modifier = modifier.size(32.dp)
-                        )
+                        Box(
+                            modifier = modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.ArrowForward,
+                                contentDescription = null,
+                                modifier = modifier.size(32.dp)
+                            )
+                        }
                     }
+                    Text(
+                        text = stringResource(id = R.string.see_more),
+                        textAlign = TextAlign.Center,
+                        modifier = modifier.fillMaxWidth(),
+                        fontFamily = FontFamily(Font(R.font.poppins_medium))
+                    )
                 }
-                Text(
-                    text = stringResource(id = R.string.see_more),
-                    textAlign = TextAlign.Center,
-                    modifier = modifier.fillMaxWidth(),
-                    fontFamily = FontFamily(Font(R.font.poppins_medium))
-                )
             }
         }
     }

@@ -1,9 +1,12 @@
 package com.m4ykey.ui.spotify
 
+import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.cachedIn
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.m4ykey.core.network.Resource
+import com.m4ykey.data.domain.model.Items
 import com.m4ykey.data.domain.repository.AlbumRepository
 import com.m4ykey.ui.spotify.uistate.AlbumUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -52,8 +55,10 @@ class AlbumViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    val pagingFlow = repository.getNewReleasePager()
-        .flow
-        .cachedIn(viewModelScope)
+    @Composable
+    fun observePagingFlow() : LazyPagingItems<Items> {
+        val pagingFlow = repository.getNewReleasePager().flow
+        return pagingFlow.collectAsLazyPagingItems()
+    }
 
 }

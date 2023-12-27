@@ -10,24 +10,40 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.m4ykey.ui.spotify.NewReleaseHome
+import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MusicHomeScreen(
-    modifier : Modifier = Modifier,
-    onNewReleaseClick : () -> Unit
+    modifier: Modifier = Modifier,
+    onNewReleaseClick: () -> Unit
 ) {
     val scrollState = rememberScrollState()
+    val currentTime = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+    val context = LocalContext.current
+
+    val greeting = when (currentTime) {
+        in 6..18 -> context.getString(R.string.hello)
+        else -> context.getString(R.string.good_evening)
+    }
 
     Scaffold(
         topBar = {
-            TopAppBar(title = {  })
+            TopAppBar(
+                title = {
+                    Text(
+                        text = greeting,
+                        fontFamily = FontFamily(Font(R.font.poppins_medium))
+                    )
+                }
+            )
         }
     ) { paddingValues ->
         Column(
