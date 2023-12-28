@@ -37,21 +37,19 @@ class AlbumViewModel @Inject constructor(
         repository.getAlbumById(albumId).onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _albumDetailUiState.value = albumDetailUiState.value.copy(
+                    _albumDetailUiState.value = AlbumDetailUiState(
                         isLoading = false,
                         albumDetail = result.data
                     )
                 }
                 is Resource.Error -> {
-                    _albumDetailUiState.value = albumDetailUiState.value.copy(
+                    _albumDetailUiState.value = AlbumDetailUiState(
                         isLoading = false,
                         error = result.message ?: "Unknown error"
                     )
                 }
                 is Resource.Loading -> {
-                    _albumDetailUiState.value = albumDetailUiState.value.copy(
-                        isLoading = true
-                    )
+                    _albumDetailUiState.value = AlbumDetailUiState(isLoading = true)
                 }
             }
         }.launchIn(viewModelScope)
@@ -61,20 +59,18 @@ class AlbumViewModel @Inject constructor(
         repository.getNewReleases().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _albumUiState.value = albumUiState.value.copy(
+                    _albumUiState.value = AlbumUiState(
                         isLoading = false,
                         albums = result.data ?: emptyList()
                     )
                 }
                 is Resource.Loading -> {
-                    _albumUiState.value = albumUiState.value.copy(
-                        isLoading = true
-                    )
+                    _albumUiState.value = AlbumUiState(isLoading = true)
                 }
                 is Resource.Error -> {
-                    _albumUiState.value = albumUiState.value.copy(
-                        error = result.message ?: "Unknown error",
-                        isLoading = false
+                    _albumUiState.value = AlbumUiState(
+                        isLoading = false,
+                        error = result.message ?: "Unknown error"
                     )
                 }
             }

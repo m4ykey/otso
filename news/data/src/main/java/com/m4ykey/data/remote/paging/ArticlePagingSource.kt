@@ -5,7 +5,6 @@ import androidx.paging.PagingState
 import com.m4ykey.data.domain.model.Article
 import com.m4ykey.data.mappers.toArticle
 import com.m4ykey.data.remote.NewsApi
-import retrofit2.HttpException
 
 class ArticlePagingSource(
     private val api: NewsApi
@@ -33,8 +32,6 @@ class ArticlePagingSource(
                 nextKey = if (response.isNotEmpty()) page + 1 else null
             )
         } catch (e : Exception) {
-            LoadResult.Error(e)
-        } catch (e : HttpException) {
             LoadResult.Error(e)
         }
     }

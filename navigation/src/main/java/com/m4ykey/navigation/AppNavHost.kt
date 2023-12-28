@@ -24,17 +24,11 @@ fun AppNavHost(
     ) {
         composable(route = MusicDestination.route) {
             MusicHomeScreen(
-                onNewReleaseClick = {
-                    navController.navigate(NewReleaseDestination.route)
-                },
-                onAlbumClick = {
-                    navController.navigate("${AlbumDetailDestination.route}/$it")
-                }
+                onNewReleaseClick = { navController.navigate(NewReleaseDestination.route) },
+                onAlbumClick = { navController.navigate("${AlbumDetailDestination.route}/$it") }
             )
         }
-        composable(route = NewsDestination.route) {
-            NewsScreen()
-        }
+        composable(route = NewsDestination.route) { NewsScreen() }
         composable(route = NewReleaseDestination.route) {
             NewReleaseScreen(
                 onNavigateBack = { navController.navigateUp() },

@@ -5,10 +5,10 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -18,13 +18,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
-import com.m4ykey.core.helpers.OpenUrl
-import com.m4ykey.ui.components.NewsListCard
+import com.m4ykey.core.OpenUrl
+import com.m4ykey.ui.components.NewsCard
 import com.m4ykey.ui.helpers.DisposableEffectCallback
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -65,8 +67,11 @@ fun NewsScreen(
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text(text = stringResource(id = R.string.news)) },
+            TopAppBar(
+                title = { Text(
+                    text = stringResource(id = R.string.news),
+                    fontFamily = FontFamily(Font(R.font.poppins_medium))
+                ) },
                 scrollBehavior = scrollBehavior
             )
         }
@@ -79,11 +84,11 @@ fun NewsScreen(
             items(
                 count = lazyPagingItems.itemCount,
                 key = lazyPagingItems.itemKey { it.url },
-                contentType = lazyPagingItems.itemContentType { "contentType" }
+                contentType = lazyPagingItems.itemContentType { "articleType" }
             ) { index ->
                 val article = lazyPagingItems[index]
                 if (article != null) {
-                    NewsListCard(
+                    NewsCard(
                         article = article,
                         onArticleClick = { url ->
                             openUrl.launch(url)

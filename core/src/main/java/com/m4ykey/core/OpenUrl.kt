@@ -1,4 +1,4 @@
-package com.m4ykey.core.helpers
+package com.m4ykey.core
 
 import android.app.Activity
 import android.content.Context

@@ -8,18 +8,16 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.m4ykey.core.helpers.LoadImage
+import com.m4ykey.core.composable.LoadImage
+import com.m4ykey.core.composable.StyledText
 import com.m4ykey.data.domain.model.album.Items
 import com.m4ykey.ui.R
 
@@ -29,7 +27,7 @@ fun AlbumCard(
     item : Items,
     size : Dp
 ) {
-    val image = item.images.find { it.height == 640 && it.width == 640 }
+    val image = item.images.maxByOrNull { it.width * it.height }
     val artistList = item.artists.joinToString(", ") { it.name }
     val isSystemInDarkTheme = isSystemInDarkTheme()
 
@@ -41,27 +39,26 @@ fun AlbumCard(
             shape = RoundedCornerShape(10),
             elevation = CardDefaults.cardElevation(0.dp)
         ) {
-            LoadImage(url = image?.url.toString())
+            LoadImage(
+                url = image?.url.toString(),
+                contentDescription = "Album cover = ${item.name}"
+            )
         }
-        Text(
+        StyledText(
             text = item.name,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
             fontSize = 15.sp,
-            modifier = modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center,
+            color = if (isSystemInDarkTheme) Color.White else Color.Black,
+            maxLines = 2,
             fontFamily = FontFamily(Font(R.font.generalsans_medium)),
-            color = if (isSystemInDarkTheme) Color.White else Color.Black
+            modifier = modifier.fillMaxWidth()
         )
-        Text(
+        StyledText(
+            text = artistList,
+            fontSize = 12.sp,
             color = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray,
             maxLines = 1,
-            textAlign = TextAlign.Center,
-            overflow = TextOverflow.Ellipsis,
-            modifier = modifier.fillMaxWidth(),
             fontFamily = FontFamily(Font(R.font.poppins_medium)),
-            fontSize = 12.sp,
-            text = artistList
+            modifier = modifier.fillMaxWidth()
         )
     }
 }

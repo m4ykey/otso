@@ -6,7 +6,6 @@ import com.m4ykey.data.domain.model.album.Items
 import com.m4ykey.data.mappers.toItems
 import com.m4ykey.data.remote.api.AlbumApi
 import com.m4ykey.data.remote.interceptor.SpotifyInterceptor
-import retrofit2.HttpException
 
 class NewReleasePagingSource(
     private val api : AlbumApi,
@@ -36,8 +35,6 @@ class NewReleasePagingSource(
                 nextKey = if (response.isEmpty()) null else page + 1
             )
         } catch (e : Exception) {
-            LoadResult.Error(e)
-        } catch (e : HttpException) {
             LoadResult.Error(e)
         }
     }

@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.m4ykey.core.Constants.SPOTIFY_AUTH_URL
 import com.m4ykey.core.Constants.SPOTIFY_BASE_URL
+import com.m4ykey.core.network.createApi
 import com.m4ykey.data.domain.repository.AlbumRepository
 import com.m4ykey.data.remote.api.AlbumApi
 import com.m4ykey.data.remote.api.AuthApi
@@ -19,8 +20,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -35,21 +34,13 @@ object AlbumModule {
     @Singleton
     fun provideAuth(
         moshi: Moshi,
-    ) : AuthApi = Retrofit.Builder()
-        .addConverterFactory(MoshiConverterFactory.create(moshi))
-        .baseUrl(SPOTIFY_AUTH_URL)
-        .build()
-        .create(AuthApi::class.java)
+    ) : AuthApi = createApi(SPOTIFY_AUTH_URL, moshi, AuthApi::class.java)
 
     @Provides
     @Singleton
     fun provideAlbumApi(
         moshi: Moshi,
-    ) : AlbumApi = Retrofit.Builder()
-        .addConverterFactory(MoshiConverterFactory.create(moshi))
-        .baseUrl(SPOTIFY_BASE_URL)
-        .build()
-        .create(AlbumApi::class.java)
+    ) : AlbumApi = createApi(SPOTIFY_BASE_URL, moshi, AlbumApi::class.java)
 
     private val Context.dataStore : DataStore<Preferences> by preferencesDataStore(name = "spotify_key")
 

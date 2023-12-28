@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
@@ -38,6 +39,11 @@ fun MusicHomeScreen(
         else -> context.getString(R.string.good_evening)
     }
 
+    val titleStyle = TextStyle(
+        fontFamily = FontFamily(Font(R.font.generalsans_medium)),
+        fontSize = 20.sp
+    )
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -59,10 +65,10 @@ fun MusicHomeScreen(
             Text(
                 modifier = modifier.padding(5.dp),
                 text = stringResource(id = R.string.latest_new_releases),
-                fontFamily = FontFamily(Font(R.font.generalsans_medium)),
-                fontSize = 20.sp
+                style = titleStyle
             )
             NewReleaseHome(
+                modifier = modifier,
                 onNewReleaseClick = onNewReleaseClick,
                 onAlbumClick = onAlbumClick
             )
@@ -70,10 +76,9 @@ fun MusicHomeScreen(
             Text(
                 modifier = modifier.padding(5.dp),
                 text = stringResource(id = R.string.most_popular_videos),
-                fontFamily = FontFamily(Font(R.font.generalsans_medium)),
-                fontSize = 20.sp
+                style = titleStyle
             )
-            TrendingVideosHome()
+            TrendingVideosHome(modifier = modifier)
         }
     }
 }

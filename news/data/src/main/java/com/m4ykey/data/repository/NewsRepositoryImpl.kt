@@ -17,7 +17,7 @@ class NewsRepositoryImpl @Inject constructor(
         return Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
-                maxSize = PAGE_SIZE + (PAGE_SIZE * 2),
+                prefetchDistance = 1,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = {

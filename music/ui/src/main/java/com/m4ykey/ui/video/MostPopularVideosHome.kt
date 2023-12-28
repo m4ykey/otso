@@ -11,7 +11,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -24,8 +23,7 @@ fun TrendingVideosHome(
     val viewModel : VideoViewModel = hiltViewModel()
     val state by viewModel.videoUiState.collectAsState()
     val context = LocalContext.current
-    val lifecycleOwner = LocalLifecycleOwner.current
-    
+
     when {
         state.isLoading -> {
             ConstraintLayout(
@@ -52,10 +50,7 @@ fun TrendingVideosHome(
                     state.videos,
                     key = { it.id }
                 ) { video ->
-                    VideoCard(
-                        youtubeId = video.id,
-                        lifecycleOwner = lifecycleOwner
-                    )
+                    VideoCard(youtubeId = video.id)
                 }
             }
         }

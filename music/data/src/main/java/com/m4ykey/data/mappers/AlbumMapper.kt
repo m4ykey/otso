@@ -17,29 +17,29 @@ import com.m4ykey.data.remote.model.album.ItemsDto
 
 fun ArtistDto.toArtist() : Artist {
     return Artist(
-        id = id ?: "",
-        name = name ?: "",
+        id = id,
+        name = name,
         externalUrls = externalUrls?.toExternalUrls()
     )
 }
 
-fun ExternalUrlsDto.toExternalUrls() : ExternalUrls = ExternalUrls(spotify = spotify ?: "")
+fun ExternalUrlsDto.toExternalUrls() : ExternalUrls = ExternalUrls(spotify = spotify)
 
 fun ImageDto.toImage() : Image {
     return Image(
-        height = height ?: 0,
-        width = width ?: 0,
-        url = url ?: ""
+        height = height,
+        width = width,
+        url = url
     )
 }
 
 fun ItemsDto.toItems() : Items {
     return Items(
-        id = id ?: "",
-        albumType = album_type ?: "",
-        name = name ?: "",
-        releaseDate = release_date ?: "",
-        totalTracks = total_tracks ?: 0,
+        id = id,
+        albumType = album_type,
+        name = name,
+        releaseDate = release_date,
+        totalTracks = total_tracks,
         artists = artists.map { it.toArtist() },
         externalUrls = external_urls.toExternalUrls(),
         images = images.map { it.toImage() }

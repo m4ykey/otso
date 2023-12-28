@@ -1,4 +1,4 @@
-package com.m4ykey.core.helpers
+package com.m4ykey.core.composable
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -12,13 +12,14 @@ import coil.request.ImageRequest
 fun LoadImage(
     url : String?,
     modifier: Modifier = Modifier,
-    contentScale: ContentScale = ContentScale.Crop
+    contentScale: ContentScale = ContentScale.Crop,
+    contentDescription : String? = null
 ) {
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data(url ?: "")
             .build(),
-        contentDescription = null,
+        contentDescription = contentDescription,
         modifier = modifier.fillMaxSize(),
         contentScale = contentScale
     )

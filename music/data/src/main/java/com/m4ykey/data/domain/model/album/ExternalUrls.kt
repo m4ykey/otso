@@ -4,5 +4,5 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 data class ExternalUrls(
-    val spotify: String
+    val spotify: String? = null
 )

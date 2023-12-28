@@ -1,6 +1,7 @@
 package com.m4ykey.data.di
 
-import com.m4ykey.core.Constants
+import com.m4ykey.core.Constants.YOUTUBE_BASE_URL
+import com.m4ykey.core.network.createApi
 import com.m4ykey.data.domain.repository.VideoRepository
 import com.m4ykey.data.remote.api.VideoApi
 import com.m4ykey.data.repository.VideoRepositoryImpl
@@ -9,8 +10,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -25,10 +24,6 @@ object VideoModule {
     @Singleton
     fun provideVideoApi(
         moshi: Moshi
-    ) : VideoApi = Retrofit.Builder()
-        .baseUrl(Constants.YOUTUBE_BASE_URL)
-        .addConverterFactory(MoshiConverterFactory.create(moshi))
-        .build()
-        .create(VideoApi::class.java)
+    ) : VideoApi = createApi(YOUTUBE_BASE_URL, moshi, VideoApi::class.java)
 
 }

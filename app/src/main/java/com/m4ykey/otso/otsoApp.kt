@@ -22,14 +22,14 @@ class otsoApp : Application(), ImageLoaderFactory {
                     .strongReferencesEnabled(true)
                     .build()
             }
-            .diskCachePolicy(cachePolicyEnabled)
-            .memoryCachePolicy(cachePolicyEnabled)
             .diskCache {
                 DiskCache.Builder()
                     .maxSizePercent(0.05)
                     .directory(cacheDir)
                     .build()
             }
+            .diskCachePolicy(cachePolicyEnabled)
+            .memoryCachePolicy(cachePolicyEnabled)
             .logger(DebugLogger())
             .build()
     }

@@ -65,4 +65,7 @@ dependencies {
     implementation(Dependencies.AndroidX.Compose.composeUiGraphics)
     implementation(Dependencies.AndroidX.Compose.composeMaterial3)
 
+    implementation(Dependencies.Network.Retrofit.retrofit)
+    implementation(Dependencies.Network.Retrofit.moshiConverter)
+
 }

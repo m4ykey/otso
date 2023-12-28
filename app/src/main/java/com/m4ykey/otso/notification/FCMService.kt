@@ -13,6 +13,11 @@ import com.m4ykey.otso.MainActivity
 
 class FCMService : FirebaseMessagingService() {
 
+    companion object {
+        private const val CHANNEL_ID = "Music_Channel_ID"
+        private const val NOTIFICATION_ID = 1
+    }
+
     override fun onNewToken(token: String) {
         super.onNewToken(token)
     }
@@ -22,28 +27,30 @@ class FCMService : FirebaseMessagingService() {
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        val channelId = "Channel ID"
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notificationManager.createNotificationChannel(
-                NotificationChannel(
-                    channelId,
-                    "Music Channel",
-                    NotificationManager.IMPORTANCE_HIGH
-                )
+            val notificationChannel = NotificationChannel(
+                CHANNEL_ID,
+                "Music Channel",
+                NotificationManager.IMPORTANCE_HIGH
             )
+            notificationManager.createNotificationChannel(notificationChannel)
         }
 
         val intent = Intent(this, MainActivity::class.java)
-        val pendingIntentFlag = if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) 0 else PendingIntent.FLAG_IMMUTABLE
+        val pendingIntentFlag =
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) 0 else PendingIntent.FLAG_IMMUTABLE
         val pendingIntent = PendingIntent.getActivity(this, 1, intent, pendingIntentFlag)
 
-        val notification = NotificationCompat.Builder(this, channelId)
-            .setContentTitle(message.notification?.title)
-            .setContentText(message.notification?.body)
+        val title = message.notification?.title ?: message.data["title"]
+        val body = message.notification?.body ?: message.data["body"]
+
+        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setContentTitle(title)
+            .setContentText(body)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
             .build()
 
-        notificationManager.notify(1, notification)
+        notificationManager.notify(NOTIFICATION_ID, notification)
     }
 }

@@ -18,16 +18,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.m4ykey.core.helpers.LoadImage
+import com.m4ykey.core.composable.LoadImage
+import com.m4ykey.core.composable.StyledText
 import com.m4ykey.data.domain.model.Article
 import com.m4ykey.ui.R
 import com.m4ykey.ui.helpers.formatPublishedDate
 
 @Composable
-fun NewsListCard(
+fun NewsCard(
     modifier : Modifier = Modifier,
     article : Article,
     onArticleClick : (String) -> Unit
@@ -48,35 +48,36 @@ fun NewsListCard(
                 .fillMaxWidth()
                 .height(190.dp)
         ) {
-            LoadImage(url = article.urlToImage)
+            LoadImage(
+                url = article.urlToImage,
+                contentDescription = "Article Image - ${article.title}"
+            )
         }
         Spacer(modifier = modifier.height(5.dp))
-        Text(
+        StyledText(
             text = article.title,
-            modifier = modifier.fillMaxWidth(),
             fontSize = 16.sp,
-            fontFamily = FontFamily(Font(R.font.generalsans_medium)),
-            overflow = TextOverflow.Ellipsis,
+            color = if (isSystemInDarkTheme) Color.White else Color.Black,
             maxLines = 3,
-            color = if (isSystemInDarkTheme) Color.White else Color.Black
+            fontFamily = FontFamily(Font(R.font.generalsans_medium)),
+            modifier = modifier.fillMaxWidth()
         )
         Spacer(modifier = modifier.height(5.dp))
         Row(
             modifier = modifier.fillMaxWidth()
         ) {
-            Text(
+            StyledText(
                 text = article.source.name,
-                modifier = modifier.weight(1f),
                 fontSize = 13.sp,
+                color = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray,
+                maxLines = 3,
                 fontFamily = FontFamily(Font(R.font.poppins)),
-                color = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray
+                modifier = modifier.weight(1f),
             )
             Spacer(modifier = modifier.width(10.dp))
             Text(
                 fontFamily = FontFamily(Font(R.font.poppins)),
-                text = formatPublishedDate(
-                    article.publishedAt
-                ),
+                text = formatPublishedDate(article.publishedAt),
                 color = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray,
                 fontSize = 13.sp
             )

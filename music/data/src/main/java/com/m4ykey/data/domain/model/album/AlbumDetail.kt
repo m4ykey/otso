@@ -7,7 +7,7 @@ data class AlbumDetail(
     val albumType : String,
     val artists : List<Artist>,
     val copyrights : List<Copyright>,
-    val externalUrls: ExternalUrls,
+    val externalUrls: ExternalUrls? = null,
     val id : String,
     val images : List<Image>,
     val label : String,

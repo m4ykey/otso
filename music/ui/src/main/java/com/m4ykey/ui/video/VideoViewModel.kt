@@ -29,21 +29,17 @@ class VideoViewModel @Inject constructor(
         repository.getMostPopularVideos().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _videoUiState.value = videoUiState.value.copy(
+                    _videoUiState.value = VideoUiState(
                         isLoading = false,
                         videos = result.data ?: emptyList()
                     )
                 }
                 is Resource.Loading -> {
-                    _videoUiState.value = videoUiState.value.copy(
-                        isLoading = true,
-                        videos = result.data ?: emptyList()
-                    )
+                    _videoUiState.value = VideoUiState(isLoading = true)
                 }
                 is Resource.Error -> {
-                    _videoUiState.value = videoUiState.value.copy(
+                    _videoUiState.value = VideoUiState(
                         isLoading = false,
-                        videos = result.data ?: emptyList(),
                         error = result.message ?: "Unknown error"
                     )
                 }
