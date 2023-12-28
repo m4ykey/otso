@@ -8,6 +8,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.m4ykey.core.network.Resource
 import com.m4ykey.data.domain.model.album.Items
 import com.m4ykey.data.domain.repository.AlbumRepository
+import com.m4ykey.ui.spotify.uistate.AlbumDetailUiState
 import com.m4ykey.ui.spotify.uistate.AlbumUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,11 +26,35 @@ class AlbumViewModel @Inject constructor(
     private val _albumUiState = MutableStateFlow(AlbumUiState())
     val albumUiState = _albumUiState.asStateFlow()
 
-    private val _isLoading = MutableStateFlow(false)
-    val isLoading = _isLoading.asStateFlow()
+    private val _albumDetailUiState = MutableStateFlow(AlbumDetailUiState())
+    val albumDetailUiState = _albumDetailUiState.asStateFlow()
 
     init {
         viewModelScope.launch { getNewReleases() }
+    }
+
+    suspend fun getAlbumById(albumId : String) {
+        repository.getAlbumById(albumId).onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _albumDetailUiState.value = albumDetailUiState.value.copy(
+                        isLoading = false,
+                        albumDetail = result.data
+                    )
+                }
+                is Resource.Error -> {
+                    _albumDetailUiState.value = albumDetailUiState.value.copy(
+                        isLoading = false,
+                        error = result.message ?: "Unknown error"
+                    )
+                }
+                is Resource.Loading -> {
+                    _albumDetailUiState.value = albumDetailUiState.value.copy(
+                        isLoading = true
+                    )
+                }
+            }
+        }.launchIn(viewModelScope)
     }
 
     private suspend fun getNewReleases() {
@@ -43,15 +68,13 @@ class AlbumViewModel @Inject constructor(
                 }
                 is Resource.Loading -> {
                     _albumUiState.value = albumUiState.value.copy(
-                        isLoading = true,
-                        albums = result.data ?: emptyList()
+                        isLoading = true
                     )
                 }
                 is Resource.Error -> {
                     _albumUiState.value = albumUiState.value.copy(
                         error = result.message ?: "Unknown error",
-                        isLoading = false,
-                        albums = result.data ?: emptyList()
+                        isLoading = false
                     )
                 }
             }

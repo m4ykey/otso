@@ -1,8 +1,10 @@
 package com.m4ykey.data.remote.api
 
+import com.m4ykey.data.remote.model.album.AlbumDetailDto
 import com.m4ykey.data.remote.model.album.AlbumResponseDto
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.Locale
 
@@ -15,5 +17,11 @@ interface AlbumApi {
         @Query("offset") offset : Int,
         @Query("country") country : String = Locale.getDefault().country
     ) : AlbumResponseDto
+
+    @GET("albums/{id}")
+    suspend fun getAlbumById(
+        @Header("Authorization") token : String,
+        @Path("id") albumId : String
+    ) : AlbumDetailDto
 
 }

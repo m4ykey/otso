@@ -48,20 +48,14 @@ dependencies {
 
     implementation(Dependencies.Network.Retrofit.retrofit)
     implementation(Dependencies.Network.Retrofit.moshiConverter)
-    implementation(Dependencies.Network.Moshi.moshi)
 
     implementation(Dependencies.Hilt.hiltAndroid)
     ksp(Dependencies.Hilt.hiltCompiler)
 
     implementation(Dependencies.Coroutines.coroutinesAndroid)
-    implementation(Dependencies.Coroutines.coroutinesCore)
 
     implementation(Dependencies.AndroidX.Paging.paging)
     implementation(Dependencies.AndroidX.Paging.pagingCompose)
-
-    implementation(Dependencies.AndroidX.Room.ktx)
-    implementation(Dependencies.AndroidX.Room.runtime)
-    ksp(Dependencies.AndroidX.Room.compiler)
 
     implementation(Dependencies.AndroidX.DataStore.preferences)
 

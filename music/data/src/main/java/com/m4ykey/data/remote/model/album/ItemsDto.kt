@@ -1,8 +1,5 @@
 package com.m4ykey.data.remote.model.album
 
-import com.squareup.moshi.JsonClass
-
-@JsonClass(generateAdapter = true)
 data class ItemsDto(
     val album_type: String? = "",
     val artists: List<ArtistDto>,

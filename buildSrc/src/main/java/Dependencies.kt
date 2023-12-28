@@ -64,7 +64,6 @@ object Dependencies {
         object Moshi {
             const val moshiKotlin = "com.squareup.moshi:moshi-kotlin:${Version.moshi}"
             const val moshiCodegen = "com.squareup.moshi:moshi-kotlin-codegen:${Version.moshi}"
-            const val moshi = "com.squareup.moshi:moshi:${Version.moshi}"
         }
         object OkHttp {
             const val okHttp = "com.squareup.okhttp3:okhttp:${Version.okHttp}"
@@ -80,7 +79,6 @@ object Dependencies {
 
     object Coroutines {
         const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Version.coroutines}"
-        const val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Version.coroutines}"
     }
 
     object Coil {

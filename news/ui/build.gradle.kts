@@ -70,7 +70,6 @@ dependencies {
     implementation(Dependencies.Hilt.hiltNavigation)
     ksp(Dependencies.Hilt.hiltCompiler)
 
-    implementation(Dependencies.Coroutines.coroutinesCore)
     implementation(Dependencies.Coroutines.coroutinesAndroid)
 
     implementation(Dependencies.AndroidX.Lifecycle.runtime)
