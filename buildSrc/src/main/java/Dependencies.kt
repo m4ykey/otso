@@ -21,12 +21,7 @@ object Dependencies {
             const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:${Version.lifecycle}"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:${Version.lifecycle}"
         }
-        object Room {
-            const val runtime = "androidx.room:room-runtime:${Version.room}"
-            const val compiler = "androidx.room:room-compiler:${Version.room}"
-            const val ktx = "androidx.room:room-ktx:${Version.room}"
-            const val paging = "androidx.room:room-paging:${Version.room}"
-        }
+
         object DataStore {
             const val preferences = "androidx.datastore:datastore-preferences:${Version.datastore}"
         }
@@ -39,6 +34,7 @@ object Dependencies {
     object Firebase {
         const val crashlytics = "com.google.firebase:firebase-crashlytics:${Version.crashlytics}"
         const val analytics = "com.google.firebase:firebase-analytics:${Version.analytics}"
+        const val messaging = "com.google.firebase:firebase-messaging:${Version.messaging}"
     }
 
     object Test {
@@ -87,6 +83,10 @@ object Dependencies {
 
     object YoutubePlayer {
         const val youtubePlayer = "com.pierfrancescosoffritti.androidyoutubeplayer:core:${Version.youtubePlayer}"
+    }
+
+    object Accompanist {
+        const val permissions = "com.google.accompanist:accompanist-permissions:${Version.permission}"
     }
 
 }

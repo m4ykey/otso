@@ -81,4 +81,8 @@ dependencies {
 
     implementation(Dependencies.AndroidX.Compose.composeNavigation)
 
+    implementation(Dependencies.Firebase.messaging)
+
+    implementation(Dependencies.Accompanist.permissions)
+
 }

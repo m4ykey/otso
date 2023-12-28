@@ -10,8 +10,6 @@ object Constants {
 
     const val SPOTIFY_AUTH_URL = "https://accounts.spotify.com/"
     const val SPOTIFY_BASE_URL = "https://api.spotify.com/v1/"
-    const val NEW_RELEASE_TABLE = "new_release_table"
-    const val MUSIC_DATABASE = "music_db"
 
     const val YOUTUBE_BASE_URL = "https://www.googleapis.com/youtube/v3/"
 

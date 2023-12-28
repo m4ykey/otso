@@ -20,7 +20,6 @@ object Version {
     const val hilt = "2.50"
     const val retrofit = "2.9.0"
     const val coroutines = "1.7.3"
-    const val room = "2.6.1"
     const val okHttp = "4.12.0"
     const val composeActivity = "1.9.0-alpha01"
     const val core = "1.13.0-alpha02"
@@ -39,6 +38,8 @@ object Version {
     const val iconsExtended = "1.6.0-beta03"
     const val material3 = "1.2.0-beta01"
     const val youtubePlayer = "12.1.0"
+    const val messaging = "23.4.0"
+    const val permission = "0.32.0"
 
     // Gradle
     const val ktlint = "1.1.0"
