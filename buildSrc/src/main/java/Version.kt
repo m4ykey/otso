@@ -38,6 +38,7 @@ object Version {
     const val constraintLayout = "1.1.0-alpha11"
     const val iconsExtended = "1.6.0-beta03"
     const val material3 = "1.2.0-beta01"
+    const val youtubePlayer = "12.1.0"
 
     // Gradle
     const val ktlint = "1.1.0"

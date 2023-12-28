@@ -4,7 +4,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -49,9 +48,7 @@ fun AlbumCard(
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
             fontSize = 15.sp,
-            modifier = modifier
-                .padding(5.dp)
-                .fillMaxWidth(),
+            modifier = modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
             fontFamily = FontFamily(Font(R.font.generalsans_medium)),
             color = if (isSystemInDarkTheme) Color.White else Color.Black

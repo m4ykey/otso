@@ -87,4 +87,8 @@ object Dependencies {
         const val coil = "io.coil-kt:coil-compose:${Version.coil}"
     }
 
+    object YoutubePlayer {
+        const val youtubePlayer = "com.pierfrancescosoffritti.androidyoutubeplayer:core:${Version.youtubePlayer}"
+    }
+
 }

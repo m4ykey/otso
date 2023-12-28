@@ -33,7 +33,7 @@ fun MusicHomeScreen(
     val context = LocalContext.current
 
     val greeting = when (currentTime) {
-        in 6..18 -> context.getString(R.string.hello)
+        in 6..19 -> context.getString(R.string.hello)
         else -> context.getString(R.string.good_evening)
     }
 
