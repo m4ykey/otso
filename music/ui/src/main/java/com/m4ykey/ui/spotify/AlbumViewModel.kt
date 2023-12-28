@@ -25,6 +25,9 @@ class AlbumViewModel @Inject constructor(
     private val _albumUiState = MutableStateFlow(AlbumUiState())
     val albumUiState = _albumUiState.asStateFlow()
 
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading = _isLoading.asStateFlow()
+
     init {
         viewModelScope.launch { getNewReleases() }
     }
@@ -56,9 +59,8 @@ class AlbumViewModel @Inject constructor(
     }
 
     @Composable
-    fun observePagingFlow() : LazyPagingItems<Items> {
-        val pagingFlow = repository.getNewReleasePager().flow
-        return pagingFlow.collectAsLazyPagingItems()
+    fun observePagingFlow(): LazyPagingItems<Items> {
+        return repository.getNewReleasePager().flow.collectAsLazyPagingItems()
     }
 
 }

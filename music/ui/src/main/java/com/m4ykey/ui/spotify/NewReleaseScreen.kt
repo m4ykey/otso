@@ -1,6 +1,7 @@
 package com.m4ykey.ui.spotify
 
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -34,7 +35,8 @@ import com.m4ykey.ui.components.AlbumCard
 fun NewReleaseScreen(
     modifier : Modifier = Modifier,
     onNavigateBack : () -> Unit,
-    viewModel : AlbumViewModel = hiltViewModel()
+    viewModel : AlbumViewModel = hiltViewModel(),
+    onAlbumClick : (String) -> Unit
 ) {
     
     val context = LocalContext.current
@@ -78,7 +80,8 @@ fun NewReleaseScreen(
                 if (albums != null) {
                     AlbumCard(
                         size = 110.dp,
-                        item = albums
+                        item = albums,
+                        modifier = modifier.clickable { onAlbumClick(albums.id) }
                     )
                 }
             }

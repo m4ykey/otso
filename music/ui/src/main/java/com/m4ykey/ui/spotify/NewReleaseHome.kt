@@ -41,7 +41,8 @@ import com.m4ykey.ui.components.AlbumCard
 @Composable
 fun NewReleaseHome(
     modifier: Modifier = Modifier,
-    onNewReleaseClick: () -> Unit
+    onNewReleaseClick: () -> Unit,
+    onAlbumClick : (String) -> Unit
 ) {
     val viewModel: AlbumViewModel = hiltViewModel()
     val state by viewModel.albumUiState.collectAsState()
@@ -75,7 +76,8 @@ fun NewReleaseHome(
                 ) { album ->
                     AlbumCard(
                         item = album,
-                        size = 120.dp
+                        size = 120.dp,
+                        modifier = modifier.clickable { onAlbumClick(album.id) }
                     )
                 }
                 item {

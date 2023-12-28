@@ -20,20 +20,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.m4ykey.ui.spotify.NewReleaseHome
 import com.m4ykey.ui.video.TrendingVideosHome
-import java.util.Calendar
+import java.time.LocalTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MusicHomeScreen(
     modifier: Modifier = Modifier,
-    onNewReleaseClick: () -> Unit
+    onNewReleaseClick: () -> Unit,
+    onAlbumClick : (String) -> Unit
 ) {
     val scrollState = rememberScrollState()
-    val currentTime = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
     val context = LocalContext.current
 
-    val greeting = when (currentTime) {
-        in 6..19 -> context.getString(R.string.hello)
+    val currentTime = LocalTime.now()
+    val greeting = when {
+        currentTime.isAfter(LocalTime.of(6, 0)) && currentTime.isBefore(LocalTime.of(18, 0)) -> context.getString(R.string.hello)
         else -> context.getString(R.string.good_evening)
     }
 
@@ -61,7 +62,10 @@ fun MusicHomeScreen(
                 fontFamily = FontFamily(Font(R.font.generalsans_medium)),
                 fontSize = 20.sp
             )
-            NewReleaseHome(onNewReleaseClick = onNewReleaseClick)
+            NewReleaseHome(
+                onNewReleaseClick = onNewReleaseClick,
+                onAlbumClick = onAlbumClick
+            )
             Spacer(modifier = modifier.height(10.dp))
             Text(
                 modifier = modifier.padding(5.dp),

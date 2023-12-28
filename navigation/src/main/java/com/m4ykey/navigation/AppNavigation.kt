@@ -45,6 +45,7 @@ fun AppNavigation(
 
 fun shouldShowBottomNavigationBar(currentRoute : String?) : Boolean {
     return currentRoute !in setOf(
-        NewReleaseDestination.route
+        NewReleaseDestination.route,
+        "${AlbumDetailDestination.route}/{albumId}"
     )
 }
