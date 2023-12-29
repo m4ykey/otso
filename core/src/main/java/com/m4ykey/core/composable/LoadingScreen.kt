@@ -1,4 +1,4 @@
-package com.m4ykey.ui.components
+package com.m4ykey.core.composable
 
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable

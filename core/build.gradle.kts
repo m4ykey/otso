@@ -68,4 +68,6 @@ dependencies {
     implementation(Dependencies.Network.Retrofit.retrofit)
     implementation(Dependencies.Network.Retrofit.moshiConverter)
 
+    implementation(Dependencies.AndroidX.Compose.composeConstraintLayout)
+
 }

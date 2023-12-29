@@ -56,6 +56,7 @@ android {
 dependencies {
 
     implementation(project(":navigation"))
+    implementation(project(":core"))
 
     implementation(Dependencies.AndroidX.Core.core)
 

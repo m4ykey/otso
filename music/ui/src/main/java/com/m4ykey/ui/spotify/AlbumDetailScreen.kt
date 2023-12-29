@@ -21,6 +21,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -29,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -41,10 +43,10 @@ import androidx.paging.LoadState
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.m4ykey.core.composable.LoadImage
+import com.m4ykey.core.composable.LoadingMaxSize
+import com.m4ykey.core.composable.LoadingMaxWidth
 import com.m4ykey.core.composable.StyledText
 import com.m4ykey.ui.R
-import com.m4ykey.ui.components.LoadingMaxSize
-import com.m4ykey.ui.components.LoadingMaxWidth
 import com.m4ykey.ui.components.TrackItemList
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -69,11 +71,14 @@ fun AlbumDetailScreen(
         fontSize = 14.sp,
         fontFamily = FontFamily(Font(R.font.poppins))
     )
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     Scaffold(
         topBar = {
             TopAppBar(
+                modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
                 title = { },
+                scrollBehavior = scrollBehavior,
                 navigationIcon = {
                     IconButton(onClick = { onNavigateBack() }) {
                         Icon(
@@ -187,7 +192,9 @@ fun TrackList(
             LoadState.Loading -> {
                 item { LoadingMaxWidth() }
             }
-            is LoadState.Error -> {}
+            is LoadState.Error -> {
+                Toast.makeText(context, "Error ${lazyPagingItems.loadState.append as LoadState.Error}", Toast.LENGTH_SHORT).show()
+            }
             is LoadState.NotLoading -> Unit
         }
 
@@ -195,7 +202,9 @@ fun TrackList(
             LoadState.Loading -> {
                 item { LoadingMaxSize() }
             }
-            is LoadState.Error -> {}
+            is LoadState.Error -> {
+                Toast.makeText(context, "Error ${lazyPagingItems.loadState.refresh as LoadState.Error}", Toast.LENGTH_SHORT).show()
+            }
             is LoadState.NotLoading -> Unit
         }
     }

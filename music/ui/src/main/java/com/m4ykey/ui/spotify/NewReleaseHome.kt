@@ -3,6 +3,7 @@ package com.m4ykey.ui.spotify
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,9 +34,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.m4ykey.core.composable.LoadingMaxWidth
 import com.m4ykey.ui.R
 import com.m4ykey.ui.components.AlbumCard
-import com.m4ykey.ui.components.LoadingMaxWidth
 
 @Composable
 fun NewReleaseHome(
@@ -46,6 +47,7 @@ fun NewReleaseHome(
     val viewModel: AlbumViewModel = hiltViewModel()
     val state by viewModel.albumUiState.collectAsState()
     val context = LocalContext.current
+    val isSystemInDarkTheme = isSystemInDarkTheme()
 
     when {
         state.isLoading -> {
@@ -88,7 +90,8 @@ fun NewReleaseHome(
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                                     contentDescription = null,
-                                    modifier = modifier.size(32.dp)
+                                    modifier = modifier.size(32.dp),
+                                    tint = if (isSystemInDarkTheme) Color.White else Color.Black
                                 )
                             }
                         }
@@ -96,7 +99,8 @@ fun NewReleaseHome(
                             text = stringResource(id = R.string.see_more),
                             textAlign = TextAlign.Center,
                             modifier = modifier.fillMaxWidth(),
-                            fontFamily = FontFamily(Font(R.font.poppins_medium))
+                            fontFamily = FontFamily(Font(R.font.poppins_medium)),
+                            color = if (isSystemInDarkTheme) Color.White else Color.Black
                         )
                     }
                 }

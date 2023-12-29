@@ -27,11 +27,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
+import com.m4ykey.core.composable.LoadingMaxSize
+import com.m4ykey.core.composable.LoadingMaxWidth
 import com.m4ykey.ui.R
 import com.m4ykey.ui.components.AlbumCard
-import com.m4ykey.ui.components.LoadingMaxSize
-import com.m4ykey.ui.components.LoadingMaxWidth
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewReleaseScreen(
@@ -55,6 +54,7 @@ fun NewReleaseScreen(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopAppBar(
+                scrollBehavior = scrollBehavior,
                 title = { Text(text = stringResource(id = R.string.new_release)) },
                 navigationIcon = {
                     IconButton(onClick = { onNavigateBack() }) {
@@ -92,7 +92,9 @@ fun NewReleaseScreen(
                 LoadState.Loading -> {
                     item { LoadingMaxWidth() }
                 }
-                is LoadState.Error -> {}
+                is LoadState.Error -> {
+                    Toast.makeText(context, "Error ${lazyPagingItems.loadState.append as LoadState.Error}", Toast.LENGTH_SHORT).show()
+                }
                 is LoadState.NotLoading -> Unit
             }
 
@@ -100,7 +102,9 @@ fun NewReleaseScreen(
                 LoadState.Loading -> {
                     item { LoadingMaxSize() }
                 }
-                is LoadState.Error -> {}
+                is LoadState.Error -> {
+                    Toast.makeText(context, "Error ${lazyPagingItems.loadState.refresh as LoadState.Error}", Toast.LENGTH_SHORT).show()
+                }
                 is LoadState.NotLoading -> Unit
             }
         }

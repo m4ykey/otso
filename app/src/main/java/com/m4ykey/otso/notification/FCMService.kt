@@ -9,14 +9,11 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.m4ykey.core.Constants.CHANNEL_ID
+import com.m4ykey.core.Constants.NOTIFICATION_ID
 import com.m4ykey.otso.MainActivity
 
 class FCMService : FirebaseMessagingService() {
-
-    companion object {
-        private const val CHANNEL_ID = "Music_Channel_ID"
-        private const val NOTIFICATION_ID = 1
-    }
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)

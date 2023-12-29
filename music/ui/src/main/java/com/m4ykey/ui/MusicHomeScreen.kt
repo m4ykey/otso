@@ -15,9 +15,11 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -39,24 +41,23 @@ fun MusicHomeScreen(
 ) {
     val scrollState = rememberScrollState()
     val context = LocalContext.current
-
     val currentTime = LocalTime.now()
     val greeting = when {
         currentTime.isAfter(LocalTime.of(6, 0)) && currentTime.isBefore(LocalTime.of(18, 0)) -> context.getString(R.string.hello)
         else -> context.getString(R.string.good_evening)
     }
-
     val isSystemInDarkTheme = isSystemInDarkTheme()
-
     val titleStyle = TextStyle(
         fontFamily = FontFamily(Font(R.font.generalsans_medium)),
         fontSize = 20.sp,
         color = if (isSystemInDarkTheme) Color.White else Color.Black
     )
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     Scaffold(
         topBar = {
             TopAppBar(
+                modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
                 title = {
                     Text(
                         text = greeting,
@@ -64,6 +65,7 @@ fun MusicHomeScreen(
                         color = if (isSystemInDarkTheme) Color.White else Color.Black
                     )
                 },
+                scrollBehavior = scrollBehavior,
                 actions = {
                     IconButton(onClick = { onSearchClick() }) {
                         Icon(
