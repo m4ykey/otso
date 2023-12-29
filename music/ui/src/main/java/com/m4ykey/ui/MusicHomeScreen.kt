@@ -1,17 +1,23 @@
 package com.m4ykey.ui
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -28,7 +34,8 @@ import java.time.LocalTime
 fun MusicHomeScreen(
     modifier: Modifier = Modifier,
     onNewReleaseClick: () -> Unit,
-    onAlbumClick : (String) -> Unit
+    onAlbumClick : (String) -> Unit,
+    onSearchClick : () -> Unit = {}
 ) {
     val scrollState = rememberScrollState()
     val context = LocalContext.current
@@ -39,9 +46,12 @@ fun MusicHomeScreen(
         else -> context.getString(R.string.good_evening)
     }
 
+    val isSystemInDarkTheme = isSystemInDarkTheme()
+
     val titleStyle = TextStyle(
         fontFamily = FontFamily(Font(R.font.generalsans_medium)),
-        fontSize = 20.sp
+        fontSize = 20.sp,
+        color = if (isSystemInDarkTheme) Color.White else Color.Black
     )
 
     Scaffold(
@@ -50,8 +60,18 @@ fun MusicHomeScreen(
                 title = {
                     Text(
                         text = greeting,
-                        fontFamily = FontFamily(Font(R.font.poppins_medium))
+                        fontFamily = FontFamily(Font(R.font.poppins_medium)),
+                        color = if (isSystemInDarkTheme) Color.White else Color.Black
                     )
+                },
+                actions = {
+                    IconButton(onClick = { onSearchClick() }) {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = stringResource(id = R.string.search),
+                            tint = if (isSystemInDarkTheme) Color.White else Color.Black
+                        )
+                    }
                 }
             )
         }

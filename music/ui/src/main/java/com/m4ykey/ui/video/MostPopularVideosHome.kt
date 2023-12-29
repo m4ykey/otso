@@ -5,16 +5,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.m4ykey.ui.components.VideoCard
+import com.m4ykey.ui.components.LoadingMaxWidth
+import com.m4ykey.ui.components.ThumbnailsCard
 
 @Composable
 fun TrendingVideosHome(
@@ -26,17 +25,7 @@ fun TrendingVideosHome(
 
     when {
         state.isLoading -> {
-            ConstraintLayout(
-                modifier = modifier.fillMaxWidth()
-            ) {
-                val progressBar = createRef()
-                CircularProgressIndicator(
-                    modifier = modifier.constrainAs(progressBar) {
-                        end.linkTo(parent.end)
-                        start.linkTo(parent.start)
-                    }
-                )
-            }
+            LoadingMaxWidth()
         }
         state.error != null -> {
             Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
@@ -50,7 +39,7 @@ fun TrendingVideosHome(
                     state.videos,
                     key = { it.id }
                 ) { video ->
-                    VideoCard(youtubeId = video.id)
+                    ThumbnailsCard(video = video)
                 }
             }
         }

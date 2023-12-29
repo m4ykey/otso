@@ -7,6 +7,7 @@ import com.m4ykey.data.domain.model.album.Copyright
 import com.m4ykey.data.domain.model.album.ExternalUrls
 import com.m4ykey.data.domain.model.album.Image
 import com.m4ykey.data.domain.model.album.Items
+import com.m4ykey.data.domain.model.album.tracks.TrackItem
 import com.m4ykey.data.remote.model.album.AlbumDetailDto
 import com.m4ykey.data.remote.model.album.AlbumsDto
 import com.m4ykey.data.remote.model.album.ArtistDto
@@ -14,6 +15,7 @@ import com.m4ykey.data.remote.model.album.CopyrightDto
 import com.m4ykey.data.remote.model.album.ExternalUrlsDto
 import com.m4ykey.data.remote.model.album.ImageDto
 import com.m4ykey.data.remote.model.album.ItemsDto
+import com.m4ykey.data.remote.model.album.tracks.TrackItemDto
 
 fun ArtistDto.toArtist() : Artist {
     return Artist(
@@ -68,5 +70,19 @@ fun CopyrightDto.toCopyright() : Copyright {
     return Copyright(
         text = text,
         type = type
+    )
+}
+
+fun TrackItemDto.toTrackItem() : TrackItem {
+    return TrackItem(
+        discNumber = disc_number,
+        durationMs = duration_ms,
+        id = id,
+        name = name,
+        previewUrl = preview_url,
+        artists = artists.map { it.toArtist() },
+        explicit = explicit,
+        externalUrls = external_urls.toExternalUrls(),
+        trackNumber = track_number
     )
 }

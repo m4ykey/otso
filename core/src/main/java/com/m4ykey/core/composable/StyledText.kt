@@ -13,10 +13,11 @@ import androidx.compose.ui.unit.TextUnit
 fun StyledText(
     text : String,
     fontSize : TextUnit,
-    modifier : Modifier = Modifier,
+    modifier : Modifier,
     color : Color,
     maxLines : Int,
-    fontFamily: FontFamily
+    fontFamily: FontFamily,
+    textAlign: TextAlign = TextAlign.Start
 ) {
     Text(
         text = text,
@@ -24,7 +25,7 @@ fun StyledText(
         overflow = TextOverflow.Ellipsis,
         fontSize = fontSize,
         modifier = modifier,
-        textAlign = TextAlign.Center,
+        textAlign = textAlign,
         fontFamily = fontFamily,
         color = color
     )

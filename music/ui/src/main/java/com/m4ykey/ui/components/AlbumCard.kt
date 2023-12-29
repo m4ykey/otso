@@ -2,6 +2,7 @@ package com.m4ykey.ui.components
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -35,13 +36,16 @@ fun AlbumCard(
         modifier = modifier.width(size)
     ) {
         Card(
-            modifier = modifier.height(size),
+            modifier = modifier
+                .fillMaxWidth()
+                .height(size),
             shape = RoundedCornerShape(10),
             elevation = CardDefaults.cardElevation(0.dp)
         ) {
             LoadImage(
                 url = image?.url.toString(),
-                contentDescription = "Album cover = ${item.name}"
+                contentDescription = "Album cover = ${item.name}",
+                modifier = modifier.fillMaxSize()
             )
         }
         StyledText(

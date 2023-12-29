@@ -8,9 +8,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.m4ykey.ui.MusicHomeScreen
-import com.m4ykey.ui.spotify.NewReleaseScreen
 import com.m4ykey.ui.NewsScreen
 import com.m4ykey.ui.spotify.AlbumDetailScreen
+import com.m4ykey.ui.spotify.NewReleaseScreen
 
 @Composable
 fun AppNavHost(
@@ -45,7 +45,10 @@ fun AppNavHost(
         ) { backStackEntry ->
             val arguments = requireNotNull(backStackEntry.arguments)
             val albumId = arguments.getString("albumId", "")
-            AlbumDetailScreen(id = albumId)
+            AlbumDetailScreen(
+                id = albumId,
+                onNavigateBack = { navController.navigateUp() }
+            )
         }
     }
 }

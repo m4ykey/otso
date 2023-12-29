@@ -82,4 +82,7 @@ dependencies {
     implementation(Dependencies.AndroidX.Paging.pagingCompose)
 
     implementation(Dependencies.YoutubePlayer.youtubePlayer)
+
+    implementation(Dependencies.AndroidX.Compose.composeIconsExtended)
+
 }

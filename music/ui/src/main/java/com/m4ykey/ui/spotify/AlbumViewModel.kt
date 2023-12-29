@@ -7,6 +7,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.m4ykey.core.network.Resource
 import com.m4ykey.data.domain.model.album.Items
+import com.m4ykey.data.domain.model.album.tracks.TrackItem
 import com.m4ykey.data.domain.repository.AlbumRepository
 import com.m4ykey.ui.spotify.uistate.AlbumDetailUiState
 import com.m4ykey.ui.spotify.uistate.AlbumUiState
@@ -80,6 +81,11 @@ class AlbumViewModel @Inject constructor(
     @Composable
     fun observePagingFlow(): LazyPagingItems<Items> {
         return repository.getNewReleasePager().flow.collectAsLazyPagingItems()
+    }
+
+    @Composable
+    fun observePagingTrackList(albumId: String) : LazyPagingItems<TrackItem> {
+        return repository.getTrackListPager(albumId).flow.collectAsLazyPagingItems()
     }
 
 }

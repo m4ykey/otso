@@ -18,7 +18,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,10 +32,10 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.m4ykey.ui.R
 import com.m4ykey.ui.components.AlbumCard
+import com.m4ykey.ui.components.LoadingMaxWidth
 
 @Composable
 fun NewReleaseHome(
@@ -50,17 +49,7 @@ fun NewReleaseHome(
 
     when {
         state.isLoading -> {
-            ConstraintLayout(
-                modifier = modifier.fillMaxWidth()
-            ) {
-                val progressBar = createRef()
-                CircularProgressIndicator(
-                    modifier = modifier.constrainAs(progressBar) {
-                        end.linkTo(parent.end)
-                        start.linkTo(parent.start)
-                    }
-                )
-            }
+            LoadingMaxWidth()
         }
         state.error != null -> {
             Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()

@@ -6,4 +6,7 @@
     <string name="good_evening">Good evening</string>
     <string name="hello">Hello</string>
     <string name="most_popular_videos">Most Popular Videos</string>
+    <string name="tracks">Tracks</string>
+    <string name="back">Back</string>
+    <string name="search">Search</string>
 </resources>

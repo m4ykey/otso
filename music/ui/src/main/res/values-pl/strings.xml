@@ -6,4 +6,7 @@
     <string name="good_evening">Dobry wieczór</string>
     <string name="hello">Dzień dobry</string>
     <string name="most_popular_videos">Popularne Filmy</string>
+    <string name="tracks">Utworów</string>
+    <string name="back">Wróć</string>
+    <string name="search">Szukaj</string>
 </resources>

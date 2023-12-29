@@ -29,6 +29,8 @@ import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.m4ykey.ui.R
 import com.m4ykey.ui.components.AlbumCard
+import com.m4ykey.ui.components.LoadingMaxSize
+import com.m4ykey.ui.components.LoadingMaxWidth
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -65,7 +67,7 @@ fun NewReleaseScreen(
         LazyVerticalGrid(
             modifier = modifier
                 .fillMaxSize()
-                .padding(5.dp)
+                .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
                 .padding(paddingValues),
             columns = GridCells.Fixed(3),
             verticalArrangement = Arrangement.spacedBy(5.dp),
@@ -84,6 +86,22 @@ fun NewReleaseScreen(
                         modifier = modifier.clickable { onAlbumClick(albums.id) }
                     )
                 }
+            }
+
+            when (lazyPagingItems.loadState.append) {
+                LoadState.Loading -> {
+                    item { LoadingMaxWidth() }
+                }
+                is LoadState.Error -> {}
+                is LoadState.NotLoading -> Unit
+            }
+
+            when (lazyPagingItems.loadState.refresh) {
+                LoadState.Loading -> {
+                    item { LoadingMaxSize() }
+                }
+                is LoadState.Error -> {}
+                is LoadState.NotLoading -> Unit
             }
         }
     }

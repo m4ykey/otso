@@ -7,12 +7,14 @@ import com.m4ykey.core.network.Resource
 import com.m4ykey.core.network.safeApiCall
 import com.m4ykey.data.domain.model.album.AlbumDetail
 import com.m4ykey.data.domain.model.album.Items
+import com.m4ykey.data.domain.model.album.tracks.TrackItem
 import com.m4ykey.data.domain.repository.AlbumRepository
 import com.m4ykey.data.mappers.toAlbumDetail
 import com.m4ykey.data.mappers.toAlbums
 import com.m4ykey.data.remote.api.AlbumApi
 import com.m4ykey.data.remote.interceptor.SpotifyInterceptor
 import com.m4ykey.data.remote.paging.NewReleasePagingSource
+import com.m4ykey.data.remote.paging.TrackListPagingSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
@@ -44,6 +46,19 @@ class AlbumRepositoryImpl @Inject constructor(
                 albumId = albumId
             ).toAlbumDetail()
         })
+    }
+
+    override fun getTrackListPager(albumId: String): Pager<Int, TrackItem> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                prefetchDistance = 1,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = {
+                TrackListPagingSource(api = api, interceptor = interceptor, albumId = albumId)
+            }
+        )
     }
 
     override fun getNewReleasePager(): Pager<Int, Items> {
