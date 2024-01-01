@@ -3,6 +3,7 @@ package com.m4ykey.ui
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,6 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -85,7 +87,8 @@ fun NewsScreen(
         LazyColumn(
             modifier = modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .padding(paddingValues),
+            verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             items(
                 count = lazyPagingItems.itemCount,

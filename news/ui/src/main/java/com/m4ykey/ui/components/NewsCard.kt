@@ -11,13 +11,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
@@ -30,6 +34,7 @@ import com.m4ykey.core.composable.StyledText
 import com.m4ykey.data.domain.model.Article
 import com.m4ykey.ui.R
 import com.m4ykey.ui.helpers.formatPublishedDate
+import com.m4ykey.ui.helpers.shareUrl
 
 @Composable
 fun NewsCard(
@@ -39,6 +44,7 @@ fun NewsCard(
 ) {
 
     val isSystemInDarkTheme = isSystemInDarkTheme()
+    val context = LocalContext.current
 
     val logos = mapOf(
         "Rolling Stone" to ROLLING_STONE_LOGO,
@@ -57,7 +63,7 @@ fun NewsCard(
             elevation = CardDefaults.cardElevation(0.dp),
             modifier = modifier
                 .fillMaxWidth()
-                .height(190.dp)
+                .height(220.dp)
         ) {
             LoadImage(
                 url = article.urlToImage,
@@ -80,24 +86,35 @@ fun NewsCard(
             LoadImage(
                 url = logos[article.source.name],
                 modifier = modifier
-                    .size(24.dp)
+                    .size(20.dp)
                     .clip(RoundedCornerShape(10))
             )
             Spacer(modifier = modifier.width(5.dp))
             StyledText(
-                text = article.source.name,
-                fontSize = 13.sp,
+                text = "${article.source.name} • ",
+                fontSize = 12.sp,
                 color = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray,
                 maxLines = 3,
                 fontFamily = FontFamily(Font(R.font.poppins)),
-                modifier = modifier.weight(1f),
+                modifier = modifier
             )
-            Spacer(modifier = modifier.width(10.dp))
             Text(
                 fontFamily = FontFamily(Font(R.font.poppins)),
                 text = formatPublishedDate(article.publishedAt),
                 color = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray,
-                fontSize = 13.sp
+                fontSize = 12.sp,
+                modifier = modifier.weight(1f)
+            )
+            Icon(
+                imageVector = Icons.Outlined.Share,
+                contentDescription = null,
+                modifier = modifier
+                    .size(18.dp)
+                    .clickable { shareUrl(
+                        context = context,
+                        url = article.url
+                    ) },
+                tint = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray
             )
         }
     }
