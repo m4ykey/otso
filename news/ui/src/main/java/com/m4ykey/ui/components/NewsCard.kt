@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -109,11 +110,22 @@ fun NewsCard(
                 imageVector = Icons.Outlined.Share,
                 contentDescription = null,
                 modifier = modifier
-                    .size(18.dp)
-                    .clickable { shareUrl(
-                        context = context,
-                        url = article.url
-                    ) },
+                    .size(20.dp)
+                    .clickable {
+                        shareUrl(
+                            context = context,
+                            url = article.url
+                        )
+                    },
+                tint = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray
+            )
+            Spacer(modifier = modifier.width(10.dp))
+            Icon(
+                imageVector = Icons.Default.MoreVert,
+                contentDescription = null,
+                modifier = modifier
+                    .size(20.dp)
+                    .clickable { },
                 tint = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray
             )
         }

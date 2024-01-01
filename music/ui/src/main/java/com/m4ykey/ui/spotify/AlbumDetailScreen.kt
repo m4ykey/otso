@@ -65,6 +65,7 @@ fun AlbumDetailScreen(
     val state by viewModel.albumDetailUiState.collectAsState()
     val albumState = state.albumDetail
     val image = albumState?.images?.maxByOrNull { it.height * it.width }
+    val imageUrl = image?.url
     val isSystemInDarkTheme = isSystemInDarkTheme()
     val artistList = albumState?.artists?.joinToString(", ") { it.name }
     val infoStyle = TextStyle(
@@ -95,9 +96,11 @@ fun AlbumDetailScreen(
             state.isLoading -> {
                 LoadingMaxSize()
             }
+
             state.error != null -> {
 
             }
+
             else -> {
                 Column(
                     modifier = modifier
@@ -106,11 +109,11 @@ fun AlbumDetailScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     LoadImage(
-                        url = image?.url,
+                        url = imageUrl,
                         modifier = modifier
                             .clip(RoundedCornerShape(10))
                             .size(220.dp),
-                        contentDescription = "Album Cover - ${albumState?.name ?: ""}"
+                        contentDescription = "Album Cover - ${albumState?.name}"
                     )
                     Spacer(modifier = modifier.height(20.dp))
                     StyledText(
@@ -159,8 +162,8 @@ fun AlbumDetailScreen(
 
 @Composable
 fun TrackList(
-    modifier : Modifier = Modifier,
-    albumId : String,
+    modifier: Modifier = Modifier,
+    albumId: String,
     viewModel: AlbumViewModel = hiltViewModel()
 ) {
 
@@ -169,12 +172,16 @@ fun TrackList(
 
     LaunchedEffect(Unit) {
         if (lazyPagingItems.loadState.refresh is LoadState.Error) {
-            Toast.makeText(context, "${lazyPagingItems.loadState.refresh as LoadState.Error}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context,
+                "${lazyPagingItems.loadState.refresh as LoadState.Error}",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
     LazyColumn(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         items(
@@ -192,9 +199,15 @@ fun TrackList(
             LoadState.Loading -> {
                 item { LoadingMaxWidth() }
             }
+
             is LoadState.Error -> {
-                Toast.makeText(context, "Error ${lazyPagingItems.loadState.append as LoadState.Error}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Error ${lazyPagingItems.loadState.append as LoadState.Error}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
+
             is LoadState.NotLoading -> Unit
         }
 
@@ -202,9 +215,15 @@ fun TrackList(
             LoadState.Loading -> {
                 item { LoadingMaxSize() }
             }
+
             is LoadState.Error -> {
-                Toast.makeText(context, "Error ${lazyPagingItems.loadState.refresh as LoadState.Error}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Error ${lazyPagingItems.loadState.refresh as LoadState.Error}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
+
             is LoadState.NotLoading -> Unit
         }
     }

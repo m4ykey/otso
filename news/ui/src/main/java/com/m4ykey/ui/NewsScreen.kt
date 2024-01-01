@@ -7,7 +7,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -20,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -75,11 +80,29 @@ fun NewsScreen(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopAppBar(
-                title = { Text(
-                    text = stringResource(id = R.string.news),
-                    fontFamily = FontFamily(Font(R.font.poppins_medium)),
-                    color = if (isSystemInDarkTheme) Color.White else Color.Black
-                ) },
+                title = {
+                    Text(
+                        text = stringResource(id = R.string.news),
+                        fontFamily = FontFamily(Font(R.font.poppins_medium)),
+                        color = if (isSystemInDarkTheme) Color.White else Color.Black
+                    )
+                },
+                actions = {
+                    IconButton(onClick = {  }) {
+                        Icon(
+                            imageVector = Icons.Outlined.FavoriteBorder,
+                            contentDescription = stringResource(id = R.string.saved_news),
+                            tint = if (isSystemInDarkTheme) Color.White else Color.Black
+                        )
+                    }
+                    IconButton(onClick = { }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_filter),
+                            contentDescription = stringResource(id = R.string.filter),
+                            tint = if (isSystemInDarkTheme) Color.White else Color.Black
+                        )
+                    }
+                },
                 scrollBehavior = scrollBehavior
             )
         }
@@ -110,9 +133,15 @@ fun NewsScreen(
                 LoadState.Loading -> {
                     item { LoadingMaxWidth() }
                 }
+
                 is LoadState.Error -> {
-                    Toast.makeText(context, "Error ${lazyPagingItems.loadState.append as LoadState.Error}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Error ${lazyPagingItems.loadState.append as LoadState.Error}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
+
                 is LoadState.NotLoading -> Unit
             }
 
@@ -120,9 +149,15 @@ fun NewsScreen(
                 LoadState.Loading -> {
                     item { LoadingMaxSize() }
                 }
+
                 is LoadState.Error -> {
-                    Toast.makeText(context, "Error ${lazyPagingItems.loadState.refresh as LoadState.Error}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Error ${lazyPagingItems.loadState.refresh as LoadState.Error}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
+
                 is LoadState.NotLoading -> Unit
             }
         }
