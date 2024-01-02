@@ -1,4 +1,5 @@
 # otso
+otso is an app where you can follow the latest news from the world of music. The app features news, recently released new albums, currently popular Youtube videos.
 
 ## Project Setup
 
