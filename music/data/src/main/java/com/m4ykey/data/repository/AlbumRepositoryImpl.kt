@@ -1,5 +1,6 @@
 package com.m4ykey.data.repository
 
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.m4ykey.core.Constants.PAGE_SIZE
@@ -27,16 +28,16 @@ class AlbumRepositoryImpl @Inject constructor(
 
     private val token = runBlocking { "Bearer ${interceptor.getAccessToken()}" }
 
-    override suspend fun getNewReleases(): Flow<Resource<List<Items>>> = flow {
-        emit(Resource.Loading())
-        emit(safeApiCall {
-            api.getNewReleases(
-                token = token,
-                limit = 10,
-                offset = 0
-            ).albums.toAlbums().items
-        })
-    }
+        override suspend fun getNewReleases(): Flow<Resource<List<Items>>> = flow {
+            emit(Resource.Loading())
+            emit(safeApiCall {
+                api.getNewReleases(
+                    token = token,
+                    limit = 10,
+                    offset = 0
+                ).albums.toAlbums().items
+            })
+        }
 
     override suspend fun getAlbumById(albumId: String): Flow<Resource<AlbumDetail>> = flow {
         emit(Resource.Loading())
@@ -48,29 +49,31 @@ class AlbumRepositoryImpl @Inject constructor(
         })
     }
 
+    @OptIn(ExperimentalPagingApi::class)
     override fun getTrackListPager(albumId: String): Pager<Int, TrackItem> {
         return Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
-                prefetchDistance = 1,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = {
                 TrackListPagingSource(api = api, interceptor = interceptor, albumId = albumId)
-            }
+            },
+            remoteMediator = null
         )
     }
 
+    @OptIn(ExperimentalPagingApi::class)
     override fun getNewReleasePager(): Pager<Int, Items> {
         return Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
-                prefetchDistance = 1,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = {
                 NewReleasePagingSource(api = api, interceptor = interceptor)
-            }
+            },
+            remoteMediator = null
         )
     }
 }

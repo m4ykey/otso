@@ -48,7 +48,13 @@ fun ItemsDto.toItems() : Items {
     )
 }
 
-fun AlbumsDto.toAlbums() : Albums = Albums(items = items.map { it.toItems() })
+fun AlbumsDto.toAlbums() : Albums = Albums(
+    items = items.map { it.toItems() },
+    limit = limit ?: 0,
+    offset = offset ?: 0,
+    next = next ?: "",
+    previous = previous ?: ""
+)
 
 fun AlbumDetailDto.toAlbumDetail() : AlbumDetail {
     return AlbumDetail(
@@ -79,7 +85,7 @@ fun TrackItemDto.toTrackItem() : TrackItem {
         durationMs = duration_ms,
         id = id,
         name = name,
-        previewUrl = preview_url,
+        previewUrl = preview_url ?: "",
         artists = artists.map { it.toArtist() },
         explicit = explicit,
         externalUrls = external_urls.toExternalUrls(),

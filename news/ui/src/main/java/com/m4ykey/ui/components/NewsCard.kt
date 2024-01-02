@@ -14,8 +14,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.Share
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -59,18 +57,14 @@ fun NewsCard(
             .padding(start = 10.dp, end = 10.dp, bottom = 5.dp)
             .clickable { onArticleClick(article.url) }
     ) {
-        Card(
-            shape = RoundedCornerShape(10.dp),
-            elevation = CardDefaults.cardElevation(0.dp),
+        LoadImage(
+            url = article.urlToImage,
+            contentDescription = "Article Image - ${article.title}",
             modifier = modifier
                 .fillMaxWidth()
                 .height(220.dp)
-        ) {
-            LoadImage(
-                url = article.urlToImage,
-                contentDescription = "Article Image - ${article.title}"
-            )
-        }
+                .clip(RoundedCornerShape(10))
+        )
         Spacer(modifier = modifier.height(5.dp))
         StyledText(
             text = article.title,

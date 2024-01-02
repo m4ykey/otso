@@ -1,5 +1,6 @@
 package com.m4ykey.ui.spotify
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -41,7 +42,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.itemContentType
-import androidx.paging.compose.itemKey
 import com.m4ykey.core.composable.LoadImage
 import com.m4ykey.core.composable.LoadingMaxSize
 import com.m4ykey.core.composable.LoadingMaxWidth
@@ -188,7 +188,7 @@ fun TrackList(
         items(
             count = lazyPagingItems.itemCount,
             contentType = lazyPagingItems.itemContentType { "trackType" },
-            key = lazyPagingItems.itemKey { it.id }
+            key = { index -> lazyPagingItems[index]?.id.hashCode() ?: index }
         ) { index ->
             val tracks = lazyPagingItems[index]
             if (tracks != null) {
@@ -202,6 +202,7 @@ fun TrackList(
             }
 
             is LoadState.Error -> {
+                Log.i("TrackListError", "${lazyPagingItems.loadState.append as LoadState.Error}")
                 Toast.makeText(
                     context,
                     "Error ${lazyPagingItems.loadState.append as LoadState.Error}",
@@ -218,6 +219,7 @@ fun TrackList(
             }
 
             is LoadState.Error -> {
+                Log.i("TrackListError", "${lazyPagingItems.loadState.refresh as LoadState.Error}")
                 Toast.makeText(
                     context,
                     "Error ${lazyPagingItems.loadState.refresh as LoadState.Error}",

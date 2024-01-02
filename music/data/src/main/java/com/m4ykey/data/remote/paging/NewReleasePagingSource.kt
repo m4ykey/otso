@@ -13,26 +13,30 @@ class NewReleasePagingSource(
 ) : PagingSource<Int, Items>() {
     override fun getRefreshKey(state: PagingState<Int, Items>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
-            state.closestPageToPosition(anchorPosition)?.prevKey
-                ?: state.closestPageToPosition(anchorPosition)?.nextKey
+            state.closestPageToPosition(anchorPosition)?.let { closestPage ->
+                closestPage.nextKey ?: closestPage.prevKey
+            }
         }
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Items> {
         return try {
-            val page  = params.key ?: 0
+            val page = params.key ?: 0
             val limit = params.loadSize.coerceIn(1, 50)
 
             val response = api.getNewReleases(
                 limit = limit,
                 offset = page * limit,
                 token = "Bearer ${interceptor.getAccessToken()}"
-            ).albums.items.map { it.toItems() }
+            ).albums
+
+            val prevKey = if (page > 0) page - 1 else null
+            val nextKey = if (response.next.isNullOrEmpty()) null else page + 1
 
             LoadResult.Page(
-                data = response,
-                prevKey = if (page == 0) null else page - 1,
-                nextKey = if (response.isEmpty()) null else page + 1
+                data = response.items.map { it.toItems() },
+                prevKey = prevKey,
+                nextKey = nextKey
             )
         } catch (e : Exception) {
             LoadResult.Error(e)

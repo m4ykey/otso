@@ -14,8 +14,9 @@ class TrackListPagingSource(
 ) : PagingSource<Int, TrackItem>() {
     override fun getRefreshKey(state: PagingState<Int, TrackItem>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
-            state.closestPageToPosition(anchorPosition)?.prevKey
-                ?: state.closestPageToPosition(anchorPosition)?.nextKey
+            state.closestPageToPosition(anchorPosition)?.let { closestPage ->
+                closestPage.nextKey ?: closestPage.prevKey
+            }
         }
     }
 
@@ -29,12 +30,15 @@ class TrackListPagingSource(
                 offset = page * limit,
                 token = "Bearer ${interceptor.getAccessToken()}",
                 albumId = albumId
-            ).items.map { it.toTrackItem() }
+            )
+
+            val prevKey = if (page > 0) page - 1 else null
+            val nextKey = if (response.next.isNullOrEmpty()) null else page + 1
 
             LoadResult.Page(
-                data = response,
-                prevKey = if (page == 0) null else page - 1,
-                nextKey = if (response.isEmpty()) null else page + 1
+                data = response.items.map { it.toTrackItem() },
+                prevKey = prevKey,
+                nextKey = nextKey
             )
 
         } catch (e : Exception) {

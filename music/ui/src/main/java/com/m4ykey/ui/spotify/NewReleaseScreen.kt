@@ -1,7 +1,9 @@
 package com.m4ykey.ui.spotify
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -19,18 +21,21 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.itemContentType
-import androidx.paging.compose.itemKey
 import com.m4ykey.core.composable.LoadingMaxSize
 import com.m4ykey.core.composable.LoadingMaxWidth
 import com.m4ykey.ui.R
 import com.m4ykey.ui.components.AlbumCard
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewReleaseScreen(
@@ -43,10 +48,12 @@ fun NewReleaseScreen(
     val context = LocalContext.current
     val lazyPagingItems = viewModel.observePagingFlow()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val isSystemInDarkTheme = isSystemInDarkTheme()
 
     LaunchedEffect(Unit) {
         if (lazyPagingItems.loadState.refresh is LoadState.Error) {
             Toast.makeText(context, "${lazyPagingItems.loadState.refresh as LoadState.Error}", Toast.LENGTH_SHORT).show()
+            Log.i("NewReleaseHomeError", "${lazyPagingItems.loadState.refresh as LoadState.Error}")
         }
     }
 
@@ -55,10 +62,19 @@ fun NewReleaseScreen(
         topBar = {
             TopAppBar(
                 scrollBehavior = scrollBehavior,
-                title = { Text(text = stringResource(id = R.string.new_release)) },
+                title = {
+                    Text(
+                        color = if (isSystemInDarkTheme) Color.White else Color.Black,
+                        fontFamily = FontFamily(Font(R.font.poppins_medium)),
+                        text = stringResource(id = R.string.new_release)
+                    ) },
                 navigationIcon = {
                     IconButton(onClick = { onNavigateBack() }) {
-                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = null,
+                            tint = if (isSystemInDarkTheme) Color.White else Color.Black
+                        )
                     }
                 }
             )
@@ -75,7 +91,7 @@ fun NewReleaseScreen(
         ) {
             items(
                 count = lazyPagingItems.itemCount,
-                key = lazyPagingItems.itemKey { it.id },
+                key = { index -> lazyPagingItems[index]?.id.hashCode() ?: index },
                 contentType = lazyPagingItems.itemContentType { "albumType" }
             ) { index ->
                 val albums = lazyPagingItems[index]
@@ -93,6 +109,7 @@ fun NewReleaseScreen(
                     item { LoadingMaxWidth() }
                 }
                 is LoadState.Error -> {
+                    Log.i("NewReleaseHomeError", "${lazyPagingItems.loadState.append as LoadState.Error}")
                     Toast.makeText(context, "Error ${lazyPagingItems.loadState.append as LoadState.Error}", Toast.LENGTH_SHORT).show()
                 }
                 is LoadState.NotLoading -> Unit
@@ -103,6 +120,7 @@ fun NewReleaseScreen(
                     item { LoadingMaxSize() }
                 }
                 is LoadState.Error -> {
+                    Log.i("NewReleaseHomeError", "${lazyPagingItems.loadState.refresh as LoadState.Error}")
                     Toast.makeText(context, "Error ${lazyPagingItems.loadState.refresh as LoadState.Error}", Toast.LENGTH_SHORT).show()
                 }
                 is LoadState.NotLoading -> Unit

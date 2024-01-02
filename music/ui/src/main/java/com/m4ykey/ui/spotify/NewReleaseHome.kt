@@ -1,5 +1,6 @@
 package com.m4ykey.ui.spotify
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -55,6 +56,7 @@ fun NewReleaseHome(
         }
         state.error != null -> {
             Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
+            Log.i("NewReleaseError", "${state.error}")
         }
         else -> {
             LazyRow(
