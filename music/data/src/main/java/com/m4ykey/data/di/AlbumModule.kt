@@ -33,13 +33,13 @@ object AlbumModule {
     @Provides
     @Singleton
     fun provideAuth(
-        moshi: Moshi,
+        moshi: Moshi
     ) : AuthApi = createApi(SPOTIFY_AUTH_URL, moshi, AuthApi::class.java)
 
     @Provides
     @Singleton
     fun provideAlbumApi(
-        moshi: Moshi,
+        moshi: Moshi
     ) : AlbumApi = createApi(SPOTIFY_BASE_URL, moshi, AlbumApi::class.java)
 
     private val Context.dataStore : DataStore<Preferences> by preferencesDataStore(name = "spotify_key")

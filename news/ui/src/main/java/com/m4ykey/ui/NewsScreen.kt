@@ -1,7 +1,9 @@
 package com.m4ykey.ui
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,9 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -34,11 +34,9 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
-import com.m4ykey.core.OpenUrl
 import com.m4ykey.core.composable.LoadingMaxSize
 import com.m4ykey.core.composable.LoadingMaxWidth
 import com.m4ykey.ui.components.NewsCard
-import com.m4ykey.ui.helpers.DisposableEffectCallback
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,22 +47,7 @@ fun NewsScreen(
     val viewModel: NewsViewModel = hiltViewModel()
     val lazyPagingItems = viewModel.pagingFlow.collectAsLazyPagingItems()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-    val callback = rememberUpdatedState(DisposableEffectCallback())
     val isSystemInDarkTheme = isSystemInDarkTheme()
-
-    val openUrl = rememberLauncherForActivityResult(OpenUrl()) { result ->
-        if (!result) {
-            callback.value.onOpenUrlResult(context)
-        }
-    }
-
-    DisposableEffect(callback) {
-        callback.value.launcher = openUrl
-
-        onDispose {
-            callback.value.launcher = null
-        }
-    }
 
     LaunchedEffect(lazyPagingItems.loadState.refresh) {
         if (lazyPagingItems.loadState.refresh is LoadState.Error) {
@@ -123,7 +106,7 @@ fun NewsScreen(
                     NewsCard(
                         article = article,
                         onArticleClick = { url ->
-                            openUrl.launch(url)
+                            openUrl(context = context, url = url)
                         }
                     )
                 }
@@ -162,4 +145,8 @@ fun NewsScreen(
             }
         }
     }
+}
+
+fun openUrl(context : Context, url: String) {
+    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
 }

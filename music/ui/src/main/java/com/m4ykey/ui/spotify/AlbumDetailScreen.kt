@@ -73,6 +73,7 @@ fun AlbumDetailScreen(
         fontFamily = FontFamily(Font(R.font.poppins))
     )
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -98,7 +99,7 @@ fun AlbumDetailScreen(
             }
 
             state.error != null -> {
-
+                Toast.makeText(context, "${state.error}", Toast.LENGTH_SHORT).show()
             }
 
             else -> {

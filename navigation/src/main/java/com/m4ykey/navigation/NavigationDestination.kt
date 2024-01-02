@@ -4,18 +4,26 @@ interface NavigationDestination {
     val route : String
 }
 
-object NewsDestination : NavigationDestination {
-    override val route = "news"
+object Music {
+
+    object MusicDestination : NavigationDestination {
+        override val route = "music"
+    }
+
+    object AlbumDetailDestination : NavigationDestination {
+        override val route = "album_detail"
+    }
+
+    object NewReleaseDestination : NavigationDestination {
+        override val route = "new_release"
+    }
+
 }
 
-object MusicDestination : NavigationDestination {
-    override val route = "music"
-}
+object News {
 
-object AlbumDetailDestination : NavigationDestination {
-    override val route = "album_detail"
-}
+    object NewsDestination : NavigationDestination {
+        override val route = "news"
+    }
 
-object NewReleaseDestination : NavigationDestination {
-    override val route = "new_release"
 }

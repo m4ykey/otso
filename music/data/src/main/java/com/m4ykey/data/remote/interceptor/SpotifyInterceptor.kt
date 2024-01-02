@@ -8,8 +8,10 @@ import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.m4ykey.core.Keys
 import com.m4ykey.data.remote.api.AuthApi
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
@@ -28,9 +30,11 @@ class SpotifyInterceptor @Inject constructor(
         var accessToken : String?
         var expireTime : Long
 
-        dataStore.data.first().let { preferences ->
-            accessToken = preferences[accessTokenKey]
-            expireTime = preferences[expireKey] ?: 0L
+        withContext(Dispatchers.IO) {
+            dataStore.data.first().let { preferences ->
+                accessToken = preferences[accessTokenKey]
+                expireTime = preferences[expireKey] ?: 0L
+            }
         }
 
         if (accessToken == null || System.currentTimeMillis() > expireTime) {
@@ -38,9 +42,11 @@ class SpotifyInterceptor @Inject constructor(
             expireTime = System.currentTimeMillis() + 3600 * 1000
             saveAccessToken(accessToken!!, expireTime)
         } else if (System.currentTimeMillis() > expireTime) {
-            dataStore.edit { preferences ->
-                preferences.remove(accessTokenKey)
-                preferences.remove(expireKey)
+            withContext(Dispatchers.IO) {
+                dataStore.edit { preferences ->
+                    preferences.remove(accessTokenKey)
+                    preferences.remove(expireKey)
+                }
             }
         }
 

@@ -15,8 +15,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import com.m4ykey.navigation.MusicDestination
-import com.m4ykey.navigation.NewsDestination
+import com.m4ykey.navigation.Music
+import com.m4ykey.navigation.News
 import com.m4ykey.navigation.R
 
 @Composable
@@ -24,13 +24,13 @@ fun getBottomNavigationItem(): List<BottomNavigationModel> {
     return listOf(
         BottomNavigationModel(
             title = stringResource(id = R.string.music),
-            route = MusicDestination.route,
+            route = Music.MusicDestination.route,
             unSelectedIcon = Icons.Outlined.MusicNote,
             selectedIcon = Icons.Rounded.MusicNote
         ),
         BottomNavigationModel(
             title = stringResource(id = R.string.news),
-            route = NewsDestination.route,
+            route = News.NewsDestination.route,
             unSelectedIcon = Icons.Outlined.Public,
             selectedIcon = Icons.Default.Public
         )

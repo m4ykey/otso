@@ -20,23 +20,23 @@ fun AppNavHost(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = MusicDestination.route
+        startDestination = Music.MusicDestination.route
     ) {
-        composable(route = MusicDestination.route) {
+        composable(route = Music.MusicDestination.route) {
             MusicHomeScreen(
-                onNewReleaseClick = { navController.navigate(NewReleaseDestination.route) },
-                onAlbumClick = { navController.navigate("${AlbumDetailDestination.route}/$it") }
+                onNewReleaseClick = { navController.navigate(Music.NewReleaseDestination.route) },
+                onAlbumClick = { navController.navigate("${Music.AlbumDetailDestination.route}/$it") }
             )
         }
-        composable(route = NewsDestination.route) { NewsScreen() }
-        composable(route = NewReleaseDestination.route) {
+        composable(route = News.NewsDestination.route) { NewsScreen() }
+        composable(route = Music.NewReleaseDestination.route) {
             NewReleaseScreen(
                 onNavigateBack = { navController.navigateUp() },
-                onAlbumClick = { navController.navigate("${AlbumDetailDestination.route}/$it") }
+                onAlbumClick = { navController.navigate("${Music.AlbumDetailDestination.route}/$it") }
             )
         }
         composable(
-            route = "${AlbumDetailDestination.route}/{albumId}",
+            route = "${Music.AlbumDetailDestination.route}/{albumId}",
             arguments = listOf(
                 navArgument("albumId") {
                     type = NavType.StringType
