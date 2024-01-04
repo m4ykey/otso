@@ -1,8 +1,8 @@
 package com.m4ykey.data.repository
 
-import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.m4ykey.core.Constants.PAGE_SIZE
 import com.m4ykey.core.network.Resource
 import com.m4ykey.core.network.safeApiCall
@@ -49,8 +49,7 @@ class AlbumRepositoryImpl @Inject constructor(
         })
     }
 
-    @OptIn(ExperimentalPagingApi::class)
-    override fun getTrackListPager(albumId: String): Pager<Int, TrackItem> {
+    override fun getTrackListPager(albumId: String): Flow<PagingData<TrackItem>> {
         return Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
@@ -58,22 +57,20 @@ class AlbumRepositoryImpl @Inject constructor(
             ),
             pagingSourceFactory = {
                 TrackListPagingSource(api = api, interceptor = interceptor, albumId = albumId)
-            },
-            remoteMediator = null
-        )
+            }
+        ).flow
     }
 
-    @OptIn(ExperimentalPagingApi::class)
-    override fun getNewReleasePager(): Pager<Int, Items> {
+    override fun getNewReleasePager(): Flow<PagingData<Items>> {
         return Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = {
-                NewReleasePagingSource(api = api, interceptor = interceptor)
-            },
-            remoteMediator = null
-        )
+            pagingSourceFactory = { NewReleasePagingSource(
+                api = api,
+                interceptor = interceptor
+            ) }
+        ).flow
     }
 }

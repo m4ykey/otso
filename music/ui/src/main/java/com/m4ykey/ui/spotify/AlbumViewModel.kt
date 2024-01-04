@@ -80,12 +80,12 @@ class AlbumViewModel @Inject constructor(
 
     @Composable
     fun observePagingFlow(): LazyPagingItems<Items> {
-        return repository.getNewReleasePager().flow.collectAsLazyPagingItems()
+        return repository.getNewReleasePager().collectAsLazyPagingItems()
     }
 
     @Composable
     fun observePagingTrackList(albumId: String) : LazyPagingItems<TrackItem> {
-        return repository.getTrackListPager(albumId).flow.collectAsLazyPagingItems()
+        return repository.getTrackListPager(albumId).collectAsLazyPagingItems()
     }
 
 }
