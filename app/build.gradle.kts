@@ -1,10 +1,12 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
-    id("com.google.devtools.ksp")
-    id("com.google.dagger.hilt.android")
+    Plugins.apply {
+        id(androidApplication)
+        id(kotlinAndroid)
+        id(googleServices)
+        id(crashlytics)
+        id(ksp)
+        id(hiltAndroid)
+    }
 }
 
 android {
@@ -84,7 +86,5 @@ dependencies {
     implementation(Dependencies.AndroidX.Compose.composeNavigation)
 
     implementation(Dependencies.Firebase.messaging)
-
-    implementation(Dependencies.Accompanist.permissions)
 
 }

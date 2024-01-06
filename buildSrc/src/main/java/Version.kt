@@ -39,7 +39,6 @@ object Version {
     const val material3 = "1.2.0-beta01"
     const val youtubePlayer = "12.1.0"
     const val messaging = "23.4.0"
-    const val permission = "0.32.0"
 
     // Gradle
     const val ktlint = "1.1.0"
@@ -50,6 +49,6 @@ object Version {
     const val application = "8.2.0"
     const val gms = "4.4.0"
     const val firebaseGradle = "2.9.9"
-    const val toolsBuildGradle = "8.2.0"
+    const val toolsBuildGradle = "8.2.1"
 
 }

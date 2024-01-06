@@ -85,8 +85,4 @@ object Dependencies {
         const val youtubePlayer = "com.pierfrancescosoffritti.androidyoutubeplayer:core:${Version.youtubePlayer}"
     }
 
-    object Accompanist {
-        const val permissions = "com.google.accompanist:accompanist-permissions:${Version.permission}"
-    }
-
 }
