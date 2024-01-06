@@ -1,4 +1,4 @@
-package com.m4ykey.ui.helpers
+package com.m4ykey.core.urls
 
 import android.content.Context
 import android.content.Intent

@@ -3,4 +3,5 @@
     <string name="news">Wiadomości</string>
     <string name="filter">Filtry</string>
     <string name="saved_news">Zapisane wiadomości</string>
+    <string name="filter_news">Filtruj wiadomości</string>
 </resources>

@@ -1,8 +1,5 @@
 package com.m4ykey.ui
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -18,8 +15,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -36,6 +38,7 @@ import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.m4ykey.core.composable.LoadingMaxSize
 import com.m4ykey.core.composable.LoadingMaxWidth
+import com.m4ykey.core.urls.openUrl
 import com.m4ykey.ui.components.NewsCard
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,6 +51,8 @@ fun NewsScreen(
     val lazyPagingItems = viewModel.pagingFlow.collectAsLazyPagingItems()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val isSystemInDarkTheme = isSystemInDarkTheme()
+    val sheetState = rememberModalBottomSheetState()
+    var isSheetOpen by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(lazyPagingItems.loadState.refresh) {
         if (lazyPagingItems.loadState.refresh is LoadState.Error) {
@@ -78,7 +83,7 @@ fun NewsScreen(
                             tint = if (isSystemInDarkTheme) Color.White else Color.Black
                         )
                     }
-                    IconButton(onClick = { }) {
+                    IconButton(onClick = { isSheetOpen = true }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_filter),
                             contentDescription = stringResource(id = R.string.filter),
@@ -145,8 +150,4 @@ fun NewsScreen(
             }
         }
     }
-}
-
-fun openUrl(context : Context, url: String) {
-    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
 }

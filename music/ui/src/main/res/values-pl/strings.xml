@@ -9,4 +9,8 @@
     <string name="tracks">Utworów</string>
     <string name="back">Wróć</string>
     <string name="search">Szukaj</string>
+    <string name="more">Więcej</string>
+    <string name="share_album">Udostępnij album</string>
+    <string name="show_artist">Pokaż artystę</string>
+    <string name="open_on_spotify">Otwórz na Spotify</string>
 </resources>

@@ -33,7 +33,7 @@ import com.m4ykey.core.composable.StyledText
 import com.m4ykey.data.domain.model.Article
 import com.m4ykey.ui.R
 import com.m4ykey.ui.helpers.formatPublishedDate
-import com.m4ykey.ui.helpers.shareUrl
+import com.m4ykey.core.urls.shareUrl
 
 @Composable
 fun NewsCard(
