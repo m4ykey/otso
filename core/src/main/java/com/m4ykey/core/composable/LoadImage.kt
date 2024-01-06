@@ -18,6 +18,7 @@ fun LoadImage(
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data(url ?: "")
+            .crossfade(true)
             .build(),
         contentDescription = contentDescription,
         modifier = modifier.fillMaxSize(),

@@ -5,7 +5,6 @@ import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,8 +14,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -95,7 +94,8 @@ fun AlbumDetailScreen(
     val artistList = albumState?.artists?.joinToString(", ") { it.name }
     val infoStyle = TextStyle(
         fontSize = 14.sp,
-        fontFamily = FontFamily(Font(R.font.poppins))
+        fontFamily = FontFamily(Font(R.font.poppins)),
+        color = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray,
     )
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val context = LocalContext.current
@@ -188,19 +188,14 @@ fun AlbumDetailScreen(
                             style = infoStyle,
                             text = " • ${albumState?.totalTracks} " + stringResource(id = R.string.tracks)
                         )
-                        Icon(imageVector = Icons.Default.FavoriteBorder, contentDescription = null)
+                        Icon(
+                            imageVector = Icons.Default.FavoriteBorder,
+                            contentDescription = null,
+                            tint = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray,
+                        )
                     }
                     Spacer(modifier = modifier.height(10.dp))
-                    TrackList(
-                        modifier = modifier.wrapContentHeight(),
-                        albumId = albumState?.id ?: ""
-                    )
-                    Spacer(modifier = modifier.height(10.dp))
-                    Box(modifier = modifier
-                        .fillMaxWidth()
-                        .weight(1f)) {
-                        formatReleaseDate(albumState?.releaseDate ?: "")?.let { Text(text = it) }
-                    }
+                    TrackList(albumId = albumState?.id ?: "")
                 }
             }
         }
@@ -217,7 +212,7 @@ fun AlbumDetailScreen(
             ) {
                 Row(
                     modifier = modifier
-                        .padding(5.dp)
+                        .padding(start = 10.dp, end = 10.dp, bottom = 5.dp, top = 5.dp)
                         .fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -230,7 +225,9 @@ fun AlbumDetailScreen(
                     Spacer(modifier = modifier.width(10.dp))
                     Text(
                         text = albumState?.name ?: "",
-                        fontFamily = FontFamily(Font(R.font.poppins))
+                        fontFamily = FontFamily(Font(R.font.poppins)),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
                 HorizontalDivider(
@@ -275,6 +272,9 @@ fun BottomSheetItems(
     onItemClick: () -> Unit,
     icon: Any
 ) {
+
+    val isSystemInDarkTheme = isSystemInDarkTheme()
+
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -286,14 +286,16 @@ fun BottomSheetItems(
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    modifier = modifier.size(26.dp)
+                    modifier = modifier.size(26.dp),
+                    tint = if (isSystemInDarkTheme) Color.White else Color.Black
                 )
             }
             is Painter -> {
                 Icon(
                     painter = icon,
                     contentDescription = null,
-                    modifier = modifier.size(26.dp)
+                    modifier = modifier.size(26.dp),
+                    tint = if (isSystemInDarkTheme) Color.White else Color.Black
                 )
             }
         }
@@ -302,7 +304,8 @@ fun BottomSheetItems(
             text = title,
             fontFamily = FontFamily(Font(R.font.poppins)),
             overflow = TextOverflow.Ellipsis,
-            maxLines = 1
+            maxLines = 1,
+            color = if (isSystemInDarkTheme) Color.White else Color.Black
         )
     }
 }
@@ -316,6 +319,7 @@ fun TrackList(
 
     val lazyPagingItems = viewModel.observePagingTrackList(albumId = albumId)
     val context = LocalContext.current
+    val scrollState = rememberLazyListState()
 
     LaunchedEffect(Unit) {
         if (lazyPagingItems.loadState.refresh is LoadState.Error) {
@@ -329,7 +333,8 @@ fun TrackList(
 
     LazyColumn(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        state = scrollState
     ) {
         items(
             count = lazyPagingItems.itemCount,
@@ -383,18 +388,6 @@ fun shortFormatReleaseDate(releaseDate: String?): String? {
         try {
             val parsedDate = LocalDate.parse(it)
             val outputFormatter = DateTimeFormatter.ofPattern("yyyy", Locale.getDefault())
-            outputFormatter.format(parsedDate)
-        } catch (e: DateTimeParseException) {
-            e.printStackTrace()
-        }
-    }?.toString()
-}
-
-fun formatReleaseDate(releaseDate: String?): String? {
-    return releaseDate?.takeIf { it.isNotEmpty() }?.let {
-        try {
-            val parsedDate = LocalDate.parse(it)
-            val outputFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.getDefault())
             outputFormatter.format(parsedDate)
         } catch (e: DateTimeParseException) {
             e.printStackTrace()
