@@ -4,5 +4,5 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 data class Thumbnails(
-    val standard: Standard
+    val standard: Standard? = null
 )

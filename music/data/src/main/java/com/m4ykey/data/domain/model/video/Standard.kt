@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 data class Standard(
-    val height: Int,
-    val url: String,
-    val width: Int
+    val height: Int? = 0,
+    val url: String? = "",
+    val width: Int? = 0
 )

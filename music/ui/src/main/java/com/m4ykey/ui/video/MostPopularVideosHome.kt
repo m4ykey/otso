@@ -37,7 +37,7 @@ fun TrendingVideosHome(
             ) {
                 items(
                     state.videos,
-                    key = { it.id }
+                    key = { it.id ?: "" }
                 ) { video ->
                     ThumbnailsCard(video = video)
                 }

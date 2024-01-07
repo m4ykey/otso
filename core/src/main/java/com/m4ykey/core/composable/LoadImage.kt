@@ -19,6 +19,7 @@ fun LoadImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data(url ?: "")
             .crossfade(true)
+            .crossfade(500)
             .build(),
         contentDescription = contentDescription,
         modifier = modifier.fillMaxSize(),

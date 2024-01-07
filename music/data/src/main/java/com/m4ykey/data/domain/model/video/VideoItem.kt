@@ -4,6 +4,8 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 data class VideoItem(
-    val id : String,
-    val snippet: Snippet
+    val contentDetails: ContentDetails? = null,
+    val id: String? = "",
+    val snippet: Snippet? = null,
+    val statistics: Statistics? = null
 )

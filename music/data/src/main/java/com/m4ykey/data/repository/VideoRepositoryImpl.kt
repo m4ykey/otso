@@ -16,7 +16,14 @@ class VideoRepositoryImpl @Inject constructor(
     override suspend fun getMostPopularVideos(): Flow<Resource<List<VideoItem>>> = flow {
         emit(Resource.Loading())
         emit(safeApiCall {
-            api.getMostPopularVideos().items.map { it.toVideoItem() }
+            api.getMostPopularVideos().items!!.map { it.toVideoItem() }
+        })
+    }
+
+    override suspend fun getVideoDetails(videoId: String): Flow<Resource<List<VideoItem>>> = flow {
+        emit(Resource.Loading())
+        emit(safeApiCall {
+            api.getVideoDetails(videoId = videoId).items!!.map { it.toVideoItem() }
         })
     }
 }

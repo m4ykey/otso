@@ -37,12 +37,12 @@ fun ThumbnailsCard(
             shape = RoundedCornerShape(10)
         ) {
             LoadImage(
-                url = video.snippet.thumbnails.standard.url,
-                contentDescription = "Thumbnails for ${video.snippet.title}"
+                url = video.snippet?.thumbnails?.standard?.url,
+                contentDescription = "Thumbnails for ${video.snippet?.title}"
             )
         }
         Text(
-            text = video.snippet.title,
+            text = video.snippet?.title ?: "",
             fontSize = 16.sp,
             fontFamily = FontFamily(Font(R.font.poppins_medium)),
             color = if (isSystemInDarkTheme) Color.White else Color.Black
