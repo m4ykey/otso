@@ -1,6 +1,7 @@
 package com.m4ykey.ui.video
 
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyRow
@@ -17,7 +18,8 @@ import com.m4ykey.ui.components.ThumbnailsCard
 
 @Composable
 fun TrendingVideosHome(
-    modifier : Modifier = Modifier
+    modifier : Modifier = Modifier,
+    onVideoClick : (String) -> Unit
 ) {
     val viewModel : VideoViewModel = hiltViewModel()
     val state by viewModel.videoUiState.collectAsState()
@@ -39,7 +41,10 @@ fun TrendingVideosHome(
                     state.videos,
                     key = { it.id ?: "" }
                 ) { video ->
-                    ThumbnailsCard(video = video)
+                    ThumbnailsCard(
+                        video = video,
+                        modifier = modifier.clickable { onVideoClick(video.id ?: "") }
+                    )
                 }
             }
         }

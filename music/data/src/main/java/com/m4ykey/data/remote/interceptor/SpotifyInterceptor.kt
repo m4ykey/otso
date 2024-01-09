@@ -65,8 +65,7 @@ class SpotifyInterceptor @Inject constructor(
             Base64.NO_WRAP
         )
 
-        val response = api.getAccessToken(authHeader, "client_credentials")
-        return response.access_token
+        return api.getAccessToken(authHeader, "client_credentials").access_token!!
     }
 
     private suspend fun saveAccessToken(token : String, time : Long) {

@@ -20,10 +20,10 @@ class VideoRepositoryImpl @Inject constructor(
         })
     }
 
-    override suspend fun getVideoDetails(videoId: String): Flow<Resource<List<VideoItem>>> = flow {
+    override suspend fun getVideoDetails(videoId: String): Flow<Resource<VideoItem>> = flow {
         emit(Resource.Loading())
         emit(safeApiCall {
-            api.getVideoDetails(videoId = videoId).items!!.map { it.toVideoItem() }
+            api.getVideoDetails(videoId = videoId).toVideoItem()
         })
     }
 }
