@@ -1,7 +1,9 @@
 package com.m4ykey.navigation.bottom_nav
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Public
+import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.MusicNote
 import androidx.compose.material.icons.outlined.Public
 import androidx.compose.material.icons.rounded.MusicNote
@@ -18,6 +20,7 @@ import androidx.navigation.NavHostController
 import com.m4ykey.navigation.Music
 import com.m4ykey.navigation.News
 import com.m4ykey.navigation.R
+import com.m4ykey.navigation.Tools
 
 @Composable
 fun getBottomNavigationItem(): List<BottomNavigationModel> {
@@ -33,6 +36,12 @@ fun getBottomNavigationItem(): List<BottomNavigationModel> {
             route = News.NewsDestination.route,
             unSelectedIcon = Icons.Outlined.Public,
             selectedIcon = Icons.Default.Public
+        ),
+        BottomNavigationModel(
+            title = stringResource(id = R.string.tools),
+            route = Tools.ToolsDestination.route,
+            unSelectedIcon = Icons.Outlined.Build,
+            selectedIcon = Icons.Default.Build
         )
     )
 }

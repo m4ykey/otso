@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.m4ykey.ui.MusicHomeScreen
 import com.m4ykey.ui.NewsScreen
+import com.m4ykey.ui.ToolsScreen
 import com.m4ykey.ui.spotify.AlbumDetailScreen
 import com.m4ykey.ui.spotify.NewReleaseScreen
 
@@ -50,5 +51,6 @@ fun AppNavHost(
                 onNavigateBack = { navController.navigateUp() }
             )
         }
+        composable(route = Tools.ToolsDestination.route) { ToolsScreen() }
     }
 }
