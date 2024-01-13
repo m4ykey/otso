@@ -41,8 +41,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -55,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
+import com.m4ykey.core.composable.BottomSheetItems
 import com.m4ykey.core.composable.LoadImage
 import com.m4ykey.core.composable.LoadingMaxSize
 import com.m4ykey.core.composable.LoadingMaxWidth
@@ -247,7 +246,7 @@ fun AlbumDetailScreen(
                     )
                     Spacer(modifier = modifier.width(10.dp))
                     Text(
-                        text = albumState?.name !!,
+                        text = albumState?.name!!,
                         fontFamily = FontFamily(Font(R.font.poppins)),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
@@ -264,7 +263,8 @@ fun AlbumDetailScreen(
                             url = albumState?.externalUrls?.spotify ?: ""
                         )
                     },
-                    icon = Icons.Outlined.Album
+                    icon = Icons.Outlined.Album,
+                    fontFamily = FontFamily(Font(R.font.poppins))
                 )
                 BottomSheetItems(
                     title = stringResource(id = R.string.share_album),
@@ -274,6 +274,7 @@ fun AlbumDetailScreen(
                             url = albumState?.externalUrls?.spotify ?: ""
                         )
                     },
+                    fontFamily = FontFamily(Font(R.font.poppins)),
                     icon = Icons.Outlined.Share
                 )
                 BottomSheetItems(
@@ -281,55 +282,11 @@ fun AlbumDetailScreen(
                     onItemClick = {
                         navigateToArtist(albumState?.artists!![0].id)
                     },
-                    icon = painterResource(id = R.drawable.ic_artist)
+                    icon = painterResource(id = R.drawable.ic_artist),
+                    fontFamily = FontFamily(Font(R.font.poppins))
                 )
             }
         }
-    }
-}
-
-@Composable
-fun BottomSheetItems(
-    modifier: Modifier = Modifier,
-    title: String,
-    onItemClick: () -> Unit,
-    icon: Any
-) {
-
-    val isSystemInDarkTheme = isSystemInDarkTheme()
-
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(10.dp)
-            .clickable { onItemClick() }
-    ) {
-        when (icon) {
-            is ImageVector -> {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = null,
-                    modifier = modifier.size(26.dp),
-                    tint = if (isSystemInDarkTheme) Color.White else Color.Black
-                )
-            }
-            is Painter -> {
-                Icon(
-                    painter = icon,
-                    contentDescription = null,
-                    modifier = modifier.size(26.dp),
-                    tint = if (isSystemInDarkTheme) Color.White else Color.Black
-                )
-            }
-        }
-        Spacer(modifier = modifier.width(20.dp))
-        Text(
-            text = title,
-            fontFamily = FontFamily(Font(R.font.poppins)),
-            overflow = TextOverflow.Ellipsis,
-            maxLines = 1,
-            color = if (isSystemInDarkTheme) Color.White else Color.Black
-        )
     }
 }
 

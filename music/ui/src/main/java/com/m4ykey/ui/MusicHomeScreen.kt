@@ -37,8 +37,7 @@ fun MusicHomeScreen(
     modifier: Modifier = Modifier,
     onNewReleaseClick: () -> Unit,
     onAlbumClick : (String) -> Unit,
-    onSearchClick : () -> Unit = {},
-    onVideoClick : (String) -> Unit
+    onSearchClick : () -> Unit = {}
 ) {
     val scrollState = rememberScrollState()
     val context = LocalContext.current
@@ -101,10 +100,7 @@ fun MusicHomeScreen(
                 text = stringResource(id = R.string.most_popular_videos),
                 style = titleStyle
             )
-            TrendingVideosHome(
-                modifier = modifier,
-                onVideoClick = onVideoClick
-            )
+            TrendingVideosHome(modifier = modifier)
         }
     }
 }

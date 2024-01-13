@@ -1,6 +1,5 @@
 package com.m4ykey.ui.video
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyRow
@@ -14,12 +13,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.m4ykey.core.composable.LoadingMaxWidth
 import com.m4ykey.core.helpers.showToast
+import com.m4ykey.core.urls.openUrl
 import com.m4ykey.ui.components.ThumbnailsCard
 
 @Composable
 fun TrendingVideosHome(
-    modifier : Modifier = Modifier,
-    onVideoClick : (String) -> Unit
+    modifier : Modifier = Modifier
 ) {
     val viewModel : VideoViewModel = hiltViewModel()
     val state by viewModel.videoUiState.collectAsState()
@@ -43,7 +42,9 @@ fun TrendingVideosHome(
                 ) { video ->
                     ThumbnailsCard(
                         video = video,
-                        modifier = modifier.clickable { onVideoClick(video.id ?: "") }
+                        openUrl = { id ->
+                            openUrl(context, id)
+                        }
                     )
                 }
             }

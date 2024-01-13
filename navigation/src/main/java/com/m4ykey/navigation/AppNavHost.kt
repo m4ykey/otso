@@ -12,7 +12,6 @@ import com.m4ykey.ui.NewsScreen
 import com.m4ykey.ui.ToolsScreen
 import com.m4ykey.ui.spotify.AlbumDetailScreen
 import com.m4ykey.ui.spotify.NewReleaseScreen
-import com.m4ykey.ui.video.VideoDetailScreen
 
 @Composable
 fun AppNavHost(
@@ -34,8 +33,7 @@ fun AppNavHost(
         composable(route = Music.MusicDestination.route) {
             MusicHomeScreen(
                 onNewReleaseClick = { navController.navigate(Music.NewReleaseDestination.route) },
-                onAlbumClick = { navController.navigate("${Music.AlbumDetailDestination.route}/$it") },
-                onVideoClick = { navController.navigate("${Music.VideoDetailDestination.route}/$it") }
+                onAlbumClick = { navController.navigate("${Music.AlbumDetailDestination.route}/$it") }
             )
         }
         composable(
@@ -50,21 +48,6 @@ fun AppNavHost(
             val albumId = arguments.getString("albumId", "")
             AlbumDetailScreen(
                 id = albumId,
-                onNavigateBack = { navController.navigateUp() }
-            )
-        }
-        composable(
-            route = "${Music.VideoDetailDestination.route}/{videoId}",
-            arguments = listOf(
-                navArgument("videoId") {
-                    type = NavType.StringType
-                }
-            )
-        ) { backStackEntry ->
-            val arguments = requireNotNull(backStackEntry.arguments)
-            val videoId = arguments.getString("videoId", "")
-            VideoDetailScreen(
-                id = videoId,
                 onNavigateBack = { navController.navigateUp() }
             )
         }

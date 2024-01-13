@@ -8,9 +8,13 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+fun createMoshi() : Moshi = Moshi.Builder()
+    .addLast(KotlinJsonAdapterFactory())
+    .build()
+
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkModule {
+object MoshiModule {
 
     @Provides
     @Singleton

@@ -2,14 +2,19 @@ package com.m4ykey.ui
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -35,7 +40,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
-import com.m4ykey.core.composable.LoadingMaxSize
+import com.m4ykey.core.composable.BottomSheetItems
 import com.m4ykey.core.composable.LoadingMaxWidth
 import com.m4ykey.core.helpers.showToast
 import com.m4ykey.core.urls.openUrl
@@ -108,33 +113,50 @@ fun NewsScreen(
                         article = article,
                         onArticleClick = { url ->
                             openUrl(context = context, url = url)
-                        }
+                        },
+                        openSheetDialog = { isSheetOpen = true }
                     )
                 }
             }
 
-            when (lazyPagingItems.loadState.append) {
-                LoadState.Loading -> {
-                    item { LoadingMaxWidth() }
+            item {
+                when (val appendState = lazyPagingItems.loadState.append) {
+                    is LoadState.Loading -> { LoadingMaxWidth() }
+                    is LoadState.Error -> { showToast(context, "Error $appendState") }
+                    is LoadState.NotLoading -> Unit
                 }
-
-                is LoadState.Error -> {
-                    showToast(context, "${lazyPagingItems.loadState.append as LoadState.Error}")
-                }
-
-                is LoadState.NotLoading -> Unit
             }
-
-            when (lazyPagingItems.loadState.refresh) {
-                LoadState.Loading -> {
-                    item { LoadingMaxSize() }
+            item {
+                when (val refreshState = lazyPagingItems.loadState.refresh) {
+                    is LoadState.Loading -> { LoadingMaxWidth() }
+                    is LoadState.Error -> { showToast(context, "Error $refreshState") }
+                    is LoadState.NotLoading -> Unit
                 }
+            }
+        }
 
-                is LoadState.Error -> {
-                    showToast(context, "${lazyPagingItems.loadState.refresh as LoadState.Error}")
+        if (isSheetOpen) {
+            ModalBottomSheet(
+                sheetState = sheetState,
+                modifier = modifier.fillMaxSize(),
+                onDismissRequest = { isSheetOpen = false }
+            ) {
+                Column(
+                    modifier = modifier.fillMaxWidth()
+                ) {
+                    BottomSheetItems(
+                        title = stringResource(id = R.string.save_news),
+                        onItemClick = {  },
+                        icon = Icons.Default.FavoriteBorder,
+                        fontFamily = FontFamily(Font(R.font.poppins))
+                    )
+                    BottomSheetItems(
+                        title = stringResource(id = R.string.add_to_read),
+                        onItemClick = {  },
+                        icon = Icons.Default.Add,
+                        fontFamily = FontFamily(Font(R.font.poppins))
+                    )
                 }
-
-                is LoadState.NotLoading -> Unit
             }
         }
     }

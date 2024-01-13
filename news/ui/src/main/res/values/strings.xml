@@ -4,4 +4,7 @@
     <string name="filter">Filters</string>
     <string name="saved_news">Saved news</string>
     <string name="filter_news">Filter news</string>
+    <string name="save_news">Save news</string>
+    <string name="add_to_read">Add to read</string>
+    <string name="open_in_browser">Open in browser</string>
 </resources>

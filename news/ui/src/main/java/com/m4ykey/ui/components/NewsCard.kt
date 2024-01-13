@@ -39,7 +39,8 @@ import com.m4ykey.ui.R
 fun NewsCard(
     modifier : Modifier = Modifier,
     article : Article,
-    onArticleClick : (String) -> Unit
+    onArticleClick : (String) -> Unit,
+    openSheetDialog : () -> Unit
 ) {
 
     val isSystemInDarkTheme = isSystemInDarkTheme()
@@ -125,7 +126,7 @@ fun NewsCard(
                 contentDescription = null,
                 modifier = modifier
                     .size(20.dp)
-                    .clickable { },
+                    .clickable { openSheetDialog() },
                 tint = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray
             )
         }

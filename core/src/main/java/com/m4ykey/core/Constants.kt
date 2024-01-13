@@ -15,7 +15,6 @@ object Constants {
     const val SPOTIFY_BASE_URL = "https://api.spotify.com/v1/"
 
     const val YOUTUBE_BASE_URL = "https://www.googleapis.com/youtube/v3/"
-    const val YOUTUBE_VIDEO_DETAIL_PART = "snippet,statistics,contentDetails"
 
     const val CHANNEL_ID = "Music_Channel_ID"
     const val NOTIFICATION_ID = 1

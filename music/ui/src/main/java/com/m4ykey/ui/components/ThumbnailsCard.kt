@@ -1,5 +1,6 @@
 package com.m4ykey.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,13 +23,16 @@ import com.m4ykey.ui.R
 @Composable
 fun ThumbnailsCard(
     modifier: Modifier = Modifier,
-    video : VideoItem
+    video : VideoItem,
+    openUrl : (String) -> Unit
 ) {
 
     val isSystemInDarkTheme = isSystemInDarkTheme()
 
     Column(
-        modifier = modifier.width(300.dp)
+        modifier = modifier
+            .clickable { openUrl(video.id ?: "") }
+            .width(300.dp)
     ) {
         Card(
             modifier = modifier
