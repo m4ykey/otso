@@ -104,7 +104,7 @@ fun AlbumDetailScreen(
     val artistList = albumState?.artists?.joinToString(", ") { it.name }
 
     val albumType = when {
-        albumState?.totalTracks in 3..5 && albumState?.albumType.equals("Single", ignoreCase = true) -> "EP"
+        albumState?.totalTracks in 2..6 && albumState?.albumType.equals("Single", ignoreCase = true) -> "EP"
         else -> albumState?.albumType
     }
 
@@ -182,10 +182,10 @@ fun AlbumDetailScreen(
                             text = albumType?.replaceFirstChar { it.uppercase() }.toString(),
                             style = infoStyle
                         )
-//                        Text(
-//                            style = infoStyle,
-//                            text = " • $formattedDate"
-//                        )
+                        Text(
+                            style = infoStyle,
+                            text = " • ${shortFormatReleaseDate(albumState?.releaseDate ?: "")}"
+                        )
                         Text(
                             modifier = modifier.weight(1f),
                             style = infoStyle,
@@ -336,8 +336,8 @@ fun BottomSheetItems(
 @Composable
 fun observeAlbumDetails(albumId : String, viewModel: AlbumViewModel = hiltViewModel()) : CombinedAlbumState {
     val albumState by viewModel.albumDetailUiState.collectAsState()
-    val lazyItems = viewModel.observePagingTrackList(albumId = albumId)
-    return CombinedAlbumState(albumState, lazyItems)
+    val trackPager = viewModel.observePagingTrackList(albumId = albumId)
+    return CombinedAlbumState(albumState, trackPager)
 }
 
 fun shortFormatReleaseDate(releaseDate: String?): String? {
