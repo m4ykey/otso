@@ -43,7 +43,7 @@ fun TrendingVideosHome(
                     ThumbnailsCard(
                         video = video,
                         openUrl = { id ->
-                            openUrl(context, id)
+                            openUrl(context, "https://www.youtube.com/watch?v=$id")
                         }
                     )
                 }
