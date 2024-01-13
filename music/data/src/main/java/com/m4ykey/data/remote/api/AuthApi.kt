@@ -12,7 +12,7 @@ interface AuthApi {
     @FormUrlEncoded
     suspend fun getAccessToken(
         @Header("Authorization") authorization : String,
-        @Field("grant_type") grantType : String
+        @Field("grant_type") grantType : String = "client_credentials"
     ) : Auth
 
 }

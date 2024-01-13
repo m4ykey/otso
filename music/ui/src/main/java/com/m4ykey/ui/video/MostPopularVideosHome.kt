@@ -1,6 +1,5 @@
 package com.m4ykey.ui.video
 
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.m4ykey.core.composable.LoadingMaxWidth
+import com.m4ykey.core.helpers.showToast
 import com.m4ykey.ui.components.ThumbnailsCard
 
 @Composable
@@ -30,7 +30,7 @@ fun TrendingVideosHome(
             LoadingMaxWidth()
         }
         state.error != null -> {
-            Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
+            showToast(context, state.error!!)
         }
         else -> {
             LazyRow(

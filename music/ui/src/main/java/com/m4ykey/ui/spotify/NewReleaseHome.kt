@@ -1,7 +1,5 @@
 package com.m4ykey.ui.spotify
 
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -36,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.m4ykey.core.composable.LoadingMaxWidth
+import com.m4ykey.core.helpers.showToast
 import com.m4ykey.ui.R
 import com.m4ykey.ui.components.AlbumCard
 
@@ -51,13 +50,8 @@ fun NewReleaseHome(
     val isSystemInDarkTheme = isSystemInDarkTheme()
 
     when {
-        state.isLoading -> {
-            LoadingMaxWidth()
-        }
-        state.error != null -> {
-            Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
-            Log.i("NewReleaseError", "${state.error}")
-        }
+        state.isLoading -> { LoadingMaxWidth() }
+        state.error != null -> { showToast(context, state.error!!) }
         else -> {
             LazyRow(
                 modifier = modifier.fillMaxWidth(),

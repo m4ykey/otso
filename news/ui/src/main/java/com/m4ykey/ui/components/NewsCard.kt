@@ -30,10 +30,10 @@ import com.m4ykey.core.Constants.PITCHFORK_LOGO
 import com.m4ykey.core.Constants.ROLLING_STONE_LOGO
 import com.m4ykey.core.composable.LoadImage
 import com.m4ykey.core.composable.StyledText
+import com.m4ykey.core.helpers.formatDate
+import com.m4ykey.core.urls.shareUrl
 import com.m4ykey.data.domain.model.Article
 import com.m4ykey.ui.R
-import com.m4ykey.ui.helpers.formatPublishedDate
-import com.m4ykey.core.urls.shareUrl
 
 @Composable
 fun NewsCard(
@@ -49,6 +49,12 @@ fun NewsCard(
         "Rolling Stone" to ROLLING_STONE_LOGO,
         "Pitchfork" to PITCHFORK_LOGO,
         "Billboard" to BILLBOARD_LOGO
+    )
+
+    val formattedDate = formatDate(
+        date = article.publishedAt,
+        inputPattern = "yyyy-MM-dd'T'HH:mm:ss'Z'",
+        outputPattern = "dd MMM yyyy"
     )
 
     Column(
@@ -95,7 +101,7 @@ fun NewsCard(
             )
             Text(
                 fontFamily = FontFamily(Font(R.font.poppins)),
-                text = formatPublishedDate(article.publishedAt),
+                text = formattedDate ?: "",
                 color = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray,
                 fontSize = 12.sp,
                 modifier = modifier.weight(1f)

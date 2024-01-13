@@ -1,7 +1,5 @@
 package com.m4ykey.ui.spotify
 
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -33,6 +31,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.itemContentType
 import com.m4ykey.core.composable.LoadingMaxSize
 import com.m4ykey.core.composable.LoadingMaxWidth
+import com.m4ykey.core.helpers.showToast
 import com.m4ykey.ui.R
 import com.m4ykey.ui.components.AlbumCard
 
@@ -52,8 +51,7 @@ fun NewReleaseScreen(
 
     LaunchedEffect(Unit) {
         if (lazyPagingItems.loadState.refresh is LoadState.Error) {
-            Toast.makeText(context, "${lazyPagingItems.loadState.refresh as LoadState.Error}", Toast.LENGTH_SHORT).show()
-            Log.i("NewReleaseHomeError", "${lazyPagingItems.loadState.refresh as LoadState.Error}")
+            showToast(context, "${lazyPagingItems.loadState.refresh as LoadState.Error}")
         }
     }
 
@@ -91,7 +89,7 @@ fun NewReleaseScreen(
         ) {
             items(
                 count = lazyPagingItems.itemCount,
-                key = { index -> lazyPagingItems[index]?.id.hashCode() ?: index },
+                key = { index -> lazyPagingItems[index]?.id.hashCode() },
                 contentType = lazyPagingItems.itemContentType { "albumType" }
             ) { index ->
                 val albums = lazyPagingItems[index]
@@ -109,8 +107,7 @@ fun NewReleaseScreen(
                     item { LoadingMaxWidth() }
                 }
                 is LoadState.Error -> {
-                    Log.i("NewReleaseHomeError", "${lazyPagingItems.loadState.append as LoadState.Error}")
-                    Toast.makeText(context, "Error ${lazyPagingItems.loadState.append as LoadState.Error}", Toast.LENGTH_SHORT).show()
+                    showToast(context, "${lazyPagingItems.loadState.append as LoadState.Error}")
                 }
                 is LoadState.NotLoading -> Unit
             }
@@ -120,8 +117,7 @@ fun NewReleaseScreen(
                     item { LoadingMaxSize() }
                 }
                 is LoadState.Error -> {
-                    Log.i("NewReleaseHomeError", "${lazyPagingItems.loadState.refresh as LoadState.Error}")
-                    Toast.makeText(context, "Error ${lazyPagingItems.loadState.refresh as LoadState.Error}", Toast.LENGTH_SHORT).show()
+                    showToast(context, "${lazyPagingItems.loadState.refresh as LoadState.Error}")
                 }
                 is LoadState.NotLoading -> Unit
             }

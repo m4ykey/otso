@@ -35,7 +35,7 @@ class VideoViewModel @Inject constructor(
                 is Resource.Success -> {
                     _videoDetailUiState.value = VideoDetailUiState(
                         isLoading = false,
-                        videos = result.data
+                        videos = result.data ?: emptyList()
                     )
                 }
                 is Resource.Loading -> {

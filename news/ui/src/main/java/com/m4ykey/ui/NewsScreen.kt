@@ -1,6 +1,5 @@
 package com.m4ykey.ui
 
-import android.widget.Toast
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,6 +37,7 @@ import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.m4ykey.core.composable.LoadingMaxSize
 import com.m4ykey.core.composable.LoadingMaxWidth
+import com.m4ykey.core.helpers.showToast
 import com.m4ykey.core.urls.openUrl
 import com.m4ykey.ui.components.NewsCard
 
@@ -56,11 +56,7 @@ fun NewsScreen(
 
     LaunchedEffect(lazyPagingItems.loadState.refresh) {
         if (lazyPagingItems.loadState.refresh is LoadState.Error) {
-            Toast.makeText(
-                context,
-                "Error: ${(lazyPagingItems.loadState.refresh as LoadState.Error).error.message}",
-                Toast.LENGTH_SHORT
-            ).show()
+            showToast(context, "${(lazyPagingItems.loadState.refresh as LoadState.Error).error.message}")
         }
     }
 
@@ -123,11 +119,7 @@ fun NewsScreen(
                 }
 
                 is LoadState.Error -> {
-                    Toast.makeText(
-                        context,
-                        "Error ${lazyPagingItems.loadState.append as LoadState.Error}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showToast(context, "${lazyPagingItems.loadState.append as LoadState.Error}")
                 }
 
                 is LoadState.NotLoading -> Unit
@@ -139,11 +131,7 @@ fun NewsScreen(
                 }
 
                 is LoadState.Error -> {
-                    Toast.makeText(
-                        context,
-                        "Error ${lazyPagingItems.loadState.refresh as LoadState.Error}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showToast(context, "${lazyPagingItems.loadState.refresh as LoadState.Error}")
                 }
 
                 is LoadState.NotLoading -> Unit

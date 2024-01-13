@@ -20,6 +20,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -51,10 +53,12 @@ object AlbumModule {
     @Provides
     @Singleton
     fun provideSpotifyInterceptor(
-        spotifyInterceptor: SpotifyInterceptor,
+        @Named("spotifyInterceptor") spotifyInterceptor: SpotifyInterceptor,
         loggingInterceptor: HttpLoggingInterceptor
     ) : OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
         .addInterceptor(spotifyInterceptor)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .connectTimeout(30, TimeUnit.SECONDS)
         .build()
 }

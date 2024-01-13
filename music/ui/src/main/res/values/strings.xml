@@ -13,4 +13,6 @@
     <string name="share_album">Share album</string>
     <string name="show_artist">Show artist</string>
     <string name="open_on_spotify">Open on Spotify</string>
+    <string name="views">views</string>
+    <string name="share">Share</string>
 </resources>

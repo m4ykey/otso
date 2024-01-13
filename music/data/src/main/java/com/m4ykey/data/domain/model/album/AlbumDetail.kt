@@ -13,6 +13,6 @@ data class AlbumDetail(
     val label : String,
     val name : String,
     val popularity : Int,
-    val releaseDate : String? = "",
+    val releaseDate : String,
     val totalTracks : Int
 )

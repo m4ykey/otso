@@ -4,7 +4,7 @@ import com.m4ykey.core.Constants.PAGE_SIZE
 import com.m4ykey.core.Constants.YOUTUBE_VIDEO_DETAIL_PART
 import com.m4ykey.core.Keys
 import com.m4ykey.data.remote.model.youtube.TrendingVideoListDto
-import com.m4ykey.data.remote.model.youtube.VideoItemDto
+import com.m4ykey.data.remote.model.youtube.VideoDetailDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -24,6 +24,6 @@ interface VideoApi {
         @Query("id") videoId : String,
         @Query("part") part : String = YOUTUBE_VIDEO_DETAIL_PART,
         @Query("key") key : String = Keys.YOUTUBE_API_KEY
-    ) : VideoItemDto
+    ) : VideoDetailDto
 
 }

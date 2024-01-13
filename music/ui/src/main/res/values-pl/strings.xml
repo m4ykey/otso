@@ -13,4 +13,6 @@
     <string name="share_album">Udostępnij album</string>
     <string name="show_artist">Pokaż artystę</string>
     <string name="open_on_spotify">Otwórz na Spotify</string>
+    <string name="views">wyświetleń</string>
+    <string name="share">Udostępnij</string>
 </resources>

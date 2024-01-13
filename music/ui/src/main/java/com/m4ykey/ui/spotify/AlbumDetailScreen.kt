@@ -1,10 +1,7 @@
 package com.m4ykey.ui.spotify
 
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,9 +11,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -58,15 +55,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
-import androidx.paging.compose.itemContentType
 import com.m4ykey.core.composable.LoadImage
 import com.m4ykey.core.composable.LoadingMaxSize
 import com.m4ykey.core.composable.LoadingMaxWidth
 import com.m4ykey.core.composable.StyledText
+import com.m4ykey.core.helpers.showToast
 import com.m4ykey.core.urls.openUrl
 import com.m4ykey.core.urls.shareUrl
 import com.m4ykey.ui.R
 import com.m4ykey.ui.components.TrackItemList
+import com.m4ykey.ui.spotify.uistate.CombinedAlbumState
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -86,21 +84,29 @@ fun AlbumDetailScreen(
         viewModel.getAlbumById(id)
     }
 
-    val state by viewModel.albumDetailUiState.collectAsState()
-    val albumState = state.albumDetail
-    val image = albumState?.images?.maxByOrNull { it.height * it.width }
-    val imageUrl = image?.url
     val isSystemInDarkTheme = isSystemInDarkTheme()
-    val artistList = albumState?.artists?.joinToString(", ") { it.name }
     val infoStyle = TextStyle(
         fontSize = 14.sp,
         fontFamily = FontFamily(Font(R.font.poppins)),
         color = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray,
     )
+    val scrollState = rememberScrollState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val context = LocalContext.current
     val sheetState = rememberModalBottomSheetState()
     var isSheetOpen by rememberSaveable { mutableStateOf(false) }
+
+    val combinedState = observeAlbumDetails(albumId = id, viewModel = viewModel)
+    val albumState = combinedState.albumDetailState?.albumDetail
+    val trackListState = combinedState.lazyPagingItems
+
+    val imageUrl = albumState?.images?.maxByOrNull { it.width * it.height }?.url
+    val artistList = albumState?.artists?.joinToString(", ") { it.name }
+
+    val albumType = when {
+        albumState?.totalTracks in 3..5 && albumState?.albumType.equals("Single", ignoreCase = true) -> "EP"
+        else -> albumState?.albumType
+    }
 
     Scaffold(
         topBar = {
@@ -130,19 +136,16 @@ fun AlbumDetailScreen(
         }
     ) { paddingValues ->
         when {
-            state.isLoading -> {
-                LoadingMaxSize()
-            }
+            combinedState.albumDetailState?.isLoading == true -> { LoadingMaxSize() }
 
-            state.error != null -> {
-                Toast.makeText(context, "${state.error}", Toast.LENGTH_SHORT).show()
-            }
+            combinedState.albumDetailState?.error != null -> { showToast(context, "${combinedState.albumDetailState.error}") }
 
             else -> {
                 Column(
                     modifier = modifier
                         .padding(paddingValues)
-                        .padding(start = 10.dp, end = 10.dp, bottom = 10.dp),
+                        .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
+                        .verticalScroll(scrollState),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     LoadImage(
@@ -154,17 +157,17 @@ fun AlbumDetailScreen(
                     )
                     Spacer(modifier = modifier.height(20.dp))
                     StyledText(
-                        text = artistList ?: "",
+                        text = artistList.toString(),
                         fontSize = 15.sp,
                         modifier = modifier
                             .fillMaxWidth()
-                            .clickable { navigateToArtist(albumState?.artists?.get(0)?.id ?: "") },
+                            .clickable { navigateToArtist(albumState?.artists!![0].id) },
                         color = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray,
                         maxLines = 5,
                         fontFamily = FontFamily(Font(R.font.poppins))
                     )
                     StyledText(
-                        text = albumState?.name ?: "",
+                        text = albumState?.name.toString(),
                         fontSize = 23.sp,
                         modifier = modifier.fillMaxWidth(),
                         color = if (isSystemInDarkTheme) Color.White else Color.Black,
@@ -176,13 +179,13 @@ fun AlbumDetailScreen(
                         modifier = modifier.fillMaxWidth()
                     ) {
                         Text(
-                            text = albumState?.albumType?.replaceFirstChar { it.uppercase() } ?: "",
+                            text = albumType?.replaceFirstChar { it.uppercase() }.toString(),
                             style = infoStyle
                         )
-                        Text(
-                            style = infoStyle,
-                            text = " • ${shortFormatReleaseDate(albumState?.releaseDate ?: "")}"
-                        )
+//                        Text(
+//                            style = infoStyle,
+//                            text = " • $formattedDate"
+//                        )
                         Text(
                             modifier = modifier.weight(1f),
                             style = infoStyle,
@@ -195,7 +198,27 @@ fun AlbumDetailScreen(
                         )
                     }
                     Spacer(modifier = modifier.height(10.dp))
-                    TrackList(albumId = albumState?.id ?: "")
+                    Column(
+                        modifier = modifier.fillMaxWidth()
+                    ) {
+                        for (index in 0 until trackListState.itemCount) {
+                            val tracks = trackListState[index]
+                            if (tracks != null) {
+                                TrackItemList(track = tracks)
+                            }
+                        }
+
+                        when (val appendState = trackListState.loadState.append) {
+                            is LoadState.Loading -> { LoadingMaxWidth() }
+                            is LoadState.Error -> { showToast(context, "Error $appendState") }
+                            is LoadState.NotLoading -> Unit
+                        }
+                        when (val refreshState = trackListState.loadState.refresh) {
+                            is LoadState.Loading -> { LoadingMaxWidth() }
+                            is LoadState.Error -> { showToast(context, "Error $refreshState") }
+                            is LoadState.NotLoading -> Unit
+                        }
+                    }
                 }
             }
         }
@@ -224,7 +247,7 @@ fun AlbumDetailScreen(
                     )
                     Spacer(modifier = modifier.width(10.dp))
                     Text(
-                        text = albumState?.name ?: "",
+                        text = albumState?.name !!,
                         fontFamily = FontFamily(Font(R.font.poppins)),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
@@ -248,7 +271,7 @@ fun AlbumDetailScreen(
                     onItemClick = {
                         shareUrl(
                             context = context,
-                            albumState?.externalUrls?.spotify ?: ""
+                            url = albumState?.externalUrls?.spotify ?: ""
                         )
                     },
                     icon = Icons.Outlined.Share
@@ -256,7 +279,7 @@ fun AlbumDetailScreen(
                 BottomSheetItems(
                     title = stringResource(id = R.string.show_artist),
                     onItemClick = {
-                        navigateToArtist(albumState?.artists?.get(0)?.id ?: "")
+                        navigateToArtist(albumState?.artists!![0].id)
                     },
                     icon = painterResource(id = R.drawable.ic_artist)
                 )
@@ -311,76 +334,10 @@ fun BottomSheetItems(
 }
 
 @Composable
-fun TrackList(
-    modifier: Modifier = Modifier,
-    albumId: String,
-    viewModel: AlbumViewModel = hiltViewModel()
-) {
-
-    val lazyPagingItems = viewModel.observePagingTrackList(albumId = albumId)
-    val context = LocalContext.current
-    val scrollState = rememberLazyListState()
-
-    LaunchedEffect(Unit) {
-        if (lazyPagingItems.loadState.refresh is LoadState.Error) {
-            Toast.makeText(
-                context,
-                "${lazyPagingItems.loadState.refresh as LoadState.Error}",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-    }
-
-    LazyColumn(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(10.dp),
-        state = scrollState
-    ) {
-        items(
-            count = lazyPagingItems.itemCount,
-            contentType = lazyPagingItems.itemContentType { "trackType" },
-            key = { index -> lazyPagingItems[index]?.id.hashCode() }
-        ) { index ->
-            val tracks = lazyPagingItems[index]
-            if (tracks != null) {
-                TrackItemList(track = tracks)
-            }
-        }
-
-        when (lazyPagingItems.loadState.append) {
-            LoadState.Loading -> {
-                item { LoadingMaxWidth() }
-            }
-
-            is LoadState.Error -> {
-                Log.i("TrackListError", "${lazyPagingItems.loadState.append as LoadState.Error}")
-                Toast.makeText(
-                    context,
-                    "Error ${lazyPagingItems.loadState.append as LoadState.Error}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-
-            is LoadState.NotLoading -> Unit
-        }
-
-        when (lazyPagingItems.loadState.refresh) {
-            LoadState.Loading -> {
-                item { LoadingMaxWidth() }
-            }
-
-            is LoadState.Error -> {
-                Log.i("TrackListError", "${lazyPagingItems.loadState.refresh as LoadState.Error}")
-                Toast.makeText(
-                    context,
-                    "Error ${lazyPagingItems.loadState.refresh as LoadState.Error}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-
-            is LoadState.NotLoading -> Unit
-        }
-    }
+fun observeAlbumDetails(albumId : String, viewModel: AlbumViewModel = hiltViewModel()) : CombinedAlbumState {
+    val albumState by viewModel.albumDetailUiState.collectAsState()
+    val lazyItems = viewModel.observePagingTrackList(albumId = albumId)
+    return CombinedAlbumState(albumState, lazyItems)
 }
 
 fun shortFormatReleaseDate(releaseDate: String?): String? {
