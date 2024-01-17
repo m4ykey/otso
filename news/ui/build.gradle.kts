@@ -50,6 +50,16 @@ dependencies {
     implementation(Dependencies.AndroidX.Core.core)
     implementation(Dependencies.AndroidX.Core.appcompat)
     implementation(Dependencies.AndroidX.Core.material)
+    implementation(Dependencies.AndroidX.Compose.composeActivity)
+    implementation(platform(Dependencies.AndroidX.Compose.composeBom))
+    implementation(Dependencies.AndroidX.Compose.composeUi)
+    implementation(Dependencies.AndroidX.Compose.composeUiGraphics)
+    implementation(Dependencies.AndroidX.Compose.composeUiToolingPreview)
+    implementation(Dependencies.AndroidX.Compose.composeMaterial3)
+    implementation(Dependencies.AndroidX.Lifecycle.runtime)
+    implementation(Dependencies.AndroidX.Lifecycle.viewModel)
+    implementation(Dependencies.AndroidX.Paging.paging)
+    implementation(Dependencies.AndroidX.Paging.pagingCompose)
 
     testImplementation(Dependencies.Test.TestImplementation.junit)
 
@@ -61,25 +71,12 @@ dependencies {
     debugImplementation(Dependencies.Test.DebugImplementation.composeUiTestManifest)
     debugImplementation(Dependencies.Test.DebugImplementation.composeUiTooling)
 
-    implementation(Dependencies.AndroidX.Compose.composeActivity)
-    implementation(platform(Dependencies.AndroidX.Compose.composeBom))
-    implementation(Dependencies.AndroidX.Compose.composeUi)
-    implementation(Dependencies.AndroidX.Compose.composeUiGraphics)
-    implementation(Dependencies.AndroidX.Compose.composeUiToolingPreview)
-    implementation(Dependencies.AndroidX.Compose.composeMaterial3)
-
     implementation(Dependencies.Hilt.hiltAndroid)
     implementation(Dependencies.Hilt.hiltNavigation)
     ksp(Dependencies.Hilt.hiltCompiler)
 
     implementation(Dependencies.Coroutines.coroutinesAndroid)
 
-    implementation(Dependencies.AndroidX.Lifecycle.runtime)
-    implementation(Dependencies.AndroidX.Lifecycle.viewModel)
-
     implementation(Dependencies.Coil.coil)
-
-    implementation(Dependencies.AndroidX.Paging.paging)
-    implementation(Dependencies.AndroidX.Paging.pagingCompose)
 
 }

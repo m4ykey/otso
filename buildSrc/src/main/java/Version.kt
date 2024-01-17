@@ -37,7 +37,6 @@ object Version {
     const val constraintLayout = "1.1.0-alpha11"
     const val iconsExtended = "1.6.0-beta03"
     const val material3 = "1.2.0-beta01"
-    const val youtubePlayer = "12.1.0"
     const val messaging = "23.4.0"
     const val mockWebServer = "4.12.0"
     const val truth = "1.2.0"

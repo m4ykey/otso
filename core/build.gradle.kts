@@ -44,7 +44,11 @@ android {
 
 dependencies {
 
-    implementation(Dependencies.AndroidX.Core.core)
+    implementation(platform(Dependencies.AndroidX.Compose.composeBom))
+    implementation(Dependencies.AndroidX.Compose.composeUi)
+    implementation(Dependencies.AndroidX.Compose.composeUiGraphics)
+    implementation(Dependencies.AndroidX.Compose.composeMaterial3)
+    implementation(Dependencies.AndroidX.Compose.composeConstraintLayout)
 
     testImplementation(Dependencies.Test.TestImplementation.junit)
 
@@ -56,20 +60,11 @@ dependencies {
 
     implementation(Dependencies.Network.Moshi.moshiCodegen)
     implementation(Dependencies.Network.Moshi.moshiKotlin)
-
     implementation(Dependencies.Network.OkHttp.okHttp)
     implementation(Dependencies.Network.OkHttp.loggingInterceptor)
-
-    implementation(Dependencies.Coil.coil)
-
-    implementation(platform(Dependencies.AndroidX.Compose.composeBom))
-    implementation(Dependencies.AndroidX.Compose.composeUi)
-    implementation(Dependencies.AndroidX.Compose.composeUiGraphics)
-    implementation(Dependencies.AndroidX.Compose.composeMaterial3)
-
     implementation(Dependencies.Network.Retrofit.retrofit)
     implementation(Dependencies.Network.Retrofit.moshiConverter)
 
-    implementation(Dependencies.AndroidX.Compose.composeConstraintLayout)
+    implementation(Dependencies.Coil.coil)
 
 }

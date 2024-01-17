@@ -62,14 +62,15 @@ dependencies {
     implementation(project(":core"))
 
     implementation(Dependencies.AndroidX.Core.core)
-
     implementation(Dependencies.AndroidX.Compose.composeActivity)
     implementation(platform(Dependencies.AndroidX.Compose.composeBom))
     implementation(Dependencies.AndroidX.Compose.composeUi)
     implementation(Dependencies.AndroidX.Compose.composeMaterial3)
+    implementation(Dependencies.AndroidX.Compose.composeNavigation)
 
     implementation(Dependencies.Firebase.crashlytics)
     implementation(Dependencies.Firebase.analytics)
+    implementation(Dependencies.Firebase.messaging)
 
     testImplementation(Dependencies.Test.TestImplementation.junit)
 
@@ -82,9 +83,5 @@ dependencies {
     ksp(Dependencies.Hilt.hiltCompiler)
 
     implementation(Dependencies.Coil.coil)
-
-    implementation(Dependencies.AndroidX.Compose.composeNavigation)
-
-    implementation(Dependencies.Firebase.messaging)
 
 }

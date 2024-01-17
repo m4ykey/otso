@@ -47,7 +47,6 @@ dependencies {
     implementation(project(":news:ui"))
     implementation(project(":tools:ui"))
 
-    implementation(Dependencies.AndroidX.Core.core)
     implementation(Dependencies.AndroidX.Compose.composeActivity)
     implementation(platform(Dependencies.AndroidX.Compose.composeBom))
     implementation(Dependencies.AndroidX.Compose.composeUi)
@@ -56,6 +55,7 @@ dependencies {
     implementation(Dependencies.AndroidX.Compose.composeIconsExtended)
 
     testImplementation(Dependencies.Test.TestImplementation.junit)
+
     androidTestImplementation(Dependencies.Test.AndroidTestImplementation.espresso)
     androidTestImplementation(Dependencies.Test.AndroidTestImplementation.testExtJunit)
 
