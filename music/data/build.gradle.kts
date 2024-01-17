@@ -45,6 +45,10 @@ dependencies {
 
     implementation(Dependencies.AndroidX.Core.core)
     implementation(Dependencies.AndroidX.Core.appcompat)
+    implementation("androidx.test.ext:junit-ktx:1.1.5")
+    androidTestImplementation("androidx.test:core-ktx:1.5.0")
+    androidTestImplementation("androidx.test:runner:1.5.2")
+    implementation("com.squareup.moshi:moshi-kotlin-codegen:1.15.0")
 
     testImplementation(Dependencies.Test.TestImplementation.junit)
 
@@ -53,6 +57,7 @@ dependencies {
 
     implementation(Dependencies.Network.Retrofit.retrofit)
     implementation(Dependencies.Network.Retrofit.moshiConverter)
+    implementation(Dependencies.Network.Moshi.moshiKotlin)
 
     implementation(Dependencies.Hilt.hiltAndroid)
     ksp(Dependencies.Hilt.hiltCompiler)
@@ -65,5 +70,8 @@ dependencies {
     implementation(Dependencies.AndroidX.DataStore.preferences)
 
     implementation(Dependencies.Network.OkHttp.loggingInterceptor)
+
+    androidTestImplementation(Dependencies.Test.TestImplementation.mockWebServer)
+    androidTestImplementation(Dependencies.Test.TestImplementation.truth)
 
 }

@@ -40,6 +40,8 @@ object Dependencies {
     object Test {
         object TestImplementation {
             const val junit = "junit:junit:${Version.junit}"
+            const val mockWebServer = "com.squareup.okhttp3:mockwebserver:${Version.mockWebServer}"
+            const val truth = "com.google.truth:truth:${Version.truth}"
         }
         object DebugImplementation {
             const val composeUiTooling = "androidx.compose.ui:ui-tooling"

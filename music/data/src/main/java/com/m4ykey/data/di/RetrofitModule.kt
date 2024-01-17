@@ -11,6 +11,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -21,25 +22,29 @@ object RetrofitModule {
     @Provides
     @Singleton
     fun provideAuth(
-        @Named("auth") moshi: Moshi
-    ) : AuthApi = createApi(Constants.SPOTIFY_AUTH_URL, moshi, AuthApi::class.java)
+        @Named("auth") moshi: Moshi,
+        okHttpClient: OkHttpClient
+    ) : AuthApi = createApi(Constants.SPOTIFY_AUTH_URL, moshi, AuthApi::class.java, okHttpClient)
 
     @Provides
     @Singleton
     fun provideAlbumApi(
-        @Named("album") moshi: Moshi
-    ) : AlbumApi = createApi(Constants.SPOTIFY_BASE_URL, moshi, AlbumApi::class.java)
+        @Named("album") moshi: Moshi,
+        okHttpClient: OkHttpClient
+    ) : AlbumApi = createApi(Constants.SPOTIFY_BASE_URL, moshi, AlbumApi::class.java, okHttpClient)
 
     @Provides
     @Singleton
     fun provideArtistApi(
-        @Named("artist") moshi: Moshi
-    ) : ArtistApi = createApi(Constants.SPOTIFY_BASE_URL, moshi, ArtistApi::class.java)
+        @Named("artist") moshi: Moshi,
+        okHttpClient: OkHttpClient
+    ) : ArtistApi = createApi(Constants.SPOTIFY_BASE_URL, moshi, ArtistApi::class.java, okHttpClient)
 
     @Provides
     @Singleton
     fun provideYoutubeApi(
-        @Named("youtube") moshi: Moshi
-    ) : VideoApi = createApi(Constants.YOUTUBE_BASE_URL, moshi, VideoApi::class.java)
+        @Named("youtube") moshi: Moshi,
+        okHttpClient: OkHttpClient
+    ) : VideoApi = createApi(Constants.YOUTUBE_BASE_URL, moshi, VideoApi::class.java, okHttpClient)
 
 }

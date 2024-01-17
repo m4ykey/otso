@@ -59,4 +59,7 @@ dependencies {
     implementation(Dependencies.AndroidX.Paging.paging)
     implementation(Dependencies.AndroidX.Paging.pagingCompose)
 
+    implementation(Dependencies.Network.OkHttp.loggingInterceptor)
+    implementation(Dependencies.Network.OkHttp.okHttp)
+
 }

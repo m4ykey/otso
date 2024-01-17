@@ -17,8 +17,8 @@ import okhttp3.Response
 import javax.inject.Inject
 
 class SpotifyInterceptor @Inject constructor(
-    private val api : AuthApi,
-    private val dataStore : DataStore<Preferences>
+    private val api: AuthApi,
+    private val dataStore: DataStore<Preferences>
 ) : Interceptor {
 
     private val accessTokenKey = stringPreferencesKey("access_token")

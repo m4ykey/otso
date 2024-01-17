@@ -25,7 +25,7 @@ object Version {
     const val core = "1.13.0-alpha02"
     const val appcompat = "1.7.0-alpha03"
     const val material = "1.11.0"
-    const val datastore = "1.0.0"
+    const val datastore = "1.1.0-beta01"
     const val paging = "3.2.1"
     const val coil = "2.5.0"
     const val hiltNavigation = "1.1.0"
@@ -39,6 +39,8 @@ object Version {
     const val material3 = "1.2.0-beta01"
     const val youtubePlayer = "12.1.0"
     const val messaging = "23.4.0"
+    const val mockWebServer = "4.12.0"
+    const val truth = "1.2.0"
 
     // Gradle
     const val ktlint = "1.1.0"
