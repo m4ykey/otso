@@ -31,8 +31,6 @@ class AlbumViewModel @Inject constructor(
     private val _albumDetailUiState = MutableStateFlow(AlbumDetailUiState())
     val albumDetailUiState = _albumDetailUiState.asStateFlow()
 
-
-
     init {
         viewModelScope.launch { getNewReleases() }
     }

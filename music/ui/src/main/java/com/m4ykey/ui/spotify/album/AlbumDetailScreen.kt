@@ -35,7 +35,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
 import com.m4ykey.core.composable.BottomSheetItems
 import com.m4ykey.core.composable.LoadImage
 import com.m4ykey.core.composable.LoadingMaxSize
@@ -61,9 +62,9 @@ import com.m4ykey.core.composable.StyledText
 import com.m4ykey.core.helpers.showToast
 import com.m4ykey.core.urls.openUrl
 import com.m4ykey.core.urls.shareUrl
+import com.m4ykey.data.domain.model.album.tracks.TrackItem
 import com.m4ykey.ui.R
 import com.m4ykey.ui.components.TrackItemList
-import com.m4ykey.ui.spotify.album.uistate.CombinedAlbumState
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -79,7 +80,10 @@ fun AlbumDetailScreen(
     navigateToArtist : (String) -> Unit
 ) {
 
-    LaunchedEffect(Unit) {
+    var lazyPagingItems: LazyPagingItems<TrackItem>? by remember { mutableStateOf(null) }
+    lazyPagingItems = viewModel.observePagingTrackList(albumId = id)
+
+    LaunchedEffect(viewModel) {
         viewModel.getAlbumById(id)
     }
 
@@ -89,22 +93,20 @@ fun AlbumDetailScreen(
         fontFamily = FontFamily(Font(R.font.poppins)),
         color = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray,
     )
-    val scrollState = rememberScrollState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val context = LocalContext.current
     val sheetState = rememberModalBottomSheetState()
-    var isSheetOpen by rememberSaveable { mutableStateOf(false) }
+    var isSheetOpen by remember { mutableStateOf(false) }
 
-    val combinedState = observeAlbumDetails(albumId = id, viewModel = viewModel)
-    val albumState = combinedState.albumDetailState?.albumDetail
-    val trackListState = combinedState.lazyPagingItems
+    val albumState by viewModel.albumDetailUiState.collectAsState()
+    val albumDetail = albumState.albumDetail
 
-    val imageUrl = albumState?.images?.maxByOrNull { it.width * it.height }?.url
-    val artistList = albumState?.artists?.joinToString(", ") { it.name }
+    val imageUrl = albumDetail?.images?.maxByOrNull { it.width * it.height }?.url
+    val artistList = albumDetail?.artists?.joinToString(", ") { it.name }
 
     val albumType = when {
-        albumState?.totalTracks in 2..6 && albumState?.albumType.equals("Single", ignoreCase = true) -> "EP"
-        else -> albumState?.albumType
+        albumDetail?.totalTracks in 2..6 && albumDetail?.albumType.equals("Single", ignoreCase = true) -> "EP"
+        else -> albumDetail?.albumType
     }
 
     Scaffold(
@@ -135,16 +137,17 @@ fun AlbumDetailScreen(
         }
     ) { paddingValues ->
         when {
-            combinedState.albumDetailState?.isLoading == true -> { LoadingMaxSize() }
+            albumState.isLoading -> { LoadingMaxSize() }
 
-            combinedState.albumDetailState?.error != null -> { showToast(context, "${combinedState.albumDetailState.error}") }
+            albumState.error != null -> { showToast(context, "${albumState.error}") }
 
             else -> {
                 Column(
                     modifier = modifier
+                        .fillMaxSize()
                         .padding(paddingValues)
                         .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
-                        .verticalScroll(scrollState),
+                        .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     LoadImage(
@@ -152,7 +155,7 @@ fun AlbumDetailScreen(
                         modifier = modifier
                             .clip(RoundedCornerShape(10))
                             .size(230.dp),
-                        contentDescription = "Album Cover - ${albumState?.name}"
+                        contentDescription = "Album Cover - ${albumDetail?.name}"
                     )
                     Spacer(modifier = modifier.height(20.dp))
                     StyledText(
@@ -160,13 +163,13 @@ fun AlbumDetailScreen(
                         fontSize = 15.sp,
                         modifier = modifier
                             .fillMaxWidth()
-                            .clickable { navigateToArtist(albumState?.artists!![0].id) },
+                            .clickable { navigateToArtist(albumDetail?.artists!![0].id) },
                         color = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray,
                         maxLines = 5,
                         fontFamily = FontFamily(Font(R.font.poppins))
                     )
                     StyledText(
-                        text = albumState?.name.toString(),
+                        text = albumDetail?.name.toString(),
                         fontSize = 23.sp,
                         modifier = modifier.fillMaxWidth(),
                         color = if (isSystemInDarkTheme) Color.White else Color.Black,
@@ -183,12 +186,12 @@ fun AlbumDetailScreen(
                         )
                         Text(
                             style = infoStyle,
-                            text = " • ${shortFormatReleaseDate(albumState?.releaseDate ?: "")}"
+                            text = " • ${shortFormatReleaseDate(albumDetail?.releaseDate ?: "")}"
                         )
                         Text(
                             modifier = modifier.weight(1f),
                             style = infoStyle,
-                            text = " • ${albumState?.totalTracks} " + stringResource(id = R.string.tracks)
+                            text = " • ${albumDetail?.totalTracks} " + stringResource(id = R.string.tracks)
                         )
                         Icon(
                             imageVector = Icons.Default.FavoriteBorder,
@@ -200,19 +203,19 @@ fun AlbumDetailScreen(
                     Column(
                         modifier = modifier.fillMaxWidth()
                     ) {
-                        for (index in 0 until trackListState.itemCount) {
-                            val tracks = trackListState[index]
+                        for (index in 0 until lazyPagingItems!!.itemCount) {
+                            val tracks = lazyPagingItems!![index]
                             if (tracks != null) {
                                 TrackItemList(track = tracks)
                             }
                         }
 
-                        when (val appendState = trackListState.loadState.append) {
+                        when (val appendState = lazyPagingItems!!.loadState.append) {
                             is LoadState.Loading -> { LoadingMaxWidth() }
                             is LoadState.Error -> { showToast(context, "Error $appendState") }
                             is LoadState.NotLoading -> Unit
                         }
-                        when (val refreshState = trackListState.loadState.refresh) {
+                        when (val refreshState = lazyPagingItems!!.loadState.refresh) {
                             is LoadState.Loading -> { LoadingMaxWidth() }
                             is LoadState.Error -> { showToast(context, "Error $refreshState") }
                             is LoadState.NotLoading -> Unit
@@ -246,7 +249,7 @@ fun AlbumDetailScreen(
                     )
                     Spacer(modifier = modifier.width(10.dp))
                     Text(
-                        text = albumState?.name!!,
+                        text = albumDetail?.name.toString(),
                         fontFamily = FontFamily(Font(R.font.poppins)),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
@@ -260,7 +263,7 @@ fun AlbumDetailScreen(
                     onItemClick = {
                         openUrl(
                             context = context,
-                            url = albumState?.externalUrls?.spotify ?: ""
+                            url = albumDetail?.externalUrls?.spotify ?: ""
                         )
                     },
                     icon = Icons.Outlined.Album,
@@ -271,7 +274,7 @@ fun AlbumDetailScreen(
                     onItemClick = {
                         shareUrl(
                             context = context,
-                            url = albumState?.externalUrls?.spotify ?: ""
+                            url = albumDetail?.externalUrls?.spotify ?: ""
                         )
                     },
                     fontFamily = FontFamily(Font(R.font.poppins)),
@@ -280,7 +283,7 @@ fun AlbumDetailScreen(
                 BottomSheetItems(
                     title = stringResource(id = R.string.show_artist),
                     onItemClick = {
-                        navigateToArtist(albumState?.artists!![0].id)
+                        navigateToArtist(albumDetail?.artists!![0].id)
                     },
                     icon = painterResource(id = R.drawable.ic_artist),
                     fontFamily = FontFamily(Font(R.font.poppins))
@@ -288,13 +291,6 @@ fun AlbumDetailScreen(
             }
         }
     }
-}
-
-@Composable
-fun observeAlbumDetails(albumId : String, viewModel: AlbumViewModel = hiltViewModel()) : CombinedAlbumState {
-    val albumState by viewModel.albumDetailUiState.collectAsState()
-    val trackPager = viewModel.observePagingTrackList(albumId = albumId)
-    return CombinedAlbumState(albumState, trackPager)
 }
 
 fun shortFormatReleaseDate(releaseDate: String?): String? {

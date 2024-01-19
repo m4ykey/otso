@@ -32,11 +32,11 @@ fun ThumbnailsCard(
     Column(
         modifier = modifier
             .clickable { openUrl(video.id ?: "") }
-            .width(300.dp)
+            .width(310.dp)
     ) {
         Card(
             modifier = modifier
-                .height(150.dp)
+                .height(160.dp)
                 .fillMaxSize(),
             shape = RoundedCornerShape(10)
         ) {
