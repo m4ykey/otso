@@ -47,6 +47,6 @@ fun shouldShowBottomNavigationBar(currentRoute : String?) : Boolean {
     return currentRoute !in setOf(
         Music.NewReleaseDestination.route,
         "${Music.AlbumDetailDestination.route}/{albumId}",
-        "${Music.VideoDetailDestination.route}/{videoId}"
+        "${Music.ArtistDestination.route}/{artistId}"
     )
 }

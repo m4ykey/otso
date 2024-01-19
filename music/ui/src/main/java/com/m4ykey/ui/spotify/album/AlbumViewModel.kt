@@ -1,4 +1,4 @@
-package com.m4ykey.ui.spotify
+package com.m4ykey.ui.spotify.album
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
@@ -10,8 +10,8 @@ import com.m4ykey.core.network.Resource
 import com.m4ykey.data.domain.model.album.Items
 import com.m4ykey.data.domain.model.album.tracks.TrackItem
 import com.m4ykey.data.domain.repository.AlbumRepository
-import com.m4ykey.ui.spotify.uistate.AlbumDetailUiState
-import com.m4ykey.ui.spotify.uistate.AlbumUiState
+import com.m4ykey.ui.spotify.album.uistate.AlbumDetailUiState
+import com.m4ykey.ui.spotify.album.uistate.AlbumUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

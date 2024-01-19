@@ -1,4 +1,4 @@
-package com.m4ykey.ui.spotify
+package com.m4ykey.ui.spotify.album
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme

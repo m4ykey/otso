@@ -2,35 +2,20 @@ package com.m4ykey.ui
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -40,7 +25,6 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
-import com.m4ykey.core.composable.BottomSheetItems
 import com.m4ykey.core.composable.LoadingMaxWidth
 import com.m4ykey.core.helpers.showToast
 import com.m4ykey.core.urls.openUrl
@@ -56,8 +40,6 @@ fun NewsScreen(
     val lazyPagingItems = viewModel.pagingFlow.collectAsLazyPagingItems()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val isSystemInDarkTheme = isSystemInDarkTheme()
-    val sheetState = rememberModalBottomSheetState()
-    var isSheetOpen by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(lazyPagingItems.loadState.refresh) {
         if (lazyPagingItems.loadState.refresh is LoadState.Error) {
@@ -75,22 +57,6 @@ fun NewsScreen(
                         fontFamily = FontFamily(Font(R.font.poppins_medium)),
                         color = if (isSystemInDarkTheme) Color.White else Color.Black
                     )
-                },
-                actions = {
-                    IconButton(onClick = {  }) {
-                        Icon(
-                            imageVector = Icons.Outlined.FavoriteBorder,
-                            contentDescription = stringResource(id = R.string.saved_news),
-                            tint = if (isSystemInDarkTheme) Color.White else Color.Black
-                        )
-                    }
-                    IconButton(onClick = { isSheetOpen = true }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_filter),
-                            contentDescription = stringResource(id = R.string.filter),
-                            tint = if (isSystemInDarkTheme) Color.White else Color.Black
-                        )
-                    }
                 },
                 scrollBehavior = scrollBehavior
             )
@@ -113,8 +79,7 @@ fun NewsScreen(
                         article = article,
                         onArticleClick = { url ->
                             openUrl(context = context, url = url)
-                        },
-                        openSheetDialog = { isSheetOpen = true }
+                        }
                     )
                 }
             }
@@ -131,31 +96,6 @@ fun NewsScreen(
                     is LoadState.Loading -> { LoadingMaxWidth() }
                     is LoadState.Error -> { showToast(context, "Error $refreshState") }
                     is LoadState.NotLoading -> Unit
-                }
-            }
-        }
-
-        if (isSheetOpen) {
-            ModalBottomSheet(
-                sheetState = sheetState,
-                modifier = modifier.fillMaxSize(),
-                onDismissRequest = { isSheetOpen = false }
-            ) {
-                Column(
-                    modifier = modifier.fillMaxWidth()
-                ) {
-                    BottomSheetItems(
-                        title = stringResource(id = R.string.save_news),
-                        onItemClick = {  },
-                        icon = Icons.Default.FavoriteBorder,
-                        fontFamily = FontFamily(Font(R.font.poppins))
-                    )
-                    BottomSheetItems(
-                        title = stringResource(id = R.string.add_to_read),
-                        onItemClick = {  },
-                        icon = Icons.Default.Add,
-                        fontFamily = FontFamily(Font(R.font.poppins))
-                    )
                 }
             }
         }

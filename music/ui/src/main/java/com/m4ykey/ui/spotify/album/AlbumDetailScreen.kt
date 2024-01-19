@@ -1,4 +1,4 @@
-package com.m4ykey.ui.spotify
+package com.m4ykey.ui.spotify.album
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -63,7 +63,7 @@ import com.m4ykey.core.urls.openUrl
 import com.m4ykey.core.urls.shareUrl
 import com.m4ykey.ui.R
 import com.m4ykey.ui.components.TrackItemList
-import com.m4ykey.ui.spotify.uistate.CombinedAlbumState
+import com.m4ykey.ui.spotify.album.uistate.CombinedAlbumState
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -76,7 +76,7 @@ fun AlbumDetailScreen(
     id: String,
     viewModel: AlbumViewModel = hiltViewModel(),
     onNavigateBack: () -> Unit,
-    navigateToArtist : (String) -> Unit = {}
+    navigateToArtist : (String) -> Unit
 ) {
 
     LaunchedEffect(Unit) {

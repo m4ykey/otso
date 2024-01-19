@@ -1,4 +1,4 @@
-package com.m4ykey.ui.spotify
+package com.m4ykey.ui.spotify.album
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable

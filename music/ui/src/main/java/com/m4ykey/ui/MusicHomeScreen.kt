@@ -27,7 +27,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.m4ykey.ui.spotify.NewReleaseHome
+import com.m4ykey.ui.spotify.album.NewReleaseHome
 import com.m4ykey.ui.video.TrendingVideosHome
 import java.time.LocalTime
 
