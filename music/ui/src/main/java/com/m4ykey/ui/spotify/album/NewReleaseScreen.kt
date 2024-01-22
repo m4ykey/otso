@@ -1,5 +1,6 @@
 package com.m4ykey.ui.spotify.album
 
+import android.util.Log
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -112,11 +113,17 @@ fun NewReleaseScreen(
             }
 
             item {
-                when (val appendState = albumList?.loadState?.append) {
-                    is LoadState.Loading -> { LoadingMaxWidth() }
-                    is LoadState.Error -> { showToast(context, "Error $appendState") }
-                    is LoadState.NotLoading -> Unit
-                    else -> Unit
+                if (albumList?.loadState?.append is LoadState.Error &&
+                    (albumList?.loadState?.append as? LoadState.Error)?.endOfPaginationReached == true
+                ) {
+                    Log.i("EndOfPaginationReached", "NewReleaseScreen: End of pagination reached")
+                } else {
+                    when (val appendState = albumList?.loadState?.append) {
+                        is LoadState.Loading -> { LoadingMaxWidth() }
+                        is LoadState.Error -> { showToast(context, "Error $appendState") }
+                        is LoadState.NotLoading -> Unit
+                        else -> Unit
+                    }
                 }
             }
             item {
