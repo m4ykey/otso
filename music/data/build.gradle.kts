@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     Plugins.apply {
         id(androidLibrary)
@@ -16,6 +18,18 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+    }
+
+    val apiKeys by lazy {
+        rootProject.file("local.properties").inputStream().use { input ->
+            Properties().apply { load(input) }
+        }
+    }
+
+    buildTypes.all {
+        buildConfigField("String", "SPOTIFY_CLIENT_ID", "\"${apiKeys.getProperty("SPOTIFY_CLIENT_ID")}\"")
+        buildConfigField("String", "SPOTIFY_CLIENT_SECRET", "\"${apiKeys.getProperty("SPOTIFY_CLIENT_SECRET")}\"")
+        buildConfigField("String", "YOUTUBE_API_KEY", "\"${apiKeys.getProperty("YOUTUBE_API_KEY")}\"")
     }
 
     buildTypes {

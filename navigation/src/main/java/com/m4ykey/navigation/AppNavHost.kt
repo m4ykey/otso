@@ -12,7 +12,6 @@ import com.m4ykey.ui.NewsScreen
 import com.m4ykey.ui.ToolsScreen
 import com.m4ykey.ui.spotify.album.AlbumDetailScreen
 import com.m4ykey.ui.spotify.album.NewReleaseScreen
-import com.m4ykey.ui.spotify.artist.ArtistScreen
 
 @Composable
 fun AppNavHost(
@@ -49,22 +48,6 @@ fun AppNavHost(
             val albumId = arguments.getString("albumId", "")
             AlbumDetailScreen(
                 id = albumId,
-                onNavigateBack = { navController.navigateUp() },
-                navigateToArtist = { navController.navigate("${Music.ArtistDestination.route}/$it") }
-            )
-        }
-        composable(
-            route = "${Music.ArtistDestination.route}/{artistId}",
-            arguments = listOf(
-                navArgument("artistId") {
-                    type = NavType.StringType
-                }
-            )
-        ) { backStackEntry ->
-            val arguments = requireNotNull(backStackEntry.arguments)
-            val artistId = arguments.getString("artistId", "")
-            ArtistScreen(
-                artistId = artistId,
                 onNavigateBack = { navController.navigateUp() }
             )
         }

@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     Plugins.apply {
         id(androidLibrary)
@@ -18,6 +20,16 @@ android {
         consumerProguardFiles("consumer-rules.pro")
     }
 
+    val apiKey by lazy {
+        rootProject.file("local.properties").inputStream().use { input ->
+            Properties().apply { load(input) }
+        }
+    }
+
+    buildTypes.all {
+        buildConfigField("String", "NEWS_API_KEY", "\"${apiKey.getProperty("NEWS_API_KEY")}\"")
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -33,6 +45,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
+    }
+    buildFeatures {
+        buildConfig = true
     }
 }
 

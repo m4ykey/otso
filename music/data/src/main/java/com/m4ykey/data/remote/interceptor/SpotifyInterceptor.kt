@@ -6,7 +6,8 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.m4ykey.core.Keys
+import com.m4ykey.data.BuildConfig.SPOTIFY_CLIENT_ID
+import com.m4ykey.data.BuildConfig.SPOTIFY_CLIENT_SECRET
 import com.m4ykey.data.remote.api.AuthApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -17,8 +18,8 @@ import okhttp3.Response
 import javax.inject.Inject
 
 class SpotifyInterceptor @Inject constructor(
-    private val api: AuthApi,
-    private val dataStore: DataStore<Preferences>
+    private val api : AuthApi,
+    private val dataStore : DataStore<Preferences>
 ) : Interceptor {
 
     private val accessTokenKey = stringPreferencesKey("access_token")
@@ -61,11 +62,11 @@ class SpotifyInterceptor @Inject constructor(
 
     suspend fun getAccessToken() : String {
         val authHeader = "Basic " + Base64.encodeToString(
-            "${Keys.SPOTIFY_CLIENT_ID}:${Keys.SPOTIFY_CLIENT_SECRET}".toByteArray(),
+            "${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}".toByteArray(),
             Base64.NO_WRAP
         )
 
-        return api.getAccessToken(authHeader).access_token!!
+        return api.getAccessToken(authHeader).access_token
     }
 
     private suspend fun saveAccessToken(token : String, time : Long) {

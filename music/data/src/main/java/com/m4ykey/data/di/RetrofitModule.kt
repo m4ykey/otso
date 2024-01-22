@@ -1,9 +1,10 @@
 package com.m4ykey.data.di
 
-import com.m4ykey.core.Constants
+import com.m4ykey.core.Constants.SPOTIFY_AUTH_URL
+import com.m4ykey.core.Constants.SPOTIFY_BASE_URL
+import com.m4ykey.core.Constants.YOUTUBE_BASE_URL
 import com.m4ykey.core.network.createApi
 import com.m4ykey.data.remote.api.AlbumApi
-import com.m4ykey.data.remote.api.ArtistApi
 import com.m4ykey.data.remote.api.AuthApi
 import com.m4ykey.data.remote.api.VideoApi
 import com.squareup.moshi.Moshi
@@ -24,27 +25,20 @@ object RetrofitModule {
     fun provideAuth(
         @Named("auth") moshi: Moshi,
         okHttpClient: OkHttpClient
-    ) : AuthApi = createApi(Constants.SPOTIFY_AUTH_URL, moshi, AuthApi::class.java, okHttpClient)
+    ) : AuthApi = createApi(SPOTIFY_AUTH_URL, moshi, AuthApi::class.java, okHttpClient)
 
     @Provides
     @Singleton
     fun provideAlbumApi(
         @Named("album") moshi: Moshi,
         okHttpClient: OkHttpClient
-    ) : AlbumApi = createApi(Constants.SPOTIFY_BASE_URL, moshi, AlbumApi::class.java, okHttpClient)
-
-    @Provides
-    @Singleton
-    fun provideArtistApi(
-        @Named("artist") moshi: Moshi,
-        okHttpClient: OkHttpClient
-    ) : ArtistApi = createApi(Constants.SPOTIFY_BASE_URL, moshi, ArtistApi::class.java, okHttpClient)
+    ) : AlbumApi = createApi(SPOTIFY_BASE_URL, moshi, AlbumApi::class.java, okHttpClient)
 
     @Provides
     @Singleton
     fun provideYoutubeApi(
         @Named("youtube") moshi: Moshi,
         okHttpClient: OkHttpClient
-    ) : VideoApi = createApi(Constants.YOUTUBE_BASE_URL, moshi, VideoApi::class.java, okHttpClient)
+    ) : VideoApi = createApi(YOUTUBE_BASE_URL, moshi, VideoApi::class.java, okHttpClient)
 
 }

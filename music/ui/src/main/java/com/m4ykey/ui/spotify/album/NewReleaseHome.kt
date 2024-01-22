@@ -64,7 +64,7 @@ fun NewReleaseHome(
                     AlbumCard(
                         item = album,
                         size = 120.dp,
-                        modifier = modifier.clickable { onAlbumClick(album.id) }
+                        onAlbumClick = onAlbumClick
                     )
                 }
                 item {

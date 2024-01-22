@@ -15,4 +15,7 @@
     <string name="open_on_spotify">Otwórz na Spotify</string>
     <string name="views">wyświetleń</string>
     <string name="share">Udostępnij</string>
+    <string name="top_tracks">Najlepsze utwory</string>
+    <string name="albums">Albumy</string>
+    <string name="related_artists">Podobni Artyści</string>
 </resources>

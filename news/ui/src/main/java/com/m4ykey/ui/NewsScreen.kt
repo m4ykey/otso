@@ -11,7 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -40,12 +39,6 @@ fun NewsScreen(
     val lazyPagingItems = viewModel.pagingFlow.collectAsLazyPagingItems()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val isSystemInDarkTheme = isSystemInDarkTheme()
-
-    LaunchedEffect(lazyPagingItems.loadState.refresh) {
-        if (lazyPagingItems.loadState.refresh is LoadState.Error) {
-            showToast(context, "${(lazyPagingItems.loadState.refresh as LoadState.Error).error.message}")
-        }
-    }
 
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),

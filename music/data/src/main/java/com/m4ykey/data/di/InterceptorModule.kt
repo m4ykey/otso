@@ -15,14 +15,12 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object InterceptorModule {
 
-    private const val spotifyInterceptor = "spotifyInterceptor"
-
     @Provides
     @Singleton
-    @Named(spotifyInterceptor)
+    @Named("music")
     fun provideSpotifyInterceptor(
         loggingInterceptor: HttpLoggingInterceptor,
-        spotifyInterceptor: SpotifyInterceptor,
+        spotifyInterceptor: SpotifyInterceptor
     ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
         .addInterceptor(spotifyInterceptor)

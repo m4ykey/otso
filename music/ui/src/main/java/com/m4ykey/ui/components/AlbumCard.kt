@@ -1,5 +1,6 @@
 package com.m4ykey.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,14 +24,17 @@ import com.m4ykey.ui.R
 fun AlbumCard(
     modifier : Modifier = Modifier,
     item : Items,
-    size : Dp
+    size : Dp,
+    onAlbumClick : (String) -> Unit
 ) {
     val image = item.images.maxByOrNull { it.width * it.height }
     val artistList = item.artists.joinToString(", ") { it.name }
     val isSystemInDarkTheme = isSystemInDarkTheme()
 
     Column(
-        modifier = modifier.width(size)
+        modifier = modifier
+            .width(size)
+            .clickable { onAlbumClick(item.id) }
     ) {
         LoadImage(
             url = image?.url.toString(),

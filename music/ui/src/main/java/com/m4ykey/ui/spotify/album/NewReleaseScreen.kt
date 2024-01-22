@@ -1,6 +1,5 @@
 package com.m4ykey.ui.spotify.album
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,6 +17,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -28,32 +31,39 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
-import androidx.paging.compose.itemContentType
-import com.m4ykey.core.composable.LoadingMaxSize
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import com.m4ykey.core.composable.LoadingMaxWidth
 import com.m4ykey.core.helpers.showToast
+import com.m4ykey.data.domain.model.album.Items
 import com.m4ykey.ui.R
 import com.m4ykey.ui.components.AlbumCard
+import kotlinx.coroutines.flow.Flow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewReleaseScreen(
-    modifier : Modifier = Modifier,
-    onNavigateBack : () -> Unit,
-    viewModel : AlbumViewModel = hiltViewModel(),
-    onAlbumClick : (String) -> Unit
+    modifier: Modifier = Modifier,
+    onNavigateBack: () -> Unit,
+    onAlbumClick: (String) -> Unit,
+    viewModel: AlbumViewModel = hiltViewModel()
 ) {
     
     val context = LocalContext.current
-    val lazyPagingItems = viewModel.observePagingFlow()
+    var lazyPagingItems : Flow<PagingData<Items>>? by remember { mutableStateOf(null) }
+    var albumList : LazyPagingItems<Items>? by remember { mutableStateOf(null) }
+
+    LaunchedEffect(viewModel) {
+        val flow = viewModel.getPagingNewReleases()
+        lazyPagingItems = flow
+    }
+
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val isSystemInDarkTheme = isSystemInDarkTheme()
 
-    LaunchedEffect(Unit) {
-        if (lazyPagingItems.loadState.refresh is LoadState.Error) {
-            showToast(context, "${lazyPagingItems.loadState.refresh as LoadState.Error}")
-        }
-    }
+    albumList = lazyPagingItems?.collectAsLazyPagingItems()
 
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -88,38 +98,34 @@ fun NewReleaseScreen(
             horizontalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             items(
-                count = lazyPagingItems.itemCount,
-                key = { index -> lazyPagingItems[index]?.id.hashCode() },
-                contentType = lazyPagingItems.itemContentType { "albumType" }
+                count = albumList?.itemCount ?: 0,
+                key = albumList?.itemKey { it.id }
             ) { index ->
-                val albums = lazyPagingItems[index]
+                val albums = albumList!![index]
                 if (albums != null) {
                     AlbumCard(
                         size = 110.dp,
                         item = albums,
-                        modifier = modifier.clickable { onAlbumClick(albums.id) }
+                        onAlbumClick = onAlbumClick
                     )
                 }
             }
 
-            when (lazyPagingItems.loadState.append) {
-                LoadState.Loading -> {
-                    item { LoadingMaxWidth() }
+            item {
+                when (val appendState = albumList?.loadState?.append) {
+                    is LoadState.Loading -> { LoadingMaxWidth() }
+                    is LoadState.Error -> { showToast(context, "Error $appendState") }
+                    is LoadState.NotLoading -> Unit
+                    else -> Unit
                 }
-                is LoadState.Error -> {
-                    showToast(context, "${lazyPagingItems.loadState.append as LoadState.Error}")
-                }
-                is LoadState.NotLoading -> Unit
             }
-
-            when (lazyPagingItems.loadState.refresh) {
-                LoadState.Loading -> {
-                    item { LoadingMaxSize() }
+            item {
+                when (val refreshState = albumList?.loadState?.refresh) {
+                    is LoadState.Loading -> { LoadingMaxWidth() }
+                    is LoadState.Error -> { showToast(context, "Error $refreshState") }
+                    is LoadState.NotLoading -> Unit
+                    else -> Unit
                 }
-                is LoadState.Error -> {
-                    showToast(context, "${lazyPagingItems.loadState.refresh as LoadState.Error}")
-                }
-                is LoadState.NotLoading -> Unit
             }
         }
     }

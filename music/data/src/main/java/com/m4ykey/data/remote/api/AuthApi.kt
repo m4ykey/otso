@@ -8,10 +8,10 @@ import retrofit2.http.POST
 
 interface AuthApi {
 
-    @POST("api/token")
     @FormUrlEncoded
+    @POST("api/token")
     suspend fun getAccessToken(
-        @Header("Authorization") authorization : String,
+        @Header("Authorization") token : String,
         @Field("grant_type") grantType : String = "client_credentials"
     ) : Auth
 

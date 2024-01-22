@@ -1,11 +1,9 @@
 package com.m4ykey.ui.spotify.album
 
-import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
 import com.m4ykey.core.network.Resource
 import com.m4ykey.data.domain.model.album.Items
 import com.m4ykey.data.domain.model.album.tracks.TrackItem
@@ -13,6 +11,7 @@ import com.m4ykey.data.domain.repository.AlbumRepository
 import com.m4ykey.ui.spotify.album.uistate.AlbumDetailUiState
 import com.m4ykey.ui.spotify.album.uistate.AlbumUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -79,18 +78,12 @@ class AlbumViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    @Composable
-    fun observePagingFlow(): LazyPagingItems<Items> {
-        return repository.getNewReleasePager()
-            .cachedIn(viewModelScope)
-            .collectAsLazyPagingItems()
+    fun getPagingNewReleases(): Flow<PagingData<Items>> {
+        return repository.getNewReleasePager().cachedIn(viewModelScope)
     }
 
-    @Composable
-    fun observePagingTrackList(albumId: String) : LazyPagingItems<TrackItem> {
-        return repository.getTrackListPager(albumId)
-            .cachedIn(viewModelScope)
-            .collectAsLazyPagingItems()
+    fun observePagingTrackList(albumId: String) : Flow<PagingData<TrackItem>> {
+        return repository.getTrackListPager(albumId).cachedIn(viewModelScope)
     }
 
 }

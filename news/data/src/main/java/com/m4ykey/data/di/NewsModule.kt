@@ -34,8 +34,8 @@ object NewsModule {
     @Provides
     @Singleton
     @Named("news")
-    fun provideNewsInterceptor(
-        loggingInterceptor: HttpLoggingInterceptor
+    fun provideNewsLoggingInterceptor(
+        loggingInterceptor: HttpLoggingInterceptor,
     ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
         .readTimeout(30, TimeUnit.SECONDS)

@@ -14,9 +14,6 @@ object Music {
     object NewReleaseDestination : NavigationDestination {
         override val route = "new_release"
     }
-    object ArtistDestination : NavigationDestination {
-        override val route = "artist"
-    }
 }
 
 object News {

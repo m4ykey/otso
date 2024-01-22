@@ -53,7 +53,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.m4ykey.core.composable.BottomSheetItems
 import com.m4ykey.core.composable.LoadImage
 import com.m4ykey.core.composable.LoadingMaxSize
@@ -65,6 +67,7 @@ import com.m4ykey.core.urls.shareUrl
 import com.m4ykey.data.domain.model.album.tracks.TrackItem
 import com.m4ykey.ui.R
 import com.m4ykey.ui.components.TrackItemList
+import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -76,16 +79,18 @@ fun AlbumDetailScreen(
     modifier: Modifier = Modifier,
     id: String,
     viewModel: AlbumViewModel = hiltViewModel(),
-    onNavigateBack: () -> Unit,
-    navigateToArtist : (String) -> Unit
+    onNavigateBack: () -> Unit
 ) {
 
-    var lazyPagingItems: LazyPagingItems<TrackItem>? by remember { mutableStateOf(null) }
-    lazyPagingItems = viewModel.observePagingTrackList(albumId = id)
+    var lazyPagingItems: Flow<PagingData<TrackItem>>? by remember { mutableStateOf(null) }
+    var trackList : LazyPagingItems<TrackItem>? by remember { mutableStateOf(null) }
 
     LaunchedEffect(viewModel) {
         viewModel.getAlbumById(id)
+        lazyPagingItems = viewModel.observePagingTrackList(albumId = id)
     }
+
+    trackList = lazyPagingItems?.collectAsLazyPagingItems()
 
     val isSystemInDarkTheme = isSystemInDarkTheme()
     val infoStyle = TextStyle(
@@ -163,7 +168,7 @@ fun AlbumDetailScreen(
                         fontSize = 15.sp,
                         modifier = modifier
                             .fillMaxWidth()
-                            .clickable { navigateToArtist(albumDetail?.artists!![0].id) },
+                            .clickable { },
                         color = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray,
                         maxLines = 5,
                         fontFamily = FontFamily(Font(R.font.poppins))
@@ -203,22 +208,24 @@ fun AlbumDetailScreen(
                     Column(
                         modifier = modifier.fillMaxWidth()
                     ) {
-                        for (index in 0 until lazyPagingItems!!.itemCount) {
-                            val tracks = lazyPagingItems!![index]
+                        for (index in 0 until (trackList?.itemCount ?: 0)) {
+                            val tracks = trackList!![index]
                             if (tracks != null) {
                                 TrackItemList(track = tracks)
                             }
                         }
 
-                        when (val appendState = lazyPagingItems!!.loadState.append) {
+                        when (val appendState = trackList?.loadState?.append) {
                             is LoadState.Loading -> { LoadingMaxWidth() }
                             is LoadState.Error -> { showToast(context, "Error $appendState") }
                             is LoadState.NotLoading -> Unit
+                            else -> Unit
                         }
-                        when (val refreshState = lazyPagingItems!!.loadState.refresh) {
+                        when (val refreshState = trackList?.loadState?.refresh) {
                             is LoadState.Loading -> { LoadingMaxWidth() }
                             is LoadState.Error -> { showToast(context, "Error $refreshState") }
                             is LoadState.NotLoading -> Unit
+                            else -> Unit
                         }
                     }
                 }
@@ -282,9 +289,7 @@ fun AlbumDetailScreen(
                 )
                 BottomSheetItems(
                     title = stringResource(id = R.string.show_artist),
-                    onItemClick = {
-                        navigateToArtist(albumDetail?.artists!![0].id)
-                    },
+                    onItemClick = { },
                     icon = painterResource(id = R.drawable.ic_artist),
                     fontFamily = FontFamily(Font(R.font.poppins))
                 )
