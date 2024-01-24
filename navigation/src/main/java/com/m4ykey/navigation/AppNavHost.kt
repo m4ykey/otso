@@ -48,7 +48,8 @@ fun AppNavHost(
             val albumId = arguments.getString("albumId", "")
             AlbumDetailScreen(
                 id = albumId,
-                onNavigateBack = { navController.navigateUp() }
+                onNavigateBack = { navController.navigateUp() },
+                onTrackClick = {}
             )
         }
         composable(route = Tools.ToolsDestination.route) { ToolsScreen() }

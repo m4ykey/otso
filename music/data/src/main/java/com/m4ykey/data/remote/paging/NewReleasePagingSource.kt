@@ -5,11 +5,11 @@ import androidx.paging.PagingState
 import com.m4ykey.data.domain.model.album.Items
 import com.m4ykey.data.mappers.toItems
 import com.m4ykey.data.remote.api.AlbumApi
-import com.m4ykey.data.remote.interceptor.SpotifyInterceptor
+import com.m4ykey.data.remote.interceptor.SpotifyTokenProvider
 
 class NewReleasePagingSource(
     private val api : AlbumApi,
-    private val interceptor : SpotifyInterceptor
+    private val interceptor : SpotifyTokenProvider
 ) : PagingSource<Int, Items>() {
     override fun getRefreshKey(state: PagingState<Int, Items>): Int? {
         return state.anchorPosition?.let { anchorPosition ->

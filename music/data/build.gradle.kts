@@ -30,6 +30,8 @@ android {
         buildConfigField("String", "SPOTIFY_CLIENT_ID", "\"${apiKeys.getProperty("SPOTIFY_CLIENT_ID")}\"")
         buildConfigField("String", "SPOTIFY_CLIENT_SECRET", "\"${apiKeys.getProperty("SPOTIFY_CLIENT_SECRET")}\"")
         buildConfigField("String", "YOUTUBE_API_KEY", "\"${apiKeys.getProperty("YOUTUBE_API_KEY")}\"")
+        buildConfigField("String", "GENIUS_CLIENT_ID", "\"${apiKeys.getProperty("GENIUS_CLIENT_ID")}\"")
+        buildConfigField("String", "GENIUS_CLIENT_SECRET", "\"${apiKeys.getProperty("GENIUS_CLIENT_SECRET")}\"")
     }
 
     buildTypes {

@@ -50,6 +50,6 @@ object Version {
     const val application = "8.2.0"
     const val gms = "4.4.0"
     const val firebaseGradle = "2.9.9"
-    const val toolsBuildGradle = "8.2.1"
+    const val toolsBuildGradle = "8.2.2"
 
 }

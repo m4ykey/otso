@@ -1,5 +1,6 @@
 package com.m4ykey.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,7 +22,8 @@ import com.m4ykey.ui.R
 @Composable
 fun TrackItemList(
     modifier: Modifier = Modifier,
-    track : TrackItem
+    track : TrackItem,
+    onTrackClick : (String) -> Unit
 ) {
     val artists = track.artists.joinToString(", ") { it.name }
     val seconds = track.durationMs / 1000
@@ -29,7 +31,9 @@ fun TrackItemList(
     val isSystemInDarkTheme = isSystemInDarkTheme()
 
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { onTrackClick(track.id) },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(

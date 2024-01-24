@@ -1,6 +1,6 @@
 package com.m4ykey.data.remote.api
 
-import com.m4ykey.data.remote.model.auth.Auth
+import com.m4ykey.data.remote.model.auth.SpotifyAuth
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.Header
@@ -13,6 +13,6 @@ interface AuthApi {
     suspend fun getAccessToken(
         @Header("Authorization") token : String,
         @Field("grant_type") grantType : String = "client_credentials"
-    ) : Auth
+    ) : SpotifyAuth
 
 }
