@@ -19,6 +19,8 @@ object Constants {
     const val CHANNEL_ID = "Music_Channel_ID"
     const val NOTIFICATION_ID = 1
 
+    const val GENIUS_BASE_URL = "https://api.genius.com/"
+
 }
 
 object MusicSources {

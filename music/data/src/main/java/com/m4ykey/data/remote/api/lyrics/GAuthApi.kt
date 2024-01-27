@@ -1,19 +1,17 @@
-package com.m4ykey.data.remote.api
+package com.m4ykey.data.remote.api.lyrics
 
 import com.m4ykey.data.remote.model.auth.GeniusAuth
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
-import retrofit2.http.Headers
+import retrofit2.http.Header
 import retrofit2.http.POST
 
-interface LyricsApi {
+interface GAuthApi {
 
-    @Headers("Content-Type: application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("oauth/token")
     suspend fun getGeniusToken(
-        @Field("client_id") clientId : String,
-        @Field("client_secret") clientSecret : String,
+        @Header("Authorization") token : String,
         @Field("grant_type") grantType : String = "client_credentials"
     ) : GeniusAuth
 

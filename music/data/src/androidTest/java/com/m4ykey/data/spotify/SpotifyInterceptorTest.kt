@@ -6,7 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.m4ykey.data.remote.api.AuthApi
+import com.m4ykey.data.remote.api.music.SAuthApi
 import com.m4ykey.data.remote.interceptor.SpotifyTokenProvider
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -116,7 +116,7 @@ class SpotifyInterceptorTest {
 //        }
     }
 
-    private fun createMockAuthApi(): AuthApi {
+    private fun createMockAuthApi(): SAuthApi {
         val moshi = Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
             .build()
@@ -124,7 +124,7 @@ class SpotifyInterceptorTest {
             .baseUrl(mockWebServer.url("/"))
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
-            .create(AuthApi::class.java)
+            .create(SAuthApi::class.java)
     }
 
     private val Context.dataStore : DataStore<Preferences> by preferencesDataStore(name = "mock_key")

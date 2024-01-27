@@ -1,9 +1,5 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":tools:ui")
-
-
-
 pluginManagement {
     repositories {
         google()
@@ -27,3 +23,4 @@ include(":news:data")
 include(":music:ui")
 include(":music:data")
 include(":navigation")
+include(":tools:ui")

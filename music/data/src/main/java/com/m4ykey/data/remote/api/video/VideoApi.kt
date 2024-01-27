@@ -1,4 +1,4 @@
-package com.m4ykey.data.remote.api
+package com.m4ykey.data.remote.api.video
 
 import com.m4ykey.core.Constants.PAGE_SIZE
 import com.m4ykey.data.BuildConfig.YOUTUBE_API_KEY

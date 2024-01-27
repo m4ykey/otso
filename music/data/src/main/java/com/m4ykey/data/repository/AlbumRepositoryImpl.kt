@@ -12,7 +12,7 @@ import com.m4ykey.data.domain.model.album.tracks.TrackItem
 import com.m4ykey.data.domain.repository.AlbumRepository
 import com.m4ykey.data.mappers.toAlbumDetail
 import com.m4ykey.data.mappers.toAlbums
-import com.m4ykey.data.remote.api.AlbumApi
+import com.m4ykey.data.remote.api.music.AlbumApi
 import com.m4ykey.data.remote.interceptor.SpotifyTokenProvider
 import com.m4ykey.data.remote.paging.NewReleasePagingSource
 import com.m4ykey.data.remote.paging.TrackListPagingSource
@@ -28,7 +28,7 @@ class AlbumRepositoryImpl @Inject constructor(
 
     private val token = runBlocking { "Bearer ${interceptor.getAccessToken()}" }
 
-        override suspend fun getNewReleases(): Flow<Resource<List<Items>>> = flow {
+    override suspend fun getNewReleases(): Flow<Resource<List<Items>>> = flow {
             emit(Resource.Loading())
             emit(safeApiCall {
                 api.getNewReleases(
@@ -37,7 +37,7 @@ class AlbumRepositoryImpl @Inject constructor(
                     offset = 0
                 ).albums.toAlbums().items
             })
-        }
+    }
 
     override suspend fun getAlbumById(albumId: String): Flow<Resource<AlbumDetail>> = flow {
         emit(Resource.Loading())

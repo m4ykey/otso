@@ -1,19 +1,21 @@
 package com.m4ykey.data.di
 
+import com.m4ykey.core.Constants.GENIUS_BASE_URL
 import com.m4ykey.core.Constants.SPOTIFY_AUTH_URL
 import com.m4ykey.core.Constants.SPOTIFY_BASE_URL
 import com.m4ykey.core.Constants.YOUTUBE_BASE_URL
 import com.m4ykey.core.network.createApi
-import com.m4ykey.data.remote.api.AlbumApi
-import com.m4ykey.data.remote.api.AuthApi
-import com.m4ykey.data.remote.api.VideoApi
+import com.m4ykey.data.remote.api.lyrics.GAuthApi
+import com.m4ykey.data.remote.api.lyrics.LyricsApi
+import com.m4ykey.data.remote.api.music.AlbumApi
+import com.m4ykey.data.remote.api.music.SAuthApi
+import com.m4ykey.data.remote.api.video.VideoApi
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -22,23 +24,37 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideAuth(
-        @Named("auth") moshi: Moshi,
+    fun provideSAuthApi(
+        moshi: Moshi,
         okHttpClient: OkHttpClient
-    ) : AuthApi = createApi(SPOTIFY_AUTH_URL, moshi, AuthApi::class.java, okHttpClient)
+    ) : SAuthApi = createApi(SPOTIFY_AUTH_URL, moshi, SAuthApi::class.java, okHttpClient)
 
     @Provides
     @Singleton
     fun provideAlbumApi(
-        @Named("album") moshi: Moshi,
+        moshi: Moshi,
         okHttpClient: OkHttpClient
     ) : AlbumApi = createApi(SPOTIFY_BASE_URL, moshi, AlbumApi::class.java, okHttpClient)
 
     @Provides
     @Singleton
     fun provideYoutubeApi(
-        @Named("youtube") moshi: Moshi,
+        moshi: Moshi,
         okHttpClient: OkHttpClient
     ) : VideoApi = createApi(YOUTUBE_BASE_URL, moshi, VideoApi::class.java, okHttpClient)
+
+    @Provides
+    @Singleton
+    fun provideGAuthApi(
+        moshi: Moshi,
+        okHttpClient: OkHttpClient
+    ) : GAuthApi = createApi(GENIUS_BASE_URL, moshi, GAuthApi::class.java, okHttpClient)
+
+    @Provides
+    @Singleton
+    fun provideLyricsApi(
+        moshi: Moshi,
+        okHttpClient: OkHttpClient
+    ) : LyricsApi = createApi(GENIUS_BASE_URL, moshi, LyricsApi::class.java, okHttpClient)
 
 }

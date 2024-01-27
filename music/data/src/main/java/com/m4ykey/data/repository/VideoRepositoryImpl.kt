@@ -5,7 +5,7 @@ import com.m4ykey.core.network.safeApiCall
 import com.m4ykey.data.domain.model.video.VideoItem
 import com.m4ykey.data.domain.repository.VideoRepository
 import com.m4ykey.data.mappers.toVideoItem
-import com.m4ykey.data.remote.api.VideoApi
+import com.m4ykey.data.remote.api.video.VideoApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

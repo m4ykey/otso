@@ -1,14 +1,19 @@
 package com.m4ykey.data.remote.interceptor
 
-import com.m4ykey.data.remote.api.LyricsApi
-import okhttp3.Interceptor
-import okhttp3.Response
+import com.m4ykey.data.BuildConfig
+import com.m4ykey.data.remote.api.lyrics.GAuthApi
+import com.m4ykey.data.remote.interceptor.token.TokenProvider
+import com.m4ykey.data.remote.interceptor.token.fetchAccessToken
 import javax.inject.Inject
 
 class GeniusTokenProvider @Inject constructor(
-    private val api : LyricsApi
-) : Interceptor {
-    override fun intercept(chain: Interceptor.Chain): Response {
-        TODO("Not yet implemented")
+    private val api : GAuthApi
+) : TokenProvider {
+    override suspend fun getAccessToken(): String {
+        return fetchAccessToken(
+            api = api,
+            clientId = BuildConfig.GENIUS_CLIENT_ID,
+            clientSecret = BuildConfig.GENIUS_CLIENT_SECRET
+        )
     }
 }
