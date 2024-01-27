@@ -81,7 +81,7 @@ fun AlbumDetailScreen(
     id: String,
     viewModel: AlbumViewModel = hiltViewModel(),
     onNavigateBack: () -> Unit,
-    onTrackClick : (String) -> Unit
+    onTrackClick : (String, String) -> Unit
 ) {
 
     var lazyPagingItems: Flow<PagingData<TrackItem>>? by remember { mutableStateOf(null) }

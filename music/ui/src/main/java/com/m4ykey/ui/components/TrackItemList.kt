@@ -23,7 +23,7 @@ import com.m4ykey.ui.R
 fun TrackItemList(
     modifier: Modifier = Modifier,
     track : TrackItem,
-    onTrackClick : (String) -> Unit
+    onTrackClick : (String, String) -> Unit
 ) {
     val artists = track.artists.joinToString(", ") { it.name }
     val seconds = track.durationMs / 1000
@@ -33,7 +33,7 @@ fun TrackItemList(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onTrackClick(track.id) },
+            .clickable { onTrackClick(track.name, track.artists[0].name) },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(

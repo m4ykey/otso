@@ -24,11 +24,11 @@ class AlbumViewModel @Inject constructor(
     private val repository: AlbumRepository
 ) : ViewModel() {
 
-    private val _albumUiState = MutableStateFlow(AlbumUiState())
-    val albumUiState = _albumUiState.asStateFlow()
+    private val _albums = MutableStateFlow(AlbumUiState())
+    val albumUiState = _albums.asStateFlow()
 
-    private val _albumDetailUiState = MutableStateFlow(AlbumDetailUiState())
-    val albumDetailUiState = _albumDetailUiState.asStateFlow()
+    private val _detail = MutableStateFlow(AlbumDetailUiState())
+    val albumDetailUiState = _detail.asStateFlow()
 
     init {
         viewModelScope.launch { getNewReleases() }
@@ -38,19 +38,19 @@ class AlbumViewModel @Inject constructor(
         repository.getAlbumById(albumId).onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _albumDetailUiState.value = AlbumDetailUiState(
+                    _detail.value = AlbumDetailUiState(
                         isLoading = false,
                         albumDetail = result.data
                     )
                 }
                 is Resource.Error -> {
-                    _albumDetailUiState.value = AlbumDetailUiState(
+                    _detail.value = AlbumDetailUiState(
                         isLoading = false,
                         error = result.message ?: "Unknown error"
                     )
                 }
                 is Resource.Loading -> {
-                    _albumDetailUiState.value = AlbumDetailUiState(isLoading = true)
+                    _detail.value = AlbumDetailUiState(isLoading = true)
                 }
             }
         }.launchIn(viewModelScope)
@@ -60,16 +60,16 @@ class AlbumViewModel @Inject constructor(
         repository.getNewReleases().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _albumUiState.value = AlbumUiState(
+                    _albums.value = AlbumUiState(
                         isLoading = false,
                         albums = result.data ?: emptyList()
                     )
                 }
                 is Resource.Loading -> {
-                    _albumUiState.value = AlbumUiState(isLoading = true)
+                    _albums.value = AlbumUiState(isLoading = true)
                 }
                 is Resource.Error -> {
-                    _albumUiState.value = AlbumUiState(
+                    _albums.value = AlbumUiState(
                         isLoading = false,
                         error = result.message ?: "Unknown error"
                     )
