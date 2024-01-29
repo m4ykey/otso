@@ -8,6 +8,6 @@ import kotlinx.coroutines.flow.Flow
 interface LyricsRepository {
 
     suspend fun searchLyrics(query : String) : Flow<Resource<List<SongResult>>>
-    suspend fun getLyrics(id : String) : Flow<Resource<Song>>
+    suspend fun getLyrics(id : Int) : Flow<Resource<Song>>
 
 }

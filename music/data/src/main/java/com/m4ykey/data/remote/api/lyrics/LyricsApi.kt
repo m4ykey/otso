@@ -15,10 +15,10 @@ interface LyricsApi {
         @Query("q") query : String
     ) : LyricsListDto
 
-    @GET("songs")
+    @GET("songs/{id}")
     suspend fun getLyrics(
-        @Path("id") id : String,
-        @Header("Authorization") auth : String
+        @Path("id") id: Int,
+        @Header("Authorization") auth: String
     ) : SongsDto
 
 }

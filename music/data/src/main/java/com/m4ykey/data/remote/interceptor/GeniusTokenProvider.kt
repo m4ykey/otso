@@ -1,6 +1,7 @@
 package com.m4ykey.data.remote.interceptor
 
-import com.m4ykey.data.BuildConfig
+import com.m4ykey.data.BuildConfig.GENIUS_CLIENT_ID
+import com.m4ykey.data.BuildConfig.GENIUS_CLIENT_SECRET
 import com.m4ykey.data.remote.api.lyrics.GAuthApi
 import com.m4ykey.data.remote.interceptor.token.TokenProvider
 import com.m4ykey.data.remote.interceptor.token.fetchAccessToken
@@ -12,8 +13,8 @@ class GeniusTokenProvider @Inject constructor(
     override suspend fun getAccessToken(): String {
         return fetchAccessToken(
             api = api,
-            clientId = BuildConfig.GENIUS_CLIENT_ID,
-            clientSecret = BuildConfig.GENIUS_CLIENT_SECRET
+            clientId = GENIUS_CLIENT_ID,
+            clientSecret = GENIUS_CLIENT_SECRET
         )
     }
 }

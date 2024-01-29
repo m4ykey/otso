@@ -1,20 +1,19 @@
 package com.m4ykey.data.domain.model.lyrics
 
 data class Song(
-    val appleMusicId: String,
-    val appleMusicPlayerUrl: String,
-    val artistNames: String,
-    var embedContent: String,
-    val featuredArtists: List<String>,
-    val headerImageThumbnailUrl: String,
-    val headerImageUrl: String,
+    val appleMusicId: String? = null,
+    val appleMusicPlayerUrl: String? = null,
+    val artistNames: String? = null,
+    var embedContent: String? = null,
+    val headerImageThumbnailUrl: String? = null,
+    val headerImageUrl: String? = null,
     val id: Int,
     val media: List<Media>,
     val producerArtists: List<ProducerArtist>,
-    val releaseDateForDisplay: String,
-    val releaseDateWithAbbreviatedMonthForDisplay: String,
-    val songArtImageUrl: String,
+    val releaseDateForDisplay: String? = null,
+    val releaseDateWithAbbreviatedMonthForDisplay: String? = null,
+    val songArtImageUrl: String? = null,
     val stats: Stats,
-    val title: String,
-    val url: String
+    val title: String? = null,
+    val url: String? = null
 )

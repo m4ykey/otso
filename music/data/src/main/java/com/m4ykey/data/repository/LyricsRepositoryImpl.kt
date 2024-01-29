@@ -5,6 +5,7 @@ import com.m4ykey.core.network.safeApiCall
 import com.m4ykey.data.domain.model.lyrics.Song
 import com.m4ykey.data.domain.model.lyrics.SongResult
 import com.m4ykey.data.domain.repository.LyricsRepository
+import com.m4ykey.data.mappers.toSong
 import com.m4ykey.data.mappers.toSongResult
 import com.m4ykey.data.remote.api.lyrics.LyricsApi
 import com.m4ykey.data.remote.interceptor.GeniusTokenProvider
@@ -24,13 +25,20 @@ class LyricsRepositoryImpl @Inject constructor(
         emit(Resource.Loading())
         emit(safeApiCall {
             lyricsApi.searchLyrics(
-                query = query,
-                auth = token
+                auth = token,
+                query = query
             ).response.hits.map { it.result.toSongResult() }
         })
     }
 
-    override suspend fun getLyrics(id: String): Flow<Resource<Song>> = flow {
-
+    override suspend fun getLyrics(id: Int): Flow<Resource<Song>> = flow {
+        emit(Resource.Loading())
+        emit(safeApiCall {
+            lyricsApi.getLyrics(
+                auth = token,
+                id = id
+            ).response.song.toSong()
+        })
     }
+
 }

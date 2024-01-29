@@ -1,5 +1,6 @@
 package com.m4ykey.ui.lyrics
 
+import android.util.Log
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,8 +21,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.m4ykey.core.composable.LoadingMaxSize
+import com.m4ykey.core.helpers.showToast
 import com.m4ykey.ui.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,7 +42,10 @@ fun SongScreen(
         viewModel.searchLyrics("$trackName $artistName")
     }
 
-    val search by viewModel.search.collectAsState()
+    val lyricsState by viewModel.lyrics.collectAsState()
+    val lyrics = lyricsState.result
+
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -56,18 +63,23 @@ fun SongScreen(
             )
         }
     ) {
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(it),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            if (search.result?.isNotEmpty() == true) {
-                val title = search.result!![0].fullTitle
-                Text(text = title)
+        when {
+            lyricsState.isLoading -> { LoadingMaxSize() }
+            lyricsState.error != null -> {
+                showToast(context, "${lyricsState.error}")
+                Log.i("LyricsError", "SongScreen: ${lyricsState.error}")
+            }
+            else -> {
+                Column(
+                    modifier = modifier
+                        .fillMaxSize()
+                        .padding(it),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(text = lyrics?.title.toString())
+                }
             }
         }
     }
-
 }
