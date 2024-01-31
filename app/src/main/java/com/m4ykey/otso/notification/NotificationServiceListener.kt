@@ -11,6 +11,7 @@ import android.service.notification.StatusBarNotification
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.m4ykey.core.helpers.MusicNotificationState
 
 class NotificationServiceListener : NotificationListenerService() {
 
@@ -18,8 +19,13 @@ class NotificationServiceListener : NotificationListenerService() {
         val notification = sbn.notification
         val title = notification.extras.getCharSequence("android.title")?.toString()
         val text = notification.extras.getCharSequence("android.text")?.toString()
+        val subText = notification.extras.getCharSequence("android.subText")?.toString()
+        val infoText = notification.extras.getCharSequence("android.infoText")?.toString()
 
-        Log.d(TAG, "Received notification: $title - $text")
+        val songInfo = listOfNotNull(title, text, subText, infoText).joinToString(" - ")
+
+        MusicNotificationState.updateSongInfo(songInfo)
+        Log.d(TAG, "Received notification: $songInfo")
     }
 
     override fun onNotificationRemoved(sbn: StatusBarNotification) {

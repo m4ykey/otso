@@ -17,6 +17,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -27,6 +29,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.m4ykey.core.helpers.MusicNotificationState
 import com.m4ykey.ui.spotify.album.NewReleaseHome
 import com.m4ykey.ui.video.TrendingVideosHome
 import java.time.LocalTime
@@ -53,6 +56,7 @@ fun MusicHomeScreen(
         color = if (isSystemInDarkTheme) Color.White else Color.Black
     )
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val songInfo by MusicNotificationState.songInfo.collectAsState()
 
     Scaffold(
         topBar = {
@@ -84,6 +88,8 @@ fun MusicHomeScreen(
                 .padding(end = 10.dp, start = 10.dp)
                 .verticalScroll(scrollState)
         ) {
+            Text(text = "Currently Playing")
+            Text(text = songInfo ?: "No song information available")
             Text(
                 modifier = modifier.padding(5.dp),
                 text = stringResource(id = R.string.latest_new_releases),

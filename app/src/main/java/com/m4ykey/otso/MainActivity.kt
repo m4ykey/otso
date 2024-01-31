@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.m4ykey.navigation.AppNavigation
-import com.m4ykey.otso.notification.NotificationService
+import com.m4ykey.otso.notification.NotificationServiceListener
 import com.m4ykey.otso.notification.checkNotificationListenerPermission
 import com.m4ykey.otso.notification.showNotification
 import com.m4ykey.otso.ui.theme.OtsoTheme
@@ -36,7 +36,8 @@ class MainActivity : ComponentActivity() {
 
                     showNotification(this)
                     checkNotificationListenerPermission(this)
-                    startService(Intent(this, NotificationService::class.java))
+                    stopService(Intent(this, NotificationServiceListener::class.java))
+                    startService(Intent(this, NotificationServiceListener::class.java))
                 }
             }
         }
