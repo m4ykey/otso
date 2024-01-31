@@ -17,15 +17,20 @@ class NotificationServiceListener : NotificationListenerService() {
 
     override fun onNotificationPosted(sbn: StatusBarNotification) {
         val notification = sbn.notification
-        val title = notification.extras.getCharSequence("android.title")?.toString()
-        val text = notification.extras.getCharSequence("android.text")?.toString()
-        val subText = notification.extras.getCharSequence("android.subText")?.toString()
-        val infoText = notification.extras.getCharSequence("android.infoText")?.toString()
+        val packageName = sbn.packageName
 
-        val songInfo = listOfNotNull(title, text, subText, infoText).joinToString(" - ")
+        if (isMusicApp(packageName)) {
+            val title = notification.extras.getCharSequence("android.title")?.toString()
+            val artist = notification.extras.getCharSequence("android.text")?.toString()
+            val subText = notification.extras.getCharSequence("android.subText")?.toString()
+            val infoText = notification.extras.getCharSequence("android.infoText")?.toString()
 
-        MusicNotificationState.updateSongInfo(songInfo)
-        Log.d(TAG, "Received notification: $songInfo")
+            val songInfo = listOfNotNull(title, artist, subText, infoText).joinToString(" - ")
+
+            MusicNotificationState.updateArtist(artist.orEmpty())
+            MusicNotificationState.updateTitle(title.orEmpty())
+            Log.d(TAG, "Received notification: $songInfo")
+        }
     }
 
     override fun onNotificationRemoved(sbn: StatusBarNotification) {
@@ -65,4 +70,14 @@ fun checkNotificationListenerPermission(context : Context) {
             )
         }
     }
+}
+
+private fun isMusicApp(packageName : String) : Boolean {
+    return packageName in listOf(
+        "com.spotify.music",
+        "com.google.android.apps.youtube.music",
+        "deezer.package.name",
+        "com.soundcloud.android",
+        "com.aspiro.tidal"
+    )
 }

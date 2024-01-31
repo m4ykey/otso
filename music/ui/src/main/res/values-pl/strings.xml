@@ -18,6 +18,6 @@
     <string name="top_tracks">Najlepsze utwory</string>
     <string name="albums">Albumy</string>
     <string name="related_artists">Podobni Artyści</string>
-    <string name="sec">sec</string>
-    <string name="hour">godz</string>
+    <string name="currently_playing">Aktualnie Odtwarzane</string>
+    <string name="nothing_is_currently_playing">Nic nie jest aktualnie odtwarzane</string>
 </resources>

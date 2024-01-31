@@ -4,10 +4,19 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 object MusicNotificationState {
-    private val _songInfo = MutableStateFlow<String?>(null)
-    val songInfo : StateFlow<String?> = _songInfo
 
-    fun updateSongInfo(info : String) {
-        _songInfo.value = info
+    private val _title = MutableStateFlow<String?>(null)
+    val title : StateFlow<String?> = _title
+
+    private val _artist = MutableStateFlow<String?>(null)
+    val artist : StateFlow<String?> = _artist
+
+    fun updateTitle(info : String) {
+        _title.value = info
     }
+
+    fun updateArtist(info : String) {
+        _artist.value = info
+    }
+
 }
