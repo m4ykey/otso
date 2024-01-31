@@ -27,7 +27,7 @@ fun AlbumCard(
     size : Dp,
     onAlbumClick : (String) -> Unit
 ) {
-    val image = item.images.maxByOrNull { it.width * it.height }
+    val image = item.images.maxByOrNull { it.width * it.height }?.url
     val artistList = item.artists.joinToString(", ") { it.name }
     val isSystemInDarkTheme = isSystemInDarkTheme()
 
@@ -37,7 +37,7 @@ fun AlbumCard(
             .clickable { onAlbumClick(item.id) }
     ) {
         LoadImage(
-            url = image?.url.toString(),
+            url = image.toString(),
             contentDescription = "Album cover = ${item.name}",
             modifier = modifier
                 .height(size)

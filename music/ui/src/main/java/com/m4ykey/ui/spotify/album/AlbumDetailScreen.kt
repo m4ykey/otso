@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.Album
@@ -116,6 +117,8 @@ fun AlbumDetailScreen(
         else -> albumDetail?.albumType
     }
 
+    var isAlbumLiked by remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -166,7 +169,7 @@ fun AlbumDetailScreen(
                     )
                     Spacer(modifier = modifier.height(20.dp))
                     StyledText(
-                        text = artistList.toString(),
+                        text = artistList.orEmpty(),
                         fontSize = 15.sp,
                         modifier = modifier
                             .fillMaxWidth()
@@ -176,7 +179,7 @@ fun AlbumDetailScreen(
                         fontFamily = FontFamily(Font(R.font.poppins))
                     )
                     StyledText(
-                        text = albumDetail?.name.toString(),
+                        text = albumDetail?.name.orEmpty(),
                         fontSize = 23.sp,
                         modifier = modifier.fillMaxWidth(),
                         color = if (isSystemInDarkTheme) Color.White else Color.Black,
@@ -193,20 +196,25 @@ fun AlbumDetailScreen(
                         )
                         Text(
                             style = infoStyle,
-                            text = " • ${shortFormatReleaseDate(albumDetail?.releaseDate ?: "")}"
+                            text = " • ${shortFormatReleaseDate(albumDetail?.releaseDate.orEmpty())}"
                         )
                         Text(
                             modifier = modifier.weight(1f),
                             style = infoStyle,
                             text = " • ${albumDetail?.totalTracks} " + stringResource(id = R.string.tracks)
                         )
+                    }
+                    IconButton(
+                        modifier = modifier.align(Alignment.Start),
+                        onClick = { isAlbumLiked = !isAlbumLiked }
+                    ) {
+                        val icon = if (isAlbumLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder
                         Icon(
-                            imageVector = Icons.Default.FavoriteBorder,
+                            imageVector = icon,
                             contentDescription = null,
                             tint = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray,
                         )
                     }
-                    Spacer(modifier = modifier.height(10.dp))
                     Column(
                         modifier = modifier.fillMaxWidth()
                     ) {
@@ -267,7 +275,7 @@ fun AlbumDetailScreen(
                     )
                     Spacer(modifier = modifier.width(10.dp))
                     Text(
-                        text = albumDetail?.name.toString(),
+                        text = albumDetail?.name.orEmpty(),
                         fontFamily = FontFamily(Font(R.font.poppins)),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
@@ -281,7 +289,7 @@ fun AlbumDetailScreen(
                     onItemClick = {
                         openUrl(
                             context = context,
-                            url = albumDetail?.externalUrls?.spotify ?: ""
+                            url = albumDetail?.externalUrls?.spotify.orEmpty()
                         )
                     },
                     icon = Icons.Outlined.Album,
@@ -292,7 +300,7 @@ fun AlbumDetailScreen(
                     onItemClick = {
                         shareUrl(
                             context = context,
-                            url = albumDetail?.externalUrls?.spotify ?: ""
+                            url = albumDetail?.externalUrls?.spotify.orEmpty()
                         )
                     },
                     fontFamily = FontFamily(Font(R.font.poppins)),

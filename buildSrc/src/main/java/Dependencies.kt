@@ -67,6 +67,9 @@ object Dependencies {
             const val okHttp = "com.squareup.okhttp3:okhttp:${Version.okHttp}"
             const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Version.okHttp}"
         }
+        object Jsoup {
+            const val jsoup = "org.jsoup:jsoup:${Version.jsoup}"
+        }
     }
 
     object Hilt {
@@ -81,6 +84,10 @@ object Dependencies {
 
     object Coil {
         const val coil = "io.coil-kt:coil-compose:${Version.coil}"
+    }
+
+    object YoutubePlayer {
+        const val youtubePlayer = "com.pierfrancescosoffritti.androidyoutubeplayer:core:${Version.youtubePlayer}"
     }
 
 }

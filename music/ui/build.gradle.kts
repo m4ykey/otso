@@ -81,4 +81,8 @@ dependencies {
 
     implementation(Dependencies.Coil.coil)
 
+    implementation(Dependencies.Network.Jsoup.jsoup)
+
+    implementation(Dependencies.YoutubePlayer.youtubePlayer)
+
 }

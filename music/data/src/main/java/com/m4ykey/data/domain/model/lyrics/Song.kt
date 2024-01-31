@@ -15,5 +15,6 @@ data class Song(
     val songArtImageUrl: String? = null,
     val stats: Stats,
     val title: String? = null,
-    val url: String? = null
+    val url: String? = null,
+    val path : String? = null
 )

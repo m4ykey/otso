@@ -41,6 +41,7 @@ fun SongDto.toSong() : Song {
         releaseDateWithAbbreviatedMonthForDisplay = release_date_with_abbreviated_month_for_display!!,
         songArtImageUrl = song_art_image_url!!,
         headerImageThumbnailUrl = header_image_thumbnail_url!!,
-        producerArtists = producer_artists.map { it.toProducerArtist() }
+        producerArtists = producer_artists.map { it.toProducerArtist() },
+        path = path
     )
 }
