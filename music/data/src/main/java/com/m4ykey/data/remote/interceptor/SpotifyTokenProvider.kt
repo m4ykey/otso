@@ -7,7 +7,7 @@ import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.m4ykey.data.BuildConfig.SPOTIFY_CLIENT_ID
 import com.m4ykey.data.BuildConfig.SPOTIFY_CLIENT_SECRET
-import com.m4ykey.data.remote.api.music.SAuthApi
+import com.m4ykey.data.remote.api.spotify.SAuthApi
 import com.m4ykey.data.remote.interceptor.token.TokenProvider
 import com.m4ykey.data.remote.interceptor.token.fetchAccessToken
 import kotlinx.coroutines.flow.first

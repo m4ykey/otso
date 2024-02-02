@@ -1,4 +1,4 @@
-package com.m4ykey.data.remote.api.music
+package com.m4ykey.data.remote.api.spotify
 
 import com.m4ykey.data.remote.model.album.AlbumDetailDto
 import com.m4ykey.data.remote.model.album.AlbumResponseDto

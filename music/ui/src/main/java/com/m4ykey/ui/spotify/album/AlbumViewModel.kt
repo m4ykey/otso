@@ -82,7 +82,7 @@ class AlbumViewModel @Inject constructor(
         return repository.getNewReleasePager().cachedIn(viewModelScope)
     }
 
-    fun observePagingTrackList(albumId: String) : Flow<PagingData<TrackItem>> {
+    fun getPagingTrackList(albumId: String) : Flow<PagingData<TrackItem>> {
         return repository.getTrackListPager(albumId).cachedIn(viewModelScope)
     }
 

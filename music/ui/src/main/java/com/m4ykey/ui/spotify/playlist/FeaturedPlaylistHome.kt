@@ -1,5 +1,6 @@
-package com.m4ykey.ui.spotify.album
+package com.m4ykey.ui.spotify.playlist
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -34,44 +35,44 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.m4ykey.core.composable.LoadingMaxWidth
-import com.m4ykey.core.helpers.showToast
 import com.m4ykey.ui.R
-import com.m4ykey.ui.components.AlbumCard
+import com.m4ykey.ui.components.PlaylistCard
 
 @Composable
-fun NewReleaseHome(
-    modifier: Modifier = Modifier,
-    onNewReleaseClick: () -> Unit,
-    onAlbumClick : (String) -> Unit,
-    viewModel: AlbumViewModel = hiltViewModel()
+fun FeaturedPlaylistHome(
+    modifier : Modifier = Modifier,
+    onPlaylistClick : (String) -> Unit = {},
+    onFeaturedPlaylistClick : () -> Unit = {},
+    viewModel : PlaylistViewModel = hiltViewModel()
 ) {
-    val state by viewModel.albumUiState.collectAsState()
-    val context = LocalContext.current
+
+    val state by viewModel.playlist.collectAsState()
     val isSystemInDarkTheme = isSystemInDarkTheme()
+    val context = LocalContext.current
 
     when {
-        state.isLoading -> { LoadingMaxWidth() }
-        state.error != null -> { showToast(context, state.error!!) }
+        state.isLoading -> LoadingMaxWidth()
+        state.error != null -> Log.i("PlaylistError", "FeaturedPlaylistHome: ${state.error}")
         else -> {
             LazyRow(
                 modifier = modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 items(
-                    state.albums,
+                    state.playlist,
                     key = { it.id }
-                ) { album ->
-                    AlbumCard(
-                        item = album,
-                        size = 120.dp,
-                        onAlbumClick = onAlbumClick
+                ) { playlist ->
+                    PlaylistCard(
+                        playlist = playlist,
+                        onPlaylistClick = onPlaylistClick,
+                        size = 120.dp
                     )
                 }
                 item {
                     Column(
                         modifier = modifier
                             .width(120.dp)
-                            .clickable { onNewReleaseClick() }
+                            .clickable { onFeaturedPlaylistClick() }
                     ) {
                         Card(
                             modifier = modifier.height(120.dp),
@@ -103,4 +104,5 @@ fun NewReleaseHome(
             }
         }
     }
+
 }

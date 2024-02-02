@@ -1,7 +1,7 @@
 package com.m4ykey.data.remote.interceptor.token
 
 import android.util.Base64
-import com.m4ykey.data.remote.api.music.SAuthApi
+import com.m4ykey.data.remote.api.spotify.SAuthApi
 
 suspend fun <T: Any> fetchAccessToken(clientId : String, clientSecret : String, api : T) : String {
     val authHeader = "Basic " + Base64.encodeToString(

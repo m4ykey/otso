@@ -50,8 +50,6 @@ fun ItemsDto.toItems() : Items {
 
 fun AlbumsDto.toAlbums() : Albums = Albums(
     items = items.map { it.toItems() },
-    limit = limit ?: 0,
-    offset = offset ?: 0,
     next = next ?: "",
     previous = previous ?: ""
 )

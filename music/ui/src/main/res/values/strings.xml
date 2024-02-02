@@ -22,4 +22,5 @@
     <string name="nothing_is_currently_playing">Nothing is currently playing</string>
     <string name="notification_access">To view the song currently playing, confirm access to notifications</string>
     <string name="allow_access">Allow Access</string>
+    <string name="featured_playlists">Featured Playlists</string>
 </resources>

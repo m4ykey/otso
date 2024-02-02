@@ -1,8 +1,10 @@
 package com.m4ykey.data.di
 
 import com.m4ykey.data.domain.repository.AlbumRepository
+import com.m4ykey.data.domain.repository.PlaylistRepository
 import com.m4ykey.data.domain.repository.VideoRepository
 import com.m4ykey.data.repository.AlbumRepositoryImpl
+import com.m4ykey.data.repository.PlaylistRepositoryImpl
 import com.m4ykey.data.repository.VideoRepositoryImpl
 import dagger.Module
 import dagger.Provides
@@ -21,5 +23,9 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideVideoRepository(repository : VideoRepositoryImpl) : VideoRepository = repository
+
+    @Provides
+    @Singleton
+    fun providePlaylistRepository(repository : PlaylistRepositoryImpl) : PlaylistRepository = repository
 
 }

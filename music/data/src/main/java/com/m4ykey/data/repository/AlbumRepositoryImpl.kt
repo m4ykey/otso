@@ -12,7 +12,7 @@ import com.m4ykey.data.domain.model.album.tracks.TrackItem
 import com.m4ykey.data.domain.repository.AlbumRepository
 import com.m4ykey.data.mappers.toAlbumDetail
 import com.m4ykey.data.mappers.toAlbums
-import com.m4ykey.data.remote.api.music.AlbumApi
+import com.m4ykey.data.remote.api.spotify.AlbumApi
 import com.m4ykey.data.remote.interceptor.SpotifyTokenProvider
 import com.m4ykey.data.remote.paging.NewReleasePagingSource
 import com.m4ykey.data.remote.paging.TrackListPagingSource

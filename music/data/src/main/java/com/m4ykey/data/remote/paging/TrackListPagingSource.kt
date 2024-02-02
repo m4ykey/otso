@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.m4ykey.data.domain.model.album.tracks.TrackItem
 import com.m4ykey.data.mappers.toTrackItem
-import com.m4ykey.data.remote.api.music.AlbumApi
+import com.m4ykey.data.remote.api.spotify.AlbumApi
 import com.m4ykey.data.remote.interceptor.SpotifyTokenProvider
 
 class TrackListPagingSource(

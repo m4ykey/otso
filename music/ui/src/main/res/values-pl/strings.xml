@@ -20,6 +20,7 @@
     <string name="related_artists">Podobni Artyści</string>
     <string name="currently_playing">Aktualnie Odtwarzane</string>
     <string name="nothing_is_currently_playing">Nic nie jest aktualnie odtwarzane</string>
-    <string name="notification_access">To view the song currently playing, confirm access to notifications</string>
-    <string name="allow_access">Allow Access</string>
+    <string name="notification_access">Aby wyświetlić aktualnie graną piosenkę, zezwól na powiadomienia</string>
+    <string name="allow_access">Udziel dostępu</string>
+    <string name="featured_playlists">Polecane Playlisty</string>
 </resources>

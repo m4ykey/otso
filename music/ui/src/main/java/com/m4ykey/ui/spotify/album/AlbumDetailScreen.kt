@@ -90,7 +90,7 @@ fun AlbumDetailScreen(
 
     LaunchedEffect(viewModel) {
         viewModel.getAlbumById(id)
-        lazyPagingItems = viewModel.observePagingTrackList(albumId = id)
+        lazyPagingItems = viewModel.getPagingTrackList(albumId = id)
     }
 
     trackList = lazyPagingItems?.collectAsLazyPagingItems()
@@ -109,7 +109,7 @@ fun AlbumDetailScreen(
     val albumState by viewModel.albumDetailUiState.collectAsState()
     val albumDetail = albumState.albumDetail
 
-    val imageUrl = albumDetail?.images?.maxByOrNull { it.width * it.height }?.url
+    val imageUrl = albumDetail?.images?.maxByOrNull { it.width!! * it.height!! }?.url
     val artistList = albumDetail?.artists?.joinToString(", ") { it.name }
 
     val albumType = when {

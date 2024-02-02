@@ -6,7 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.m4ykey.data.remote.api.music.SAuthApi
+import com.m4ykey.data.remote.api.spotify.SAuthApi
 import com.m4ykey.data.remote.interceptor.SpotifyTokenProvider
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

@@ -53,6 +53,7 @@ import com.m4ykey.core.composable.LoadImage
 import com.m4ykey.core.notification.MusicNotificationState
 import com.m4ykey.core.notification.checkNotificationListenerPermission
 import com.m4ykey.ui.spotify.album.NewReleaseHome
+import com.m4ykey.ui.spotify.playlist.FeaturedPlaylistHome
 import com.m4ykey.ui.video.TrendingVideosHome
 import java.time.LocalTime
 
@@ -203,6 +204,13 @@ fun MusicHomeScreen(
                 style = titleStyle
             )
             TrendingVideosHome(modifier = modifier)
+            Spacer(modifier = modifier.height(10.dp))
+            Text(
+                modifier = modifier.padding(5.dp),
+                style = titleStyle,
+                text = stringResource(id = R.string.featured_playlists)
+            )
+            FeaturedPlaylistHome()
         }
     }
 }

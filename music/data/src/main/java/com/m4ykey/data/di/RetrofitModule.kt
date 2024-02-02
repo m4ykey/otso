@@ -4,8 +4,9 @@ import com.m4ykey.core.Constants.SPOTIFY_AUTH_URL
 import com.m4ykey.core.Constants.SPOTIFY_BASE_URL
 import com.m4ykey.core.Constants.YOUTUBE_BASE_URL
 import com.m4ykey.core.network.createApi
-import com.m4ykey.data.remote.api.music.AlbumApi
-import com.m4ykey.data.remote.api.music.SAuthApi
+import com.m4ykey.data.remote.api.spotify.AlbumApi
+import com.m4ykey.data.remote.api.spotify.PlaylistApi
+import com.m4ykey.data.remote.api.spotify.SAuthApi
 import com.m4ykey.data.remote.api.video.VideoApi
 import com.squareup.moshi.Moshi
 import dagger.Module
@@ -39,5 +40,12 @@ object RetrofitModule {
         moshi: Moshi,
         okHttpClient: OkHttpClient
     ) : VideoApi = createApi(YOUTUBE_BASE_URL, moshi, VideoApi::class.java, okHttpClient)
+
+    @Provides
+    @Singleton
+    fun providePlaylistApi(
+        moshi: Moshi,
+        okHttpClient: OkHttpClient
+    ) : PlaylistApi = createApi(SPOTIFY_BASE_URL, moshi, PlaylistApi::class.java, okHttpClient)
 
 }
