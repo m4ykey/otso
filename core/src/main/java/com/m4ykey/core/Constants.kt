@@ -19,7 +19,12 @@ object Constants {
     const val CHANNEL_ID = "Music_Channel_ID"
     const val NOTIFICATION_ID = 1
 
-    const val GENIUS_BASE_URL = "https://api.genius.com/"
+    const val SPOTIFY_LOGO = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/2048px-Spotify_logo_without_text.svg.png"
+    const val YT_MUSIC_LOGO = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Youtube_Music_icon.svg/512px-Youtube_Music_icon.svg.png"
+    const val DEEZER_LOGO = "https://w7.pngwing.com/pngs/958/783/png-transparent-deezer-app-logo-tech-companies-thumbnail.png"
+    const val SOUNDCLOUD_LOGO = "https://w7.pngwing.com/pngs/183/887/png-transparent-soundcloud-logo-soundcloud-computer-icons-logo-soundcloud-logo-orange-desktop-wallpaper-music-download-thumbnail.png"
+    const val TIDAL_LOGO = "https://w7.pngwing.com/pngs/973/746/png-transparent-tidal-round-logo-tech-companies-thumbnail.png"
+    const val SHAZAM_LOGO = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Shazam_icon.svg/800px-Shazam_icon.svg.png"
 
 }
 

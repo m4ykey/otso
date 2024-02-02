@@ -4,10 +4,13 @@ import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -40,6 +43,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.m4ykey.core.Constants.DEEZER_LOGO
+import com.m4ykey.core.Constants.SHAZAM_LOGO
+import com.m4ykey.core.Constants.SOUNDCLOUD_LOGO
+import com.m4ykey.core.Constants.SPOTIFY_LOGO
+import com.m4ykey.core.Constants.TIDAL_LOGO
+import com.m4ykey.core.Constants.YT_MUSIC_LOGO
+import com.m4ykey.core.composable.LoadImage
 import com.m4ykey.core.notification.MusicNotificationState
 import com.m4ykey.core.notification.checkNotificationListenerPermission
 import com.m4ykey.ui.spotify.album.NewReleaseHome
@@ -72,8 +82,19 @@ fun MusicHomeScreen(
 
     val artist by MusicNotificationState.artist.collectAsState()
     val title by MusicNotificationState.title.collectAsState()
+    val appInfo by MusicNotificationState.app.collectAsState()
+    val subText by MusicNotificationState.subText.collectAsState()
 
     val isNotificationAccessGranted by viewModel.isNotificationAccessGranted.observeAsState()
+
+    val logos = mapOf(
+        "com.spotify.music" to SPOTIFY_LOGO,
+        "com.google.android.apps.youtube.music" to YT_MUSIC_LOGO,
+        "deezer.package.name" to DEEZER_LOGO,
+        "com.soundcloud.android" to SOUNDCLOUD_LOGO,
+        "com.aspiro.tidal" to TIDAL_LOGO,
+        "com.shazam.android" to SHAZAM_LOGO
+    )
 
     Scaffold(
         topBar = {
@@ -120,7 +141,7 @@ fun MusicHomeScreen(
                             .background(MaterialTheme.colorScheme.onSecondary)
                     ) {
                         Text(
-                            modifier = modifier.padding(5.dp),
+                            modifier = modifier.padding(start = 5.dp, end = 5.dp, top = 5.dp),
                             text = title.toString(),
                             color = if (isSystemInDarkTheme) Color.White else Color.Black,
                             fontSize = 16.sp,
@@ -133,6 +154,23 @@ fun MusicHomeScreen(
                             fontSize = 13.sp,
                             fontFamily = FontFamily(Font(R.font.poppins))
                         )
+                        Row(
+                            modifier = modifier
+                                .fillMaxWidth()
+                                .padding(start = 5.dp, bottom = 5.dp, end = 5.dp)
+                        ) {
+                            LoadImage(
+                                url = logos[appInfo],
+                                modifier = modifier.size(24.dp)
+                            )
+                            Spacer(modifier = modifier.width(5.dp))
+                            Text(
+                                text = subText.toString(),
+                                color = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray,
+                                fontSize = 12.sp,
+                                fontFamily = FontFamily(Font(R.font.poppins))
+                            )
+                        }
                     }
                 } else {
                     Text(
@@ -140,7 +178,8 @@ fun MusicHomeScreen(
                         modifier = modifier.padding(5.dp),
                         fontFamily = FontFamily(Font(R.font.poppins_medium)),
                         fontSize = 16.sp,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color = if (isSystemInDarkTheme) Color.White else Color.Black
                     )
                 }
             } else {
