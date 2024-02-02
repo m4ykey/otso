@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -112,27 +111,37 @@ fun MusicHomeScreen(
                 modifier = modifier.padding(5.dp)
             )
             if (isNotificationAccessGranted == true) {
-                Column(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .padding(start = 10.dp, end = 10.dp)
-                        .clip(RoundedCornerShape(10))
-                        .background(MaterialTheme.colorScheme.onSecondary)
-                ) {
-                    if (!title.isNullOrEmpty() && !artist.isNullOrEmpty()) {
-                        Row(
-                            modifier = modifier.fillMaxWidth()
-                        ) {
-                            Column(
-                                //modifier = modifier.fillMaxHeight()
-                            ) {
-                                Text(text = title.toString())
-                                Text(text = artist.toString())
-                            }
-                        }
-                    } else {
-                        Text(text = stringResource(id = R.string.nothing_is_currently_playing))
+                if (!title.isNullOrEmpty() && !artist.isNullOrEmpty()) {
+                    Column(
+                        modifier = modifier
+                            .fillMaxWidth()
+                            .padding(5.dp)
+                            .clip(RoundedCornerShape(10))
+                            .background(MaterialTheme.colorScheme.onSecondary)
+                    ) {
+                        Text(
+                            modifier = modifier.padding(5.dp),
+                            text = title.toString(),
+                            color = if (isSystemInDarkTheme) Color.White else Color.Black,
+                            fontSize = 16.sp,
+                            fontFamily = FontFamily(Font(R.font.poppins_medium))
+                        )
+                        Text(
+                            modifier = modifier.padding(start = 5.dp, end = 5.dp, bottom = 5.dp),
+                            text = artist.toString(),
+                            color = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray,
+                            fontSize = 13.sp,
+                            fontFamily = FontFamily(Font(R.font.poppins))
+                        )
                     }
+                } else {
+                    Text(
+                        text = stringResource(id = R.string.nothing_is_currently_playing),
+                        modifier = modifier.padding(5.dp),
+                        fontFamily = FontFamily(Font(R.font.poppins_medium)),
+                        fontSize = 16.sp,
+                        textAlign = TextAlign.Center
+                    )
                 }
             } else {
                 viewModel.checkNotificationAccess(context)

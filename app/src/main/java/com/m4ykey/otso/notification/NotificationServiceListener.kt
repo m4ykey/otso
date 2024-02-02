@@ -1,24 +1,34 @@
 package com.m4ykey.otso.notification
 
+import android.os.Build
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.util.Log
+import androidx.annotation.RequiresApi
 import com.m4ykey.core.notification.MusicNotificationState
 
 class NotificationServiceListener : NotificationListenerService() {
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onNotificationPosted(sbn: StatusBarNotification) {
         val packageName = sbn.packageName
         val extras = sbn.notification.extras
+        val keys = extras.keySet()
 
         if (isMusicApp(packageName)) {
-            val title = extras.getCharSequence("android.title")?.toString()
-            val artist = extras.getCharSequence("android.text")?.toString()
+            val title = extras.getCharSequence("android.title", "")?.toString()
+            val artist = extras.getCharSequence("android.text", "")?.toString()
+            val subText = extras.getCharSequence("android.subText", "")?.toString()
 
             val songInfo = listOfNotNull(title, artist).joinToString(" - ")
 
             MusicNotificationState.updateArtist(artist.orEmpty())
             MusicNotificationState.updateTitle(title.orEmpty())
+
+            for (key in keys) {
+                val value = extras.get(key)
+                Log.d(TAG, "Key: $key, Value: $value")
+            }
 
             Log.d(TAG, "Received notification: $songInfo")
         }
