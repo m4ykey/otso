@@ -34,7 +34,7 @@ object Version {
     const val junit = "4.13.2"
     const val espresso = "3.5.1"
     const val extJunit = "1.1.5"
-    const val constraintLayout = "1.1.0-alpha11"
+    const val constraintLayoutCompose = "1.1.0-alpha11"
     const val iconsExtended = "1.6.0-beta03"
     const val material3 = "1.2.0-beta02"
     const val messaging = "23.4.0"
@@ -42,6 +42,7 @@ object Version {
     const val truth = "1.3.0"
     const val jsoup = "1.17.2"
     const val youtubePlayer = "12.1.0"
+    const val constraintLayout = "2.1.4"
 
     // Gradle
     const val ktlint = "1.1.1"

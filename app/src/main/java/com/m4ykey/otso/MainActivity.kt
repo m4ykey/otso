@@ -13,8 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.m4ykey.navigation.AppNavigation
-import com.m4ykey.otso.notification.NotificationServiceListener
-import com.m4ykey.otso.notification.checkNotificationListenerPermission
+import com.m4ykey.otso.notification.StartServiceReceiver
 import com.m4ykey.otso.notification.showNotification
 import com.m4ykey.otso.ui.theme.OtsoTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,9 +34,9 @@ class MainActivity : ComponentActivity() {
                     AppNavigation(navController = navController)
 
                     showNotification(this)
-                    checkNotificationListenerPermission(this)
-                    stopService(Intent(this, NotificationServiceListener::class.java))
-                    startService(Intent(this, NotificationServiceListener::class.java))
+                    val intent = Intent(this, StartServiceReceiver::class.java)
+                    intent.action = "custom.start.service.action"
+                    sendBroadcast(intent)
                 }
             }
         }

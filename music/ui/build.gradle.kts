@@ -62,6 +62,8 @@ dependencies {
     implementation(Dependencies.AndroidX.Paging.paging)
     implementation(Dependencies.AndroidX.Paging.pagingCompose)
     implementation(Dependencies.AndroidX.Compose.composeIconsExtended)
+    implementation(Dependencies.AndroidX.Lifecycle.livedata)
+    implementation(Dependencies.AndroidX.Lifecycle.runtimeLivedata)
 
     testImplementation(Dependencies.Test.TestImplementation.junit)
 
@@ -78,6 +80,7 @@ dependencies {
     ksp(Dependencies.Hilt.hiltCompiler)
 
     implementation(Dependencies.Coroutines.coroutinesAndroid)
+
 
     implementation(Dependencies.Coil.coil)
 

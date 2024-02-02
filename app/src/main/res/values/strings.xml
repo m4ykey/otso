@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">otso</string>
-    <string name="service_name">Notification Listener</string>
+    <string name="app_name" translatable="false">otso</string>
+    <string name="service_name" translatable="false">Notification Listener</string>
 </resources>

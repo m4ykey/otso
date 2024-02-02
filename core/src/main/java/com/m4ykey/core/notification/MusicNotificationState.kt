@@ -1,4 +1,4 @@
-package com.m4ykey.core.helpers
+package com.m4ykey.core.notification
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

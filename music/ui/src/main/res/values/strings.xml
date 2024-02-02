@@ -18,8 +18,8 @@
     <string name="top_tracks">Top Tracks</string>
     <string name="albums">Albums</string>
     <string name="related_artists">Related Artists</string>
-    <string name="sec">sec</string>
-    <string name="hour">godz</string>
     <string name="currently_playing">Currently Playing</string>
     <string name="nothing_is_currently_playing">Nothing is currently playing</string>
+    <string name="notification_access">To view the song currently playing, confirm access to notifications</string>
+    <string name="allow_access">Allow Access</string>
 </resources>

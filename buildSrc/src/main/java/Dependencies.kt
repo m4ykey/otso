@@ -10,14 +10,17 @@ object Dependencies {
             const val composeActivity = "androidx.activity:activity-compose:${Version.composeActivity}"
             const val composeNavigation = "androidx.navigation:navigation-compose:${Version.navigation}"
             const val composeIconsExtended = "androidx.compose.material:material-icons-extended:${Version.iconsExtended}"
-            const val composeConstraintLayout = "androidx.constraintlayout:constraintlayout-compose:${Version.constraintLayout}"
+            const val composeConstraintLayout = "androidx.constraintlayout:constraintlayout-compose:${Version.constraintLayoutCompose}"
         }
         object Core {
             const val core = "androidx.core:core-ktx:${Version.core}"
             const val appcompat = "androidx.appcompat:appcompat:${Version.appcompat}"
             const val material = "com.google.android.material:material:${Version.material}"
+            const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Version.constraintLayout}"
         }
         object Lifecycle {
+            const val livedata = "androidx.lifecycle:lifecycle-livedata-ktx:${Version.lifecycle}"
+            const val runtimeLivedata = "androidx.compose.runtime:runtime-livedata:1.6.0"
             const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:${Version.lifecycle}"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:${Version.lifecycle}"
         }

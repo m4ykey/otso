@@ -82,7 +82,7 @@ fun AlbumDetailScreen(
     id: String,
     viewModel: AlbumViewModel = hiltViewModel(),
     onNavigateBack: () -> Unit,
-    onTrackClick : (String, String) -> Unit
+    //onTrackClick : (String, String) -> Unit
 ) {
 
     var lazyPagingItems: Flow<PagingData<TrackItem>>? by remember { mutableStateOf(null) }
@@ -203,16 +203,12 @@ fun AlbumDetailScreen(
                             style = infoStyle,
                             text = " • ${albumDetail?.totalTracks} " + stringResource(id = R.string.tracks)
                         )
-                    }
-                    IconButton(
-                        modifier = modifier.align(Alignment.Start),
-                        onClick = { isAlbumLiked = !isAlbumLiked }
-                    ) {
                         val icon = if (isAlbumLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder
                         Icon(
+                            modifier = modifier.clickable { isAlbumLiked = !isAlbumLiked },
                             imageVector = icon,
                             contentDescription = null,
-                            tint = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray,
+                            tint = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray
                         )
                     }
                     Column(
@@ -221,10 +217,7 @@ fun AlbumDetailScreen(
                         for (index in 0 until (trackList?.itemCount ?: 0)) {
                             val tracks = trackList!![index]
                             if (tracks != null) {
-                                TrackItemList(
-                                    track = tracks,
-                                    onTrackClick = onTrackClick
-                                )
+                                TrackItemList(track = tracks)
                             }
                         }
 
