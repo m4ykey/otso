@@ -67,7 +67,8 @@ fun MusicHomeScreen(
     onNewReleaseClick: () -> Unit,
     onAlbumClick: (String) -> Unit,
     onSearchClick: () -> Unit = {},
-    onFeaturedPlaylistClick : () -> Unit = {},
+    onFeaturedPlaylistClick : () -> Unit,
+    onPlaylistClick : (String) -> Unit = {},
     viewModel: HomeViewModel = viewModel()
 ) {
     val scrollState = rememberScrollState()
@@ -207,24 +208,21 @@ fun MusicHomeScreen(
                 text = stringResource(id = R.string.latest_new_releases),
                 style = titleStyle
             )
-            NewReleaseHome(
-                modifier = modifier,
-                onAlbumClick = onAlbumClick
-            )
+            NewReleaseHome(onAlbumClick = onAlbumClick)
             Spacer(modifier = modifier.height(10.dp))
             Text(
                 modifier = modifier.padding(5.dp),
                 text = stringResource(id = R.string.most_popular_videos),
                 style = titleStyle
             )
-            TrendingVideosHome(modifier = modifier)
+            TrendingVideosHome()
             Spacer(modifier = modifier.height(10.dp))
             NavigationArrow(
                 navigation = { onFeaturedPlaylistClick() },
                 text = stringResource(id = R.string.featured_playlists),
                 style = titleStyle
             )
-            FeaturedPlaylistHome()
+            FeaturedPlaylistHome(onPlaylistClick = onPlaylistClick)
         }
     }
 }

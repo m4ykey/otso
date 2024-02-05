@@ -1,4 +1,4 @@
-package com.m4ykey.ui.spotify.album
+package com.m4ykey.ui.spotify.playlist
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.padding
@@ -19,7 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -28,36 +27,35 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.m4ykey.data.domain.model.album.Items
+import com.m4ykey.data.domain.model.playlist.PlaylistItems
 import com.m4ykey.ui.R
-import com.m4ykey.ui.components.AlbumCard
 import com.m4ykey.ui.components.ItemGrid
+import com.m4ykey.ui.components.PlaylistCard
 import kotlinx.coroutines.flow.Flow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NewReleaseScreen(
+fun FeaturedPlaylistScreen(
     modifier: Modifier = Modifier,
-    onNavigateBack: () -> Unit,
-    onAlbumClick: (String) -> Unit,
-    viewModel: AlbumViewModel = hiltViewModel()
+    viewModel: PlaylistViewModel = hiltViewModel(),
+    onNavigateBack : () -> Unit,
+    onPlaylistClick : (String) -> Unit = {}
 ) {
-    
-    var lazyPagingItems : Flow<PagingData<Items>>? by remember { mutableStateOf(null) }
-    var albumList : LazyPagingItems<Items>? by remember { mutableStateOf(null) }
+
+    var lazyPagingItems : Flow<PagingData<PlaylistItems>>? by remember { mutableStateOf(null) }
+    var playlistList : LazyPagingItems<PlaylistItems>? by remember { mutableStateOf(null) }
 
     LaunchedEffect(viewModel) {
-        val flow = viewModel.getPagingNewReleases()
+        val flow = viewModel.getPagingFeaturedPlaylist()
         lazyPagingItems = flow
     }
+
+    playlistList = lazyPagingItems?.collectAsLazyPagingItems()
 
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val isSystemInDarkTheme = isSystemInDarkTheme()
 
-    albumList = lazyPagingItems?.collectAsLazyPagingItems()
-
     Scaffold(
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopAppBar(
                 scrollBehavior = scrollBehavior,
@@ -65,7 +63,7 @@ fun NewReleaseScreen(
                     Text(
                         color = if (isSystemInDarkTheme) Color.White else Color.Black,
                         fontFamily = FontFamily(Font(R.font.poppins_medium)),
-                        text = stringResource(id = R.string.new_release)
+                        text = stringResource(id = R.string.featured_playlists)
                     ) },
                 navigationIcon = {
                     IconButton(onClick = { onNavigateBack() }) {
@@ -81,15 +79,15 @@ fun NewReleaseScreen(
     ) { paddingValues ->
         ItemGrid(
             modifier = modifier.padding(paddingValues),
-            itemList = albumList,
-            onItemClick = { clickedAlbum ->
-                onAlbumClick(clickedAlbum.id)
+            itemList = playlistList,
+            onItemClick = { clickedPlaylist ->
+                onPlaylistClick(clickedPlaylist.id)
             }
-        ) { album, _ ->
-            AlbumCard(
-                item = album,
-                size = 110.dp,
-                onAlbumClick = onAlbumClick
+        ) { playlist, _ ->
+            PlaylistCard(
+                playlist = playlist,
+                onPlaylistClick = onPlaylistClick,
+                size = 110.dp
             )
         }
     }

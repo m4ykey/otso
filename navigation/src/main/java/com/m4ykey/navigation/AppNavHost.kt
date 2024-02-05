@@ -12,6 +12,7 @@ import com.m4ykey.ui.NewsScreen
 import com.m4ykey.ui.ToolsScreen
 import com.m4ykey.ui.spotify.album.AlbumDetailScreen
 import com.m4ykey.ui.spotify.album.NewReleaseScreen
+import com.m4ykey.ui.spotify.playlist.FeaturedPlaylistScreen
 
 @Composable
 fun AppNavHost(
@@ -33,7 +34,8 @@ fun AppNavHost(
         composable(route = Music.MusicDestination.route) {
             MusicHomeScreen(
                 onNewReleaseClick = { navController.navigate(Music.NewReleaseDestination.route) },
-                onAlbumClick = { navController.navigate("${Music.AlbumDetailDestination.route}/$it") }
+                onAlbumClick = { navController.navigate("${Music.AlbumDetailDestination.route}/$it") },
+                onFeaturedPlaylistClick = { navController.navigate(Music.PlaylistDestination.route) }
             )
         }
         composable(
@@ -46,6 +48,9 @@ fun AppNavHost(
                 id = albumId,
                 onNavigateBack = { navController.navigateUp() }
             )
+        }
+        composable(route = Music.PlaylistDestination.route) {
+            FeaturedPlaylistScreen(onNavigateBack = { navController.navigateUp() })
         }
         composable(route = Tools.ToolsDestination.route) { ToolsScreen() }
     }
