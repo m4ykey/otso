@@ -2,7 +2,9 @@ package com.m4ykey.ui
 
 import android.content.Context
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +17,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -64,6 +67,7 @@ fun MusicHomeScreen(
     onNewReleaseClick: () -> Unit,
     onAlbumClick: (String) -> Unit,
     onSearchClick: () -> Unit = {},
+    onFeaturedPlaylistClick : () -> Unit = {},
     viewModel: HomeViewModel = viewModel()
 ) {
     val scrollState = rememberScrollState()
@@ -74,11 +78,13 @@ fun MusicHomeScreen(
         else -> context.getString(R.string.good_evening)
     }
     val isSystemInDarkTheme = isSystemInDarkTheme()
+
     val titleStyle = TextStyle(
         fontFamily = FontFamily(Font(R.font.generalsans_medium)),
         fontSize = 20.sp,
-        color = if (isSystemInDarkTheme) Color.White else Color.Black
+        color = if (isSystemInDarkTheme()) Color.White else Color.Black
     )
+
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     val artist by MusicNotificationState.artist.collectAsState()
@@ -174,27 +180,35 @@ fun MusicHomeScreen(
                         }
                     }
                 } else {
-                    Text(
-                        text = stringResource(id = R.string.nothing_is_currently_playing),
-                        modifier = modifier.padding(5.dp),
-                        fontFamily = FontFamily(Font(R.font.poppins_medium)),
-                        fontSize = 16.sp,
-                        textAlign = TextAlign.Center,
-                        color = if (isSystemInDarkTheme) Color.White else Color.Black
-                    )
+                    Box(
+                        modifier = modifier
+                            .fillMaxWidth()
+                            .padding(5.dp)
+                            .align(Alignment.CenterHorizontally)
+                            .clip(RoundedCornerShape(10))
+                            .background(MaterialTheme.colorScheme.onSecondary)
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.nothing_is_currently_playing),
+                            modifier = modifier.padding(5.dp),
+                            fontFamily = FontFamily(Font(R.font.poppins_medium)),
+                            fontSize = 16.sp,
+                            textAlign = TextAlign.Center,
+                            color = if (isSystemInDarkTheme) Color.White else Color.Black
+                        )
+                    }
                 }
             } else {
                 viewModel.checkNotificationAccess(context)
                 CheckPermission(modifier, context)
             }
-            Text(
-                modifier = modifier.padding(5.dp),
+            NavigationArrow(
+                navigation = { onNewReleaseClick() },
                 text = stringResource(id = R.string.latest_new_releases),
                 style = titleStyle
             )
             NewReleaseHome(
                 modifier = modifier,
-                onNewReleaseClick = onNewReleaseClick,
                 onAlbumClick = onAlbumClick
             )
             Spacer(modifier = modifier.height(10.dp))
@@ -205,10 +219,10 @@ fun MusicHomeScreen(
             )
             TrendingVideosHome(modifier = modifier)
             Spacer(modifier = modifier.height(10.dp))
-            Text(
-                modifier = modifier.padding(5.dp),
-                style = titleStyle,
-                text = stringResource(id = R.string.featured_playlists)
+            NavigationArrow(
+                navigation = { onFeaturedPlaylistClick() },
+                text = stringResource(id = R.string.featured_playlists),
+                style = titleStyle
             )
             FeaturedPlaylistHome()
         }
@@ -239,5 +253,32 @@ private fun CheckPermission(
         }) {
             Text(text = stringResource(id = R.string.allow_access))
         }
+    }
+}
+
+@Composable
+fun NavigationArrow(
+    modifier: Modifier = Modifier,
+    navigation: () -> Unit,
+    text : String,
+    style : TextStyle
+) {
+    Row(
+        modifier = modifier
+            .clickable { navigation() }
+            .padding(5.dp)
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = text,
+            modifier = modifier.weight(1f),
+            style = style
+        )
+        Icon(
+            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+            contentDescription = null,
+            tint = if (isSystemInDarkTheme()) Color.White else Color.Black
+        )
     }
 }
