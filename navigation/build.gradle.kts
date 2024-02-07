@@ -44,7 +44,6 @@ dependencies {
 
     implementation(project(":music:ui"))
     implementation(project(":news:ui"))
-    implementation(project(":news:ui"))
     implementation(project(":tools:ui"))
 
     implementation(Dependencies.AndroidX.Compose.composeActivity)

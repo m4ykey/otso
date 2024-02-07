@@ -40,9 +40,6 @@ object Version {
     const val messaging = "23.4.0"
     const val mockWebServer = "4.12.0"
     const val truth = "1.3.0"
-    const val jsoup = "1.17.2"
-    const val youtubePlayer = "12.1.0"
-    const val constraintLayout = "2.1.4"
 
     // Gradle
     const val ktlint = "1.1.1"

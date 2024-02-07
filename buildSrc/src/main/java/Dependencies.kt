@@ -16,7 +16,6 @@ object Dependencies {
             const val core = "androidx.core:core-ktx:${Version.core}"
             const val appcompat = "androidx.appcompat:appcompat:${Version.appcompat}"
             const val material = "com.google.android.material:material:${Version.material}"
-            const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Version.constraintLayout}"
         }
         object Lifecycle {
             const val livedata = "androidx.lifecycle:lifecycle-livedata-ktx:${Version.lifecycle}"
@@ -70,9 +69,6 @@ object Dependencies {
             const val okHttp = "com.squareup.okhttp3:okhttp:${Version.okHttp}"
             const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Version.okHttp}"
         }
-        object Jsoup {
-            const val jsoup = "org.jsoup:jsoup:${Version.jsoup}"
-        }
     }
 
     object Hilt {
@@ -87,10 +83,6 @@ object Dependencies {
 
     object Coil {
         const val coil = "io.coil-kt:coil-compose:${Version.coil}"
-    }
-
-    object YoutubePlayer {
-        const val youtubePlayer = "com.pierfrancescosoffritti.androidyoutubeplayer:core:${Version.youtubePlayer}"
     }
 
 }

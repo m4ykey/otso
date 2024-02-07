@@ -63,15 +63,12 @@ dependencies {
 
     implementation(Dependencies.AndroidX.Core.core)
     implementation(Dependencies.AndroidX.Core.appcompat)
-    implementation(Dependencies.AndroidX.Core.constraintLayout)
     implementation(Dependencies.AndroidX.Core.material)
     implementation(Dependencies.AndroidX.Compose.composeActivity)
     implementation(platform(Dependencies.AndroidX.Compose.composeBom))
     implementation(Dependencies.AndroidX.Compose.composeUi)
     implementation(Dependencies.AndroidX.Compose.composeMaterial3)
     implementation(Dependencies.AndroidX.Compose.composeNavigation)
-
-    implementation("androidx.media:media:1.7.0")
 
     implementation(Dependencies.Firebase.crashlytics)
     implementation(Dependencies.Firebase.analytics)

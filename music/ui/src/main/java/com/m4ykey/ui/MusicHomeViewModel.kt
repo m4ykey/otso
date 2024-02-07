@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.m4ykey.core.notification.isNotificationListenerEnabled
 
-class HomeViewModel : ViewModel() {
+class MusicHomeViewModel : ViewModel() {
 
     private val _isNotificationAccessGranted = MutableLiveData<Boolean>()
     val isNotificationAccessGranted : LiveData<Boolean> get() = _isNotificationAccessGranted

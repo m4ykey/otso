@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 import com.m4ykey.ui.MusicHomeScreen
 import com.m4ykey.ui.NewsScreen
 import com.m4ykey.ui.ToolsScreen
+import com.m4ykey.ui.search.SearchScreen
 import com.m4ykey.ui.spotify.album.AlbumDetailScreen
 import com.m4ykey.ui.spotify.album.NewReleaseScreen
 import com.m4ykey.ui.spotify.playlist.FeaturedPlaylistScreen
@@ -35,7 +36,8 @@ fun AppNavHost(
             MusicHomeScreen(
                 onNewReleaseClick = { navController.navigate(Music.NewReleaseDestination.route) },
                 onAlbumClick = { navController.navigate("${Music.AlbumDetailDestination.route}/$it") },
-                onFeaturedPlaylistClick = { navController.navigate(Music.PlaylistDestination.route) }
+                onFeaturedPlaylistClick = { navController.navigate(Music.PlaylistDestination.route) },
+                onSearchClick = { navController.navigate(Music.SearchDestination.route) }
             )
         }
         composable(
@@ -51,6 +53,9 @@ fun AppNavHost(
         }
         composable(route = Music.PlaylistDestination.route) {
             FeaturedPlaylistScreen(onNavigateBack = { navController.navigateUp() })
+        }
+        composable(route = Music.SearchDestination.route) {
+            SearchScreen()
         }
         composable(route = Tools.ToolsDestination.route) { ToolsScreen() }
     }

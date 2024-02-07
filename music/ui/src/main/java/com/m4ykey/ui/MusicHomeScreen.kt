@@ -66,19 +66,17 @@ fun MusicHomeScreen(
     modifier: Modifier = Modifier,
     onNewReleaseClick: () -> Unit,
     onAlbumClick: (String) -> Unit,
-    onSearchClick: () -> Unit = {},
+    onSearchClick: () -> Unit,
     onFeaturedPlaylistClick : () -> Unit,
     onPlaylistClick : (String) -> Unit = {},
-    viewModel: HomeViewModel = viewModel()
+    viewModel: MusicHomeViewModel = viewModel()
 ) {
-    val scrollState = rememberScrollState()
     val context = LocalContext.current
     val currentTime = LocalTime.now()
     val greeting = when {
         currentTime.isAfter(LocalTime.of(6, 0)) && currentTime.isBefore(LocalTime.of(18, 0)) -> context.getString(R.string.hello)
         else -> context.getString(R.string.good_evening)
     }
-    val isSystemInDarkTheme = isSystemInDarkTheme()
 
     val titleStyle = TextStyle(
         fontFamily = FontFamily(Font(R.font.generalsans_medium)),
@@ -95,15 +93,6 @@ fun MusicHomeScreen(
 
     val isNotificationAccessGranted by viewModel.isNotificationAccessGranted.observeAsState()
 
-    val logos = mapOf(
-        "com.spotify.music" to SPOTIFY_LOGO,
-        "com.google.android.apps.youtube.music" to YT_MUSIC_LOGO,
-        "deezer.package.name" to DEEZER_LOGO,
-        "com.soundcloud.android" to SOUNDCLOUD_LOGO,
-        "com.aspiro.tidal" to TIDAL_LOGO,
-        "com.shazam.android" to SHAZAM_LOGO
-    )
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -112,7 +101,7 @@ fun MusicHomeScreen(
                     Text(
                         text = greeting,
                         fontFamily = FontFamily(Font(R.font.poppins_medium)),
-                        color = if (isSystemInDarkTheme) Color.White else Color.Black
+                        color = if (isSystemInDarkTheme()) Color.White else Color.Black
                     )
                 },
                 scrollBehavior = scrollBehavior,
@@ -121,7 +110,7 @@ fun MusicHomeScreen(
                         Icon(
                             imageVector = Icons.Default.Search,
                             contentDescription = stringResource(id = R.string.search),
-                            tint = if (isSystemInDarkTheme) Color.White else Color.Black
+                            tint = if (isSystemInDarkTheme()) Color.White else Color.Black
                         )
                     }
                 }
@@ -132,7 +121,7 @@ fun MusicHomeScreen(
             modifier = modifier
                 .padding(paddingValues)
                 .padding(end = 10.dp, start = 10.dp)
-                .verticalScroll(scrollState)
+                .verticalScroll(rememberScrollState())
         ) {
             Text(
                 text = stringResource(id = R.string.currently_playing),
@@ -141,45 +130,7 @@ fun MusicHomeScreen(
             )
             if (isNotificationAccessGranted == true) {
                 if (!title.isNullOrEmpty() && !artist.isNullOrEmpty()) {
-                    Column(
-                        modifier = modifier
-                            .fillMaxWidth()
-                            .padding(5.dp)
-                            .clip(RoundedCornerShape(10))
-                            .background(MaterialTheme.colorScheme.onSecondary)
-                    ) {
-                        Text(
-                            modifier = modifier.padding(start = 5.dp, end = 5.dp, top = 5.dp),
-                            text = title.toString(),
-                            color = if (isSystemInDarkTheme) Color.White else Color.Black,
-                            fontSize = 16.sp,
-                            fontFamily = FontFamily(Font(R.font.poppins_medium))
-                        )
-                        Text(
-                            modifier = modifier.padding(start = 5.dp, end = 5.dp, bottom = 5.dp),
-                            text = artist.toString(),
-                            color = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray,
-                            fontSize = 13.sp,
-                            fontFamily = FontFamily(Font(R.font.poppins))
-                        )
-                        Row(
-                            modifier = modifier
-                                .fillMaxWidth()
-                                .padding(start = 5.dp, bottom = 5.dp, end = 5.dp)
-                        ) {
-                            LoadImage(
-                                url = logos[appInfo],
-                                modifier = modifier.size(24.dp)
-                            )
-                            Spacer(modifier = modifier.width(5.dp))
-                            Text(
-                                text = subText.toString(),
-                                color = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray,
-                                fontSize = 12.sp,
-                                fontFamily = FontFamily(Font(R.font.poppins))
-                            )
-                        }
-                    }
+                    DisplayCurrentlyPlaying(title.orEmpty(), artist.orEmpty(), subText.orEmpty(), appInfo.orEmpty())
                 } else {
                     Box(
                         modifier = modifier
@@ -195,7 +146,7 @@ fun MusicHomeScreen(
                             fontFamily = FontFamily(Font(R.font.poppins_medium)),
                             fontSize = 16.sp,
                             textAlign = TextAlign.Center,
-                            color = if (isSystemInDarkTheme) Color.White else Color.Black
+                            color = if (isSystemInDarkTheme()) Color.White else Color.Black
                         )
                     }
                 }
@@ -223,6 +174,63 @@ fun MusicHomeScreen(
                 style = titleStyle
             )
             FeaturedPlaylistHome(onPlaylistClick = onPlaylistClick)
+        }
+    }
+}
+
+@Composable
+fun DisplayCurrentlyPlaying(
+    title : String,
+    artist : String,
+    subText : String,
+    appInfo : String
+) {
+    val logos = mapOf(
+        "com.spotify.music" to SPOTIFY_LOGO,
+        "com.google.android.apps.youtube.music" to YT_MUSIC_LOGO,
+        "deezer.package.name" to DEEZER_LOGO,
+        "com.soundcloud.android" to SOUNDCLOUD_LOGO,
+        "com.aspiro.tidal" to TIDAL_LOGO,
+        "com.shazam.android" to SHAZAM_LOGO
+    )
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(5.dp)
+            .clip(RoundedCornerShape(10))
+            .background(MaterialTheme.colorScheme.onSecondary)
+    ) {
+        Text(
+            modifier = Modifier.padding(start = 5.dp, end = 5.dp, top = 5.dp),
+            text = title,
+            color = if (isSystemInDarkTheme()) Color.White else Color.Black,
+            fontSize = 16.sp,
+            fontFamily = FontFamily(Font(R.font.poppins_medium))
+        )
+        Text(
+            modifier = Modifier.padding(start = 5.dp, end = 5.dp, bottom = 5.dp),
+            text = artist,
+            color = if (isSystemInDarkTheme()) Color.LightGray else Color.DarkGray,
+            fontSize = 13.sp,
+            fontFamily = FontFamily(Font(R.font.poppins))
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 5.dp, bottom = 5.dp, end = 5.dp)
+        ) {
+            LoadImage(
+                url = logos[appInfo],
+                modifier = Modifier.size(24.dp)
+            )
+            Spacer(modifier = Modifier.width(5.dp))
+            Text(
+                text = subText,
+                color = if (isSystemInDarkTheme()) Color.LightGray else Color.DarkGray,
+                fontSize = 12.sp,
+                fontFamily = FontFamily(Font(R.font.poppins))
+            )
         }
     }
 }
