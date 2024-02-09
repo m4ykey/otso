@@ -20,6 +20,9 @@ object Music {
     object SearchDestination : NavigationDestination {
         override val route = "search"
     }
+    object LyricsDestination : NavigationDestination {
+        override val route = "lyrics"
+    }
 }
 
 object News {

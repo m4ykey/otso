@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 import com.m4ykey.ui.MusicHomeScreen
 import com.m4ykey.ui.NewsScreen
 import com.m4ykey.ui.ToolsScreen
+import com.m4ykey.ui.lyrics.LyricsScreen
 import com.m4ykey.ui.search.SearchScreen
 import com.m4ykey.ui.spotify.album.AlbumDetailScreen
 import com.m4ykey.ui.spotify.album.NewReleaseScreen
@@ -48,6 +49,25 @@ fun AppNavHost(
             val albumId = arguments.getString("albumId", "")
             AlbumDetailScreen(
                 id = albumId,
+                onNavigateBack = { navController.navigateUp() },
+                onTrackClick = { name, artist ->
+                    navController.navigate("${Music.LyricsDestination.route}/$name/$artist")
+                }
+            )
+        }
+        composable(
+            route = "${Music.LyricsDestination.route}/{name}/{artist}",
+            arguments = listOf(
+                navArgument("name") { type = NavType.StringType },
+                navArgument("artist") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val args = requireNotNull(backStackEntry.arguments)
+            val name = args.getString("name", "")
+            val artist = args.getString("artist", "")
+            LyricsScreen(
+                artist = artist,
+                track = name,
                 onNavigateBack = { navController.navigateUp() }
             )
         }
