@@ -11,6 +11,7 @@ class NewReleasePagingSource(
     private val api : AlbumApi,
     private val interceptor : SpotifyTokenProvider
 ) : PagingSource<Int, Items>() {
+
     override fun getRefreshKey(state: PagingState<Int, Items>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.let { closestPage ->

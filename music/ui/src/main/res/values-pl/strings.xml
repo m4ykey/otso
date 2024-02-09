@@ -23,4 +23,7 @@
     <string name="notification_access">Aby wyświetlić aktualnie graną piosenkę, zezwól na powiadomienia</string>
     <string name="allow_access">Udziel dostępu</string>
     <string name="featured_playlists">Polecane Playlisty</string>
+    <string name="save_album">Zapisz album</string>
+    <string name="listen_later_album">Odsłuchaj album później</string>
+    <string name="artist">Artysta</string>
 </resources>
