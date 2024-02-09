@@ -22,6 +22,8 @@ object Constants {
 
     const val YOUTUBE_BASE_URL = "https://www.googleapis.com/youtube/v3/"
 
+    const val MUSIX_MATCH_BASE_URL = "https://api.musixmatch.com/ws/1.1/"
+
     const val CHANNEL_ID = "Music_Channel_ID"
     const val NOTIFICATION_ID = 1
 

@@ -30,6 +30,7 @@ android {
         buildConfigField("String", "SPOTIFY_CLIENT_ID", "\"${apiKeys.getProperty("SPOTIFY_CLIENT_ID")}\"")
         buildConfigField("String", "SPOTIFY_CLIENT_SECRET", "\"${apiKeys.getProperty("SPOTIFY_CLIENT_SECRET")}\"")
         buildConfigField("String", "YOUTUBE_API_KEY", "\"${apiKeys.getProperty("YOUTUBE_API_KEY")}\"")
+        buildConfigField("String", "MUSIXMATCH_API_KEY", "\"${apiKeys.getProperty("MUSIXMATCH_API_KEY")}\"")
     }
 
     buildTypes {

@@ -1,9 +1,11 @@
 package com.m4ykey.data.di
 
+import com.m4ykey.core.Constants.MUSIX_MATCH_BASE_URL
 import com.m4ykey.core.Constants.SPOTIFY_AUTH_URL
 import com.m4ykey.core.Constants.SPOTIFY_BASE_URL
 import com.m4ykey.core.Constants.YOUTUBE_BASE_URL
 import com.m4ykey.core.network.createApi
+import com.m4ykey.data.remote.api.lyrics.LyricsApi
 import com.m4ykey.data.remote.api.spotify.AlbumApi
 import com.m4ykey.data.remote.api.spotify.PlaylistApi
 import com.m4ykey.data.remote.api.spotify.SAuthApi
@@ -47,5 +49,12 @@ object RetrofitModule {
         moshi: Moshi,
         okHttpClient: OkHttpClient
     ) : PlaylistApi = createApi(SPOTIFY_BASE_URL, moshi, PlaylistApi::class.java, okHttpClient)
+
+    @Provides
+    @Singleton
+    fun provideLyricsApi(
+        moshi: Moshi,
+        okHttpClient: OkHttpClient
+    ) : LyricsApi = createApi(MUSIX_MATCH_BASE_URL, moshi, LyricsApi::class.java, okHttpClient)
 
 }
