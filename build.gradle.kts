@@ -1,12 +1,5 @@
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
-buildscript {
-    dependencies {
-        classpath("${Plugins.buildGradle}:${Version.toolsBuildGradle}")
-        classpath("${Plugins.gms}:${Version.gms}")
-        classpath("${Plugins.crashlyticsGradle}:${Version.firebaseGradle}")
-    }
-}
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
     Plugins.apply {
@@ -16,6 +9,8 @@ plugins {
         id(ksp) version Version.ksp apply false
         id(hiltAndroid) version Version.hilt apply false
         id(ktlint) version Version.ktlintGradle
+        id(googleServices) version Version.gms apply false
+        id(crashlytics) version Version.firebaseGradle apply false
     }
 }
 
