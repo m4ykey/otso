@@ -75,7 +75,8 @@ fun LyricsScreen(
         Row(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(5.dp)
+                .padding(5.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = { onNavigateBack() }) {
                 Icon(
@@ -84,6 +85,12 @@ fun LyricsScreen(
                     tint = Color.White
                 )
             }
+            Text(
+                text = track,
+                modifier = modifier.fillMaxWidth(),
+                color = Color.White,
+                fontFamily = FontFamily(Font(R.font.poppins_medium))
+            )
         }
         Column(
             modifier = modifier

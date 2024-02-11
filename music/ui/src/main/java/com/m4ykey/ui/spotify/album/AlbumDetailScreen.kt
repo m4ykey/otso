@@ -74,7 +74,8 @@ fun AlbumDetailScreen(
     id: String,
     viewModel: AlbumViewModel = hiltViewModel(),
     onNavigateBack: () -> Unit,
-    onTrackClick: (String, String, String) -> Unit
+    onTrackClick: (String, String, String) -> Unit,
+    onArtistClick : (String) -> Unit
 ) {
 
     var lazyPagingItems: Flow<PagingData<TrackItem>>? by remember { mutableStateOf(null) }
@@ -174,7 +175,7 @@ fun AlbumDetailScreen(
                     ) {
                         AlbumButtons(
                             modifier = modifier.weight(1f),
-                            navigation = { /*TODO*/ },
+                            navigation = { onArtistClick(albumDetail?.artists!![0].id) },
                             text = stringResource(id = R.string.artist)
                         )
                         AlbumButtons(

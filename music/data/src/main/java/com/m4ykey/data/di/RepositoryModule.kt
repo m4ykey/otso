@@ -1,10 +1,12 @@
 package com.m4ykey.data.di
 
 import com.m4ykey.data.domain.repository.AlbumRepository
+import com.m4ykey.data.domain.repository.ArtistRepository
 import com.m4ykey.data.domain.repository.LyricsRepository
 import com.m4ykey.data.domain.repository.PlaylistRepository
 import com.m4ykey.data.domain.repository.VideoRepository
 import com.m4ykey.data.repository.AlbumRepositoryImpl
+import com.m4ykey.data.repository.ArtistRepositoryImpl
 import com.m4ykey.data.repository.LyricsRepositoryImpl
 import com.m4ykey.data.repository.PlaylistRepositoryImpl
 import com.m4ykey.data.repository.VideoRepositoryImpl
@@ -33,5 +35,9 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideLyricsRepository(repository : LyricsRepositoryImpl) : LyricsRepository = repository
+
+    @Provides
+    @Singleton
+    fun provideArtistRepository(repository : ArtistRepositoryImpl) : ArtistRepository = repository
 
 }

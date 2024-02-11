@@ -14,6 +14,7 @@ import com.m4ykey.ui.lyrics.LyricsScreen
 import com.m4ykey.ui.search.SearchScreen
 import com.m4ykey.ui.spotify.album.AlbumDetailScreen
 import com.m4ykey.ui.spotify.album.NewReleaseScreen
+import com.m4ykey.ui.spotify.artist.ArtistScreen
 import com.m4ykey.ui.spotify.playlist.FeaturedPlaylistScreen
 
 @Composable
@@ -52,7 +53,8 @@ fun AppNavHost(
                 onNavigateBack = { navController.navigateUp() },
                 onTrackClick = { name, artist, image ->
                     navController.navigate("${Music.LyricsDestination.route}/$name/$artist}/$image}")
-                }
+                },
+                onArtistClick = { navController.navigate("${Music.ArtistDestination.route}/$it") }
             )
         }
         composable(
@@ -72,6 +74,17 @@ fun AppNavHost(
                 track = name,
                 image = image,
                 onNavigateBack = { navController.navigateUp() }
+            )
+        }
+        composable(
+            route = "${Music.ArtistDestination.route}/{id}",
+            arguments = listOf(navArgument("id") { NavType.StringType })
+        ) { backStackEntry ->
+            val args = requireNotNull(backStackEntry.arguments)
+            val artistId = args.getString("id", "")
+            ArtistScreen(
+                onNavigateClick = { navController.navigateUp() },
+                artistId = artistId
             )
         }
         composable(route = Music.PlaylistDestination.route) {
