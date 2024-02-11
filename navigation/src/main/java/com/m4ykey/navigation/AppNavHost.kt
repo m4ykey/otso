@@ -50,24 +50,27 @@ fun AppNavHost(
             AlbumDetailScreen(
                 id = albumId,
                 onNavigateBack = { navController.navigateUp() },
-                onTrackClick = { name, artist ->
-                    navController.navigate("${Music.LyricsDestination.route}/$name/$artist")
+                onTrackClick = { name, artist, image ->
+                    navController.navigate("${Music.LyricsDestination.route}/$name/$artist}/$image}")
                 }
             )
         }
         composable(
-            route = "${Music.LyricsDestination.route}/{name}/{artist}",
+            route = "${Music.LyricsDestination.route}/{name}/{artist}/{image}",
             arguments = listOf(
                 navArgument("name") { type = NavType.StringType },
-                navArgument("artist") { type = NavType.StringType }
+                navArgument("artist") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
             )
         ) { backStackEntry ->
             val args = requireNotNull(backStackEntry.arguments)
             val name = args.getString("name", "")
             val artist = args.getString("artist", "")
+            val image = args.getString("image", "")
             LyricsScreen(
                 artist = artist,
                 track = name,
+                image = image,
                 onNavigateBack = { navController.navigateUp() }
             )
         }

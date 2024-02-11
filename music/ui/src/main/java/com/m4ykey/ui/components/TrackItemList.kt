@@ -35,8 +35,9 @@ import com.m4ykey.ui.R
 @Composable
 fun TrackList(
     modifier : Modifier = Modifier,
-    onTrackClick: (String, String) -> Unit,
-    track: TrackItem
+    onTrackClick: (String, String, String) -> Unit,
+    track: TrackItem,
+    image : String
 ) {
     val artistInfo = TextStyle(
         fontFamily = FontFamily(Font(R.font.poppins)),
@@ -47,7 +48,7 @@ fun TrackList(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onTrackClick(track.name, track.artists[0].name) },
+            .clickable { onTrackClick(track.name, track.artists[0].name, image) },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = modifier.weight(1f)) {

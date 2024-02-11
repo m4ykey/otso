@@ -26,4 +26,6 @@
     <string name="save_album">Zapisz album</string>
     <string name="listen_later_album">Odsłuchaj album później</string>
     <string name="artist">Artysta</string>
+    <string name="what_would_like_to_search">Co chciałbyś wyszukać?</string>
+    <string name="no_lyrics">Niestety ale dla tego utworu nie ma tekstu</string>
 </resources>

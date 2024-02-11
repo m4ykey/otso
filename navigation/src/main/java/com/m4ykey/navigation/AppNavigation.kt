@@ -49,6 +49,6 @@ fun shouldShowBottomNavigationBar(currentRoute : String?) : Boolean {
         "${Music.AlbumDetailDestination.route}/{albumId}",
         Music.PlaylistDestination.route,
         Music.SearchDestination.route,
-        "${Music.LyricsDestination.route}/{name}/{artist}"
+        "${Music.LyricsDestination.route}/{name}/{artist}/{image}"
     )
 }

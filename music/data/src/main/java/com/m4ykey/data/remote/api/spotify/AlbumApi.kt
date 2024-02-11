@@ -14,8 +14,8 @@ interface AlbumApi {
     @GET("browse/new-releases")
     suspend fun getNewReleases(
         @Header("Authorization") token : String,
-        @Query("limit") limit : Int,
-        @Query("offset") offset : Int,
+        @Query("limit") limit : Int = 20,
+        @Query("offset") offset : Int = 0,
         @Query("country") country : String = Locale.getDefault().country
     ) : AlbumResponseDto
 
@@ -29,8 +29,8 @@ interface AlbumApi {
     suspend fun getAlbumTracks(
         @Header("Authorization") token : String,
         @Path("id") albumId : String,
-        @Query("limit") limit : Int,
-        @Query("offset") offset: Int,
+        @Query("limit") limit : Int = 20,
+        @Query("offset") offset: Int = 0,
         @Query("market") market : String = Locale.getDefault().country
     ) : TracksListDto
 

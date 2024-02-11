@@ -22,12 +22,10 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -36,7 +34,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -84,8 +81,6 @@ fun MusicHomeScreen(
         color = if (isSystemInDarkTheme()) Color.White else Color.Black
     )
 
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-
     val artist by MusicNotificationState.artist.collectAsState()
     val title by MusicNotificationState.title.collectAsState()
     val appInfo by MusicNotificationState.app.collectAsState()
@@ -96,23 +91,12 @@ fun MusicHomeScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
                 title = {
                     Text(
                         text = greeting,
                         fontFamily = FontFamily(Font(R.font.poppins_medium)),
                         color = if (isSystemInDarkTheme()) Color.White else Color.Black
                     )
-                },
-                scrollBehavior = scrollBehavior,
-                actions = {
-                    IconButton(onClick = { onSearchClick() }) {
-                        Icon(
-                            imageVector = Icons.Default.Search,
-                            contentDescription = stringResource(id = R.string.search),
-                            tint = if (isSystemInDarkTheme()) Color.White else Color.Black
-                        )
-                    }
                 }
             )
         }
@@ -136,13 +120,14 @@ fun MusicHomeScreen(
                         modifier = modifier
                             .fillMaxWidth()
                             .padding(5.dp)
-                            .align(Alignment.CenterHorizontally)
-                            .clip(RoundedCornerShape(10))
+                            .clip(RoundedCornerShape(50))
                             .background(MaterialTheme.colorScheme.onSecondary)
                     ) {
                         Text(
                             text = stringResource(id = R.string.nothing_is_currently_playing),
-                            modifier = modifier.padding(5.dp),
+                            modifier = modifier
+                                .padding(bottom = 10.dp, top = 10.dp)
+                                .fillMaxWidth(),
                             fontFamily = FontFamily(Font(R.font.poppins_medium)),
                             fontSize = 16.sp,
                             textAlign = TextAlign.Center,
@@ -154,6 +139,9 @@ fun MusicHomeScreen(
                 viewModel.checkNotificationAccess(context)
                 CheckPermission(modifier, context)
             }
+            Spacer(modifier = modifier.height(5.dp))
+            Searchbar(navigation = onSearchClick)
+            Spacer(modifier = modifier.height(5.dp))
             NavigationArrow(
                 navigation = { onNewReleaseClick() },
                 text = stringResource(id = R.string.latest_new_releases),
@@ -174,6 +162,41 @@ fun MusicHomeScreen(
                 style = titleStyle
             )
             FeaturedPlaylistHome(onPlaylistClick = onPlaylistClick)
+        }
+    }
+}
+
+@Composable
+fun Searchbar(
+    modifier : Modifier = Modifier,
+    navigation: () -> Unit
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(100))
+            .background(MaterialTheme.colorScheme.onSecondary)
+            .clickable { navigation() }
+    ) {
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = null,
+                modifier = modifier.padding(5.dp),
+                tint = if (isSystemInDarkTheme()) Color.White else Color.Black
+            )
+            Spacer(modifier = modifier.width(5.dp))
+            Text(
+                text = stringResource(id = R.string.what_would_like_to_search),
+                fontSize = 15.sp,
+                fontFamily = FontFamily(Font(R.font.poppins_medium)),
+                color = if (isSystemInDarkTheme()) Color.White else Color.Black
+            )
         }
     }
 }

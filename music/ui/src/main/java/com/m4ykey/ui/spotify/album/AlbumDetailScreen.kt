@@ -74,7 +74,7 @@ fun AlbumDetailScreen(
     id: String,
     viewModel: AlbumViewModel = hiltViewModel(),
     onNavigateBack: () -> Unit,
-    onTrackClick: (String, String) -> Unit
+    onTrackClick: (String, String, String) -> Unit
 ) {
 
     var lazyPagingItems: Flow<PagingData<TrackItem>>? by remember { mutableStateOf(null) }
@@ -101,6 +101,7 @@ fun AlbumDetailScreen(
 
     val imageUrl = albumDetail?.images?.maxByOrNull { it.width!! * it.height!! }?.url
     val artistList = albumDetail?.artists?.joinToString(", ") { it.name }
+    val imageId = imageUrl?.substringAfterLast("/")
 
     val albumType = when {
         albumDetail?.totalTracks in 2..6 && albumDetail?.albumType.equals(
@@ -161,9 +162,7 @@ fun AlbumDetailScreen(
                     Text(
                         text = artistList.orEmpty(),
                         fontSize = 15.sp,
-                        modifier = modifier
-                            .fillMaxWidth()
-                            .clickable { },
+                        modifier = modifier.align(Alignment.Start),
                         color = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray,
                         fontFamily = FontFamily(Font(R.font.poppins))
                     )
@@ -173,19 +172,18 @@ fun AlbumDetailScreen(
                             .fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(20.dp)
                     ) {
-                        Button(
-                            onClick = { /*TODO*/ },
-                            modifier = modifier.weight(1f)
-                        ) {
-                            Text(text = stringResource(id = R.string.artist))
-                        }
-                        Button(
-                            onClick = { openUrl(context = context, url = albumDetail?.externalUrls?.spotify.orEmpty()) },
-                            modifier = modifier.weight(1f)
-                        ) {
-                            Text(text = "Album")
-                        }
+                        AlbumButtons(
+                            modifier = modifier.weight(1f),
+                            navigation = { /*TODO*/ },
+                            text = stringResource(id = R.string.artist)
+                        )
+                        AlbumButtons(
+                            modifier = modifier.weight(1f),
+                            navigation = { openUrl(context = context, url = albumDetail?.externalUrls?.spotify.orEmpty()) },
+                            text = "Album"
+                        )
                     }
+                    Spacer(modifier = modifier.height(5.dp))
                     AlbumIcons(
                         modifier = modifier
                             .align(Alignment.Start)
@@ -206,7 +204,8 @@ fun AlbumDetailScreen(
                             if (tracks != null) {
                                 TrackList(
                                     track = tracks,
-                                    onTrackClick = onTrackClick
+                                    onTrackClick = onTrackClick,
+                                    image = imageId!!
                                 )
                             }
                         }
@@ -236,6 +235,25 @@ fun AlbumDetailScreen(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun AlbumButtons(
+    modifier: Modifier = Modifier,
+    navigation: () -> Unit,
+    text: String
+) {
+    Button(
+        onClick = { navigation() },
+        modifier = modifier
+    ) {
+        Text(
+            text = text,
+            fontSize = 15.sp,
+            fontFamily = FontFamily(Font(R.font.poppins)),
+            color = Color.White
+        )
     }
 }
 

@@ -26,4 +26,6 @@
     <string name="save_album">Save album</string>
     <string name="listen_later_album">Listen later album</string>
     <string name="artist">Artist</string>
+    <string name="what_would_like_to_search">What would you like to search?</string>
+    <string name="no_lyrics">Unfortunately but for this song there are no lyrics</string>
 </resources>
