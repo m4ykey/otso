@@ -3,11 +3,10 @@ package com.m4ykey.ui.spotify.playlist
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.m4ykey.core.composable.LoadingMaxWidth
-import com.m4ykey.core.helpers.showToast
+import com.m4ykey.ui.components.ErrorScreen
 import com.m4ykey.ui.components.ItemRowList
 import com.m4ykey.ui.components.PlaylistCard
 
@@ -18,11 +17,10 @@ fun FeaturedPlaylistHome(
 ) {
 
     val state by viewModel.playlist.collectAsState()
-    val context = LocalContext.current
 
     when {
         state.isLoading -> LoadingMaxWidth()
-        state.error != null -> showToast(context, state.error!!)
+        state.error != null -> ErrorScreen(error = state.error!!)
         state.playlist.isNotEmpty() -> {
             ItemRowList(
                 itemList = state.playlist,

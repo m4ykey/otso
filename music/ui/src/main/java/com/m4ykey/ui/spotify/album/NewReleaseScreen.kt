@@ -13,6 +13,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,6 +29,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.m4ykey.core.composable.NoInternetScreen
+import com.m4ykey.core.network.NetworkViewModel
 import com.m4ykey.data.domain.model.album.Items
 import com.m4ykey.ui.R
 import com.m4ykey.ui.components.AlbumCard
@@ -42,7 +45,10 @@ fun NewReleaseScreen(
     onAlbumClick: (String) -> Unit,
     viewModel: AlbumViewModel = hiltViewModel()
 ) {
-    
+
+    val networkViewModel : NetworkViewModel = hiltViewModel()
+    val isInternetAvailable by networkViewModel.isInternetAvailable.collectAsState()
+
     var lazyPagingItems : Flow<PagingData<Items>>? by remember { mutableStateOf(null) }
     var albumList : LazyPagingItems<Items>? by remember { mutableStateOf(null) }
 
@@ -79,18 +85,22 @@ fun NewReleaseScreen(
             )
         }
     ) { paddingValues ->
-        ItemGrid(
-            modifier = modifier.padding(paddingValues),
-            itemList = albumList,
-            onItemClick = { clickedAlbum ->
-                onAlbumClick(clickedAlbum.id)
+        if (!isInternetAvailable) {
+            NoInternetScreen(modifier = modifier.padding(paddingValues))
+        } else {
+            ItemGrid(
+                modifier = modifier.padding(paddingValues),
+                itemList = albumList,
+                onItemClick = { clickedAlbum ->
+                    onAlbumClick(clickedAlbum.id)
+                }
+            ) { album, _ ->
+                AlbumCard(
+                    item = album,
+                    size = 110.dp,
+                    onAlbumClick = onAlbumClick
+                )
             }
-        ) { album, _ ->
-            AlbumCard(
-                item = album,
-                size = 110.dp,
-                onAlbumClick = onAlbumClick
-            )
         }
     }
 }

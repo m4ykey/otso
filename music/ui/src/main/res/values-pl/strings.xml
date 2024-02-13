@@ -28,4 +28,5 @@
     <string name="artist">Artysta</string>
     <string name="what_would_like_to_search">Co chciałbyś wyszukać?</string>
     <string name="no_lyrics">Niestety ale dla tego utworu nie ma tekstu</string>
+    <string name="something_went_wrong">Something went wrong</string>
 </resources>

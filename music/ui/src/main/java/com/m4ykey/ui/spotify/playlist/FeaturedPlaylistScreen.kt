@@ -13,6 +13,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,6 +28,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.m4ykey.core.composable.NoInternetScreen
+import com.m4ykey.core.network.NetworkViewModel
 import com.m4ykey.data.domain.model.playlist.PlaylistItems
 import com.m4ykey.ui.R
 import com.m4ykey.ui.components.ItemGrid
@@ -41,6 +44,9 @@ fun FeaturedPlaylistScreen(
     onNavigateBack : () -> Unit,
     onPlaylistClick : (String) -> Unit = {}
 ) {
+
+    val networkViewModel : NetworkViewModel = hiltViewModel()
+    val isInternetAvailable by networkViewModel.isInternetAvailable.collectAsState()
 
     var lazyPagingItems : Flow<PagingData<PlaylistItems>>? by remember { mutableStateOf(null) }
     var playlistList : LazyPagingItems<PlaylistItems>? by remember { mutableStateOf(null) }
@@ -77,18 +83,22 @@ fun FeaturedPlaylistScreen(
             )
         }
     ) { paddingValues ->
-        ItemGrid(
-            modifier = modifier.padding(paddingValues),
-            itemList = playlistList,
-            onItemClick = { clickedPlaylist ->
-                onPlaylistClick(clickedPlaylist.id)
+        if (!isInternetAvailable) {
+            NoInternetScreen(modifier = modifier.padding(paddingValues))
+        } else {
+            ItemGrid(
+                modifier = modifier.padding(paddingValues),
+                itemList = playlistList,
+                onItemClick = { clickedPlaylist ->
+                    onPlaylistClick(clickedPlaylist.id)
+                }
+            ) { playlist, _ ->
+                PlaylistCard(
+                    playlist = playlist,
+                    onPlaylistClick = onPlaylistClick,
+                    size = 110.dp
+                )
             }
-        ) { playlist, _ ->
-            PlaylistCard(
-                playlist = playlist,
-                onPlaylistClick = onPlaylistClick,
-                size = 110.dp
-            )
         }
     }
 }

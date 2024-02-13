@@ -1,6 +1,7 @@
 package com.m4ykey.ui.lyrics
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,6 +35,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
+import com.m4ykey.core.composable.NoInternetScreen
+import com.m4ykey.core.network.NetworkViewModel
 import com.m4ykey.ui.R
 
 @Composable
@@ -46,6 +49,9 @@ fun LyricsScreen(
     image : String
 ) {
 
+    val networkViewModel : NetworkViewModel = hiltViewModel()
+    val isInternetAvailable by networkViewModel.isInternetAvailable.collectAsState()
+
     LaunchedEffect(viewModel) {
         viewModel.searchLyrics(artist = artist, track = track)
     }
@@ -55,11 +61,7 @@ fun LyricsScreen(
     val imageUrl = "https://i.scdn.co/image/$image"
     val correctedImageUrl = imageUrl.removeSuffix("}")
 
-    val lyricsText = if (lyrics?.lyricsBody?.isEmpty() == true) {
-        stringResource(id = R.string.no_lyrics)
-    } else {
-        lyrics?.lyricsBody.orEmpty()
-    }
+    val textColor = if (isSystemInDarkTheme()) Color.White else Color.Black
 
     Box(modifier = modifier.fillMaxSize()) {
         Image(
@@ -67,7 +69,7 @@ fun LyricsScreen(
             contentDescription = null,
             modifier = modifier
                 .fillMaxSize()
-                .alpha(0.1f),
+                .alpha(if (isSystemInDarkTheme()) 0.1f else 0.3f),
             contentScale = ContentScale.Crop
         )
     }
@@ -82,41 +84,45 @@ fun LyricsScreen(
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = stringResource(id = R.string.back),
-                    tint = Color.White
+                    tint = textColor
                 )
             }
             Text(
                 text = track,
                 modifier = modifier.fillMaxWidth(),
-                color = Color.White,
+                color = textColor,
                 fontFamily = FontFamily(Font(R.font.poppins_medium))
             )
         }
-        Column(
-            modifier = modifier
-                .padding(5.dp)
-                .verticalScroll(rememberScrollState())
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = lyricsText,
-                color = Color.White,
-                fontSize = 17.sp,
-                modifier = modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-                fontFamily = FontFamily(Font(R.font.poppins_medium))
-            )
-            Spacer(modifier = modifier.height(10.dp))
-            Text(
-                text = lyrics?.lyricsCopyright.orEmpty(),
-                color = Color.White,
-                fontSize = 13.sp,
-                modifier = modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-                fontFamily = FontFamily(Font(R.font.poppins))
-            )
+        if (!isInternetAvailable) {
+            NoInternetScreen()
+        } else {
+            Column(
+                modifier = modifier
+                    .padding(5.dp)
+                    .verticalScroll(rememberScrollState())
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = lyrics?.lyricsBody ?: stringResource(id = R.string.no_lyrics),
+                    color = textColor,
+                    fontSize = 17.sp,
+                    modifier = modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    fontFamily = FontFamily(Font(R.font.poppins_medium))
+                )
+                Spacer(modifier = modifier.height(10.dp))
+                Text(
+                    text = lyrics?.lyricsCopyright.orEmpty(),
+                    color = textColor,
+                    fontSize = 13.sp,
+                    modifier = modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    fontFamily = FontFamily(Font(R.font.poppins))
+                )
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,6 +25,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.m4ykey.core.composable.NoInternetScreen
+import com.m4ykey.core.network.NetworkViewModel
 import com.m4ykey.core.urls.openUrl
 import com.m4ykey.data.domain.model.Article
 import com.m4ykey.ui.components.ItemColumnList
@@ -36,6 +39,9 @@ fun NewsScreen(
     modifier: Modifier = Modifier,
     viewModel: NewsViewModel = hiltViewModel()
 ) {
+
+    val networkViewModel : NetworkViewModel = hiltViewModel()
+    val isInternetAvailable by networkViewModel.isInternetAvailable.collectAsState()
 
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -66,15 +72,19 @@ fun NewsScreen(
             )
         }
     ) { paddingValues ->
-        ItemColumnList(
-            modifier = modifier.padding(paddingValues),
-            onItemClick = {  },
-            itemList = newsList
-        ) { article, _ ->
-            NewsCard(
-                article = article,
-                onArticleClick = { openUrl(context, url = article.url) }
-            )
+        if (!isInternetAvailable) {
+            NoInternetScreen()
+        } else {
+            ItemColumnList(
+                modifier = modifier.padding(paddingValues),
+                onItemClick = {  },
+                itemList = newsList
+            ) { article, _ ->
+                NewsCard(
+                    article = article,
+                    onArticleClick = { openUrl(context, url = article.url) }
+                )
+            }
         }
     }
 }

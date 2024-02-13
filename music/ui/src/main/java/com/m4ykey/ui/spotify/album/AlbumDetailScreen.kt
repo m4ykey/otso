@@ -56,10 +56,13 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.m4ykey.core.composable.LoadImage
 import com.m4ykey.core.composable.LoadingMaxSize
 import com.m4ykey.core.composable.LoadingMaxWidth
+import com.m4ykey.core.composable.NoInternetScreen
 import com.m4ykey.core.helpers.showToast
+import com.m4ykey.core.network.NetworkViewModel
 import com.m4ykey.core.urls.openUrl
 import com.m4ykey.data.domain.model.album.tracks.TrackItem
 import com.m4ykey.ui.R
+import com.m4ykey.ui.components.ErrorScreen
 import com.m4ykey.ui.components.TrackList
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
@@ -77,6 +80,9 @@ fun AlbumDetailScreen(
     onTrackClick: (String, String, String) -> Unit,
     onArtistClick : (String) -> Unit
 ) {
+
+    val networkViewModel : NetworkViewModel = hiltViewModel()
+    val isInternetAvailable by networkViewModel.isInternetAvailable.collectAsState()
 
     var lazyPagingItems: Flow<PagingData<TrackItem>>? by remember { mutableStateOf(null) }
     var trackList: LazyPagingItems<TrackItem>? by remember { mutableStateOf(null) }
@@ -135,102 +141,106 @@ fun AlbumDetailScreen(
     ) { paddingValues ->
         when {
             albumState.isLoading -> LoadingMaxSize()
-            albumState.error != null -> showToast(context, "${albumState.error}")
+            albumState.error != null -> ErrorScreen(error = albumState.error!!)
             else -> {
-                Column(
-                    modifier = modifier
-                        .fillMaxSize()
-                        .padding(paddingValues)
-                        .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
-                        .verticalScroll(rememberScrollState()),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    LoadImage(
-                        url = imageUrl,
-                        modifier = modifier
-                            .clip(RoundedCornerShape(10))
-                            .size(280.dp),
-                        contentDescription = "Album Cover - ${albumDetail?.name}"
-                    )
-                    Spacer(modifier = modifier.height(20.dp))
-                    Text(
-                        text = albumDetail?.name.orEmpty(),
-                        fontSize = 23.sp,
-                        modifier = modifier.fillMaxWidth(),
-                        color = if (isSystemInDarkTheme) Color.White else Color.Black,
-                        fontFamily = FontFamily(Font(R.font.poppins_medium))
-                    )
-                    Text(
-                        text = artistList.orEmpty(),
-                        fontSize = 15.sp,
-                        modifier = modifier.align(Alignment.Start),
-                        color = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray,
-                        fontFamily = FontFamily(Font(R.font.poppins))
-                    )
-                    Row(
-                        modifier = modifier
-                            .padding(top = 2.dp, bottom = 2.dp)
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(20.dp)
-                    ) {
-                        AlbumButtons(
-                            modifier = modifier.weight(1f),
-                            navigation = { onArtistClick(albumDetail?.artists!![0].id) },
-                            text = stringResource(id = R.string.artist)
-                        )
-                        AlbumButtons(
-                            modifier = modifier.weight(1f),
-                            navigation = { openUrl(context = context, url = albumDetail?.externalUrls?.spotify.orEmpty()) },
-                            text = "Album"
-                        )
-                    }
-                    Spacer(modifier = modifier.height(5.dp))
-                    AlbumIcons(
-                        modifier = modifier
-                            .align(Alignment.Start)
-                            .padding(bottom = 5.dp)
-                    )
-                    Text(
-                        style = infoStyle,
-                        text = "$albumType • $releaseDate • $totalTracks",
-                        modifier = modifier.align(Alignment.Start)
-                    )
-                    Spacer(modifier = modifier.height(10.dp))
+                if (!isInternetAvailable) {
+                    NoInternetScreen(modifier = modifier.padding(paddingValues))
+                } else {
                     Column(
-                        modifier = modifier.fillMaxWidth(),
-                        verticalArrangement = Arrangement.spacedBy(5.dp)
+                        modifier = modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                            .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
+                            .verticalScroll(rememberScrollState()),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        for (index in 0 until (trackList?.itemCount ?: 0)) {
-                            val tracks = trackList!![index]
-                            if (tracks != null) {
-                                TrackList(
-                                    track = tracks,
-                                    onTrackClick = onTrackClick,
-                                    image = imageId!!
-                                )
-                            }
-                        }
-
-                        if (trackList?.loadState?.append is LoadState.Error &&
-                            (trackList?.loadState?.append as? LoadState.Error)?.endOfPaginationReached == true
+                        LoadImage(
+                            url = imageUrl,
+                            modifier = modifier
+                                .clip(RoundedCornerShape(10))
+                                .size(280.dp),
+                            contentDescription = "Album Cover - ${albumDetail?.name}"
+                        )
+                        Spacer(modifier = modifier.height(20.dp))
+                        Text(
+                            text = albumDetail?.name.orEmpty(),
+                            fontSize = 23.sp,
+                            modifier = modifier.fillMaxWidth(),
+                            color = if (isSystemInDarkTheme) Color.White else Color.Black,
+                            fontFamily = FontFamily(Font(R.font.poppins_medium))
+                        )
+                        Text(
+                            text = artistList.orEmpty(),
+                            fontSize = 15.sp,
+                            modifier = modifier.align(Alignment.Start),
+                            color = if (isSystemInDarkTheme) Color.LightGray else Color.DarkGray,
+                            fontFamily = FontFamily(Font(R.font.poppins))
+                        )
+                        Row(
+                            modifier = modifier
+                                .padding(top = 2.dp, bottom = 2.dp)
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(20.dp)
                         ) {
-                            Log.i(
-                                "EndOfPaginationReached",
-                                "NewReleaseScreen: End of pagination reached"
+                            AlbumButtons(
+                                modifier = modifier.weight(1f),
+                                navigation = { onArtistClick(albumDetail?.artists!![0].id) },
+                                text = stringResource(id = R.string.artist)
                             )
-                        } else {
-                            when (val appendState = trackList?.loadState?.append) {
+                            AlbumButtons(
+                                modifier = modifier.weight(1f),
+                                navigation = { openUrl(context = context, url = albumDetail?.externalUrls?.spotify.orEmpty()) },
+                                text = "Album"
+                            )
+                        }
+                        Spacer(modifier = modifier.height(5.dp))
+                        AlbumIcons(
+                            modifier = modifier
+                                .align(Alignment.Start)
+                                .padding(bottom = 5.dp)
+                        )
+                        Text(
+                            style = infoStyle,
+                            text = "$albumType • $releaseDate • $totalTracks",
+                            modifier = modifier.align(Alignment.Start)
+                        )
+                        Spacer(modifier = modifier.height(10.dp))
+                        Column(
+                            modifier = modifier.fillMaxWidth(),
+                            verticalArrangement = Arrangement.spacedBy(5.dp)
+                        ) {
+                            for (index in 0 until (trackList?.itemCount ?: 0)) {
+                                val tracks = trackList!![index]
+                                if (tracks != null) {
+                                    TrackList(
+                                        track = tracks,
+                                        onTrackClick = onTrackClick,
+                                        image = imageId!!
+                                    )
+                                }
+                            }
+
+                            if (trackList?.loadState?.append is LoadState.Error &&
+                                (trackList?.loadState?.append as? LoadState.Error)?.endOfPaginationReached == true
+                            ) {
+                                Log.i(
+                                    "EndOfPaginationReached",
+                                    "NewReleaseScreen: End of pagination reached"
+                                )
+                            } else {
+                                when (val appendState = trackList?.loadState?.append) {
+                                    is LoadState.Loading -> LoadingMaxWidth()
+                                    is LoadState.Error -> showToast(context, "Error $appendState")
+                                    is LoadState.NotLoading -> Unit
+                                    else -> Unit
+                                }
+                            }
+                            when (val refreshState = trackList?.loadState?.refresh) {
                                 is LoadState.Loading -> LoadingMaxWidth()
-                                is LoadState.Error -> showToast(context, "Error $appendState")
+                                is LoadState.Error -> showToast(context, "Error $refreshState")
                                 is LoadState.NotLoading -> Unit
                                 else -> Unit
                             }
-                        }
-                        when (val refreshState = trackList?.loadState?.refresh) {
-                            is LoadState.Loading -> LoadingMaxWidth()
-                            is LoadState.Error -> showToast(context, "Error $refreshState")
-                            is LoadState.NotLoading -> Unit
-                            else -> Unit
                         }
                     }
                 }

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="you_re_offline">You\'re offline</string>
+    <string name="check_internet_connection">Check your internet connection or click try again button</string>
+    <string name="try_again">Try again</string>
+</resources>

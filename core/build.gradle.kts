@@ -49,6 +49,8 @@ dependencies {
     implementation(Dependencies.AndroidX.Compose.composeUiGraphics)
     implementation(Dependencies.AndroidX.Compose.composeMaterial3)
     implementation(Dependencies.AndroidX.Compose.composeConstraintLayout)
+    implementation(Dependencies.AndroidX.Lifecycle.viewModel)
+    implementation(Dependencies.AndroidX.Lifecycle.runtime)
 
     testImplementation(Dependencies.Test.TestImplementation.junit)
 

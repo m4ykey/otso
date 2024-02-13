@@ -6,8 +6,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.m4ykey.core.composable.LoadingMaxWidth
-import com.m4ykey.core.helpers.showToast
 import com.m4ykey.core.urls.openUrl
+import com.m4ykey.ui.components.ErrorScreen
 import com.m4ykey.ui.components.ItemRowList
 import com.m4ykey.ui.components.ThumbnailsCard
 
@@ -20,7 +20,7 @@ fun TrendingVideosHome(
 
     when {
         state.isLoading -> LoadingMaxWidth()
-        state.error != null -> showToast(context, state.error!!)
+        state.error != null -> ErrorScreen(error = state.error!!)
         state.videos.isNotEmpty() -> {
             ItemRowList(
                 itemList = state.videos,

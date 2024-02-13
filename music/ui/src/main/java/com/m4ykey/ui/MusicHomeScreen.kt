@@ -42,6 +42,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.m4ykey.core.Constants.DEEZER_LOGO
 import com.m4ykey.core.Constants.SHAZAM_LOGO
@@ -50,6 +51,8 @@ import com.m4ykey.core.Constants.SPOTIFY_LOGO
 import com.m4ykey.core.Constants.TIDAL_LOGO
 import com.m4ykey.core.Constants.YT_MUSIC_LOGO
 import com.m4ykey.core.composable.LoadImage
+import com.m4ykey.core.composable.NoInternetScreen
+import com.m4ykey.core.network.NetworkViewModel
 import com.m4ykey.core.notification.MusicNotificationState
 import com.m4ykey.core.notification.checkNotificationListenerPermission
 import com.m4ykey.ui.spotify.album.NewReleaseHome
@@ -68,6 +71,8 @@ fun MusicHomeScreen(
     onPlaylistClick : (String) -> Unit = {},
     viewModel: MusicHomeViewModel = viewModel()
 ) {
+    val networkViewModel: NetworkViewModel = hiltViewModel()
+
     val context = LocalContext.current
     val currentTime = LocalTime.now()
     val greeting = when {
@@ -87,6 +92,8 @@ fun MusicHomeScreen(
     val subText by MusicNotificationState.subText.collectAsState()
 
     val isNotificationAccessGranted by viewModel.isNotificationAccessGranted.observeAsState()
+
+    val isInternetAvailable by networkViewModel.isInternetAvailable.collectAsState()
 
     Scaffold(
         topBar = {
@@ -140,28 +147,33 @@ fun MusicHomeScreen(
                 CheckPermission(modifier, context)
             }
             Spacer(modifier = modifier.height(5.dp))
-            Searchbar(navigation = onSearchClick)
-            Spacer(modifier = modifier.height(5.dp))
-            NavigationArrow(
-                navigation = { onNewReleaseClick() },
-                text = stringResource(id = R.string.latest_new_releases),
-                style = titleStyle
-            )
-            NewReleaseHome(onAlbumClick = onAlbumClick)
-            Spacer(modifier = modifier.height(10.dp))
-            Text(
-                modifier = modifier.padding(5.dp),
-                text = stringResource(id = R.string.most_popular_videos),
-                style = titleStyle
-            )
-            TrendingVideosHome()
-            Spacer(modifier = modifier.height(10.dp))
-            NavigationArrow(
-                navigation = { onFeaturedPlaylistClick() },
-                text = stringResource(id = R.string.featured_playlists),
-                style = titleStyle
-            )
-            FeaturedPlaylistHome(onPlaylistClick = onPlaylistClick)
+            if (!isInternetAvailable) {
+                Spacer(modifier = modifier.height(10.dp))
+                NoInternetScreen()
+            } else {
+                Searchbar(navigation = onSearchClick)
+                Spacer(modifier = modifier.height(5.dp))
+                NavigationArrow(
+                    navigation = { onNewReleaseClick() },
+                    text = stringResource(id = R.string.latest_new_releases),
+                    style = titleStyle
+                )
+                NewReleaseHome(onAlbumClick = onAlbumClick)
+                Spacer(modifier = modifier.height(10.dp))
+                Text(
+                    modifier = modifier.padding(5.dp),
+                    text = stringResource(id = R.string.most_popular_videos),
+                    style = titleStyle
+                )
+                TrendingVideosHome()
+                Spacer(modifier = modifier.height(10.dp))
+                NavigationArrow(
+                    navigation = { onFeaturedPlaylistClick() },
+                    text = stringResource(id = R.string.featured_playlists),
+                    style = titleStyle
+                )
+                FeaturedPlaylistHome(onPlaylistClick = onPlaylistClick)
+            }
         }
     }
 }
