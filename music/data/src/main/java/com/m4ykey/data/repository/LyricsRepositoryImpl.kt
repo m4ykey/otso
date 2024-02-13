@@ -2,11 +2,11 @@ package com.m4ykey.data.repository
 
 import com.m4ykey.core.network.Resource
 import com.m4ykey.core.network.safeApiCall
-import com.m4ykey.data.domain.model.lyrics.Lyrics
 import com.m4ykey.data.domain.model.lyrics.Track
+import com.m4ykey.data.domain.model.lyrics.TrackMessage
 import com.m4ykey.data.domain.repository.LyricsRepository
-import com.m4ykey.data.mappers.toLyrics
 import com.m4ykey.data.mappers.toTrack
+import com.m4ykey.data.mappers.toTrackMessage
 import com.m4ykey.data.remote.api.lyrics.LyricsApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -25,8 +25,14 @@ class LyricsRepositoryImpl @Inject constructor(
         })
     }
 
-    override suspend fun getTrackLyrics(id: Int): Flow<Resource<Lyrics>> = flow {
+    override suspend fun getTrackLyrics(id: Int): Flow<Resource<TrackMessage>> = flow {
         emit(Resource.Loading())
-        emit(safeApiCall { api.getTrackLyrics(id = id).message.body.lyrics.toLyrics() })
+        val apiResult = safeApiCall { api.getTrackLyrics(id = id) }
+
+        if (apiResult is Resource.Success) {
+            emit(Resource.Success(apiResult.data!!.message.toTrackMessage()))
+        } else {
+            emit(Resource.Error(message = apiResult.message ?: "Unknown error"))
+        }
     }
 }

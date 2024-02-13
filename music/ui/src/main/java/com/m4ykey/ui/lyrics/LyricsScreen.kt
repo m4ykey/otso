@@ -35,9 +35,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
+import com.m4ykey.core.composable.LoadingMaxSize
 import com.m4ykey.core.composable.NoInternetScreen
 import com.m4ykey.core.network.NetworkViewModel
 import com.m4ykey.ui.R
+import com.m4ykey.ui.components.ErrorScreen
 
 @Composable
 fun LyricsScreen(
@@ -62,6 +64,12 @@ fun LyricsScreen(
     val correctedImageUrl = imageUrl.removeSuffix("}")
 
     val textColor = if (isSystemInDarkTheme()) Color.White else Color.Black
+
+    val lyricsText = if (lyrics?.header?.statusCode == 404) {
+        stringResource(id = R.string.no_lyrics)
+    } else {
+        lyrics?.body?.lyrics?.lyricsBody
+    }
 
     Box(modifier = modifier.fillMaxSize()) {
         Image(
@@ -97,31 +105,37 @@ fun LyricsScreen(
         if (!isInternetAvailable) {
             NoInternetScreen()
         } else {
-            Column(
-                modifier = modifier
-                    .padding(5.dp)
-                    .verticalScroll(rememberScrollState())
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = lyrics?.lyricsBody ?: stringResource(id = R.string.no_lyrics),
-                    color = textColor,
-                    fontSize = 17.sp,
-                    modifier = modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    fontFamily = FontFamily(Font(R.font.poppins_medium))
-                )
-                Spacer(modifier = modifier.height(10.dp))
-                Text(
-                    text = lyrics?.lyricsCopyright.orEmpty(),
-                    color = textColor,
-                    fontSize = 13.sp,
-                    modifier = modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    fontFamily = FontFamily(Font(R.font.poppins))
-                )
+            when {
+                lyricsState.error != null -> ErrorScreen(error = lyricsState.error!!)
+                lyricsState.isLoading -> LoadingMaxSize()
+                else -> {
+                    Column(
+                        modifier = modifier
+                            .padding(5.dp)
+                            .verticalScroll(rememberScrollState())
+                            .fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = lyricsText ?: stringResource(id = R.string.no_lyrics),
+                            color = textColor,
+                            fontSize = 17.sp,
+                            modifier = modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center,
+                            fontFamily = FontFamily(Font(R.font.poppins_medium))
+                        )
+                        Spacer(modifier = modifier.height(10.dp))
+                        Text(
+                            text = lyrics?.body?.lyrics?.lyricsCopyright.orEmpty(),
+                            color = textColor,
+                            fontSize = 13.sp,
+                            modifier = modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center,
+                            fontFamily = FontFamily(Font(R.font.poppins))
+                        )
+                    }
+                }
             }
         }
     }
